@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 @Entity()
@@ -11,6 +11,7 @@ export class User {
 
   @Field()
   @Property({ unique: true })
+  @Unique()
   email: string
 
   @Field()
