@@ -1,6 +1,8 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, PrimaryKey, Property, Unique } from '@mikro-orm/core'
+import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
+
+import { Roles } from './Roles'
 
 @Entity()
 @ObjectType()
@@ -20,5 +22,13 @@ export class User {
 
   @Field()
   @Property()
-  confirmed: boolean
+  confirm_email: boolean
+
+  @Field()
+  @Property()
+  confirmed_by_admin: boolean
+
+  @OneToMany(() => Roles, role => role.user)
+  @Field(() => [Roles])
+  roles = new Collection<Roles>(this)
 }

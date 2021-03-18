@@ -2,14 +2,13 @@ import { Field, ID, ObjectType } from 'type-graphql'
 import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
-import { Candidate } from 'src/types/entities/Candidate'
+import { Candidate } from './Candidate'
 
 export enum State {
   submitted = 'submitted',
   reviewed = 'reviewed',
   accepted = 'accepted',
   declined = 'declined'
-
 }
 
 @Entity()
@@ -20,7 +19,7 @@ export class Submission {
   id: string = v4()
 
   @Property()
-  @Field()
+  @Field(() => State)
   state = State
 
   @Property()
@@ -50,6 +49,8 @@ export class Submission {
   @Property()
   @Field()
   total_grade: number
+
+  // TODO DOCUMENTS
 
   @OneToOne(() => Candidate, candidate => candidate.submission)
   candidate: Candidate

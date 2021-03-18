@@ -1,5 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import dotenv from 'dotenv'
+
+// import { User } from './src/types/entities/User'
+// import { CallForSubmissions } from './src/types/entities/CallForSubmissions'
+// import { Candidate } from './src/types/entities/Candidate'
+// import { Roles } from './src/types/entities/Roles'
+// import { CourseProgram } from './src/types/entities/CourseProgram'
+// import { Submission } from 'src/types/entities/Submission'
 dotenv.config()
 
 const env = process.env

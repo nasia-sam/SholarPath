@@ -1,9 +1,8 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
-import { CourseProgram } from 'src/types/entities/CourseProgram'
-import { Role } from 'src/types/entities/Role'
+import { CourseProgram } from './CourseProgram'
 
 export enum CFS_State {
   draft = 'draft',
@@ -27,7 +26,7 @@ export class CallForSubmissions {
   closeAt?: Date
 
   @Property()
-  @Field()
+  @Field(() => [String])
   documents: string[]
 
   @Property()
@@ -37,10 +36,6 @@ export class CallForSubmissions {
   @Property()
   @Field(() => Date)
   year: Date
-
-  @OneToMany(() => Role, role => role.cfs)
-  @Field(() => [Role])
-  roles = new Collection<Role>(this)
 
   @ManyToOne(() => CourseProgram)
   @Field(() => CourseProgram)
