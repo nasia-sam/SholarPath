@@ -7,8 +7,7 @@ import { CourseProgram } from './CourseProgram'
 
 export enum UserRole {
   admin = 'admin',
-  moderator = 'moderator',
-  superAdmin = 'superAdmin'
+  moderator = 'moderator'
 }
 
 @Entity()

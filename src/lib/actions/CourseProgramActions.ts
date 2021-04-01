@@ -1,5 +1,6 @@
 import { EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
+
 import { CourseProgramInput } from 'src/types/classes/CourseProgramInput'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { Roles, UserRole } from 'src/types/entities/Roles'

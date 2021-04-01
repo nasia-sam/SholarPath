@@ -12,7 +12,10 @@ import { PORT, HOST, ENVIRONMENT } from 'src/dependencies/Config'
 import { CoreResolver } from './lib/resolvers/CoreResolver'
 import { Errornterceptor } from './dependencies/middlewares/Errornterceptor'
 import { CustomContext } from './types/interfaces/CustomContext'
-import { CourceProgramResolver } from './lib/resolvers/CourseProgramResolver'
+import { CourseProgramResolver } from './lib/resolvers/CourseProgramResolver'
+import { CallForSubmissionsResolver } from './lib/resolvers/CallForSubmissionsResolver'
+import { CandidateResolver } from './lib/resolvers/CandidateResolver'
+import { RolesResolver } from './lib/resolvers/RolesResolver'
 
 async function main (): Promise<void> {
   const connection = await MikroORM.init()
@@ -21,7 +24,10 @@ async function main (): Promise<void> {
   const schema = await buildSchema({
     resolvers: [
       CoreResolver,
-      CourceProgramResolver
+      CourseProgramResolver,
+      CallForSubmissionsResolver,
+      CandidateResolver,
+      RolesResolver
     ],
     globalMiddlewares: [Errornterceptor]
   })

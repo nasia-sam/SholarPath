@@ -32,7 +32,15 @@ export class Submission {
 
   @Property()
   @Field()
-  grade_of_thesis: number
+  bachelor_grade: number
+
+  @Property()
+  @Field()
+  thesis_grade: number
+
+  @Property()
+  @Field()
+  prerequisites_courses_grade: number
 
   @Property()
   @Field()

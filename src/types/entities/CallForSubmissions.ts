@@ -5,7 +5,7 @@ import { v4 } from 'uuid'
 import { CourseProgram } from './CourseProgram'
 
 export enum CFS_State {
-  draft = 'draft',
+  published = 'published',
   open = 'open',
   closed = 'closed'
 }
@@ -39,5 +39,5 @@ export class CallForSubmissions {
 
   @ManyToOne(() => CourseProgram)
   @Field(() => CourseProgram)
-  CourseProgram: CourseProgram
+  courseProgram: CourseProgram
 }
