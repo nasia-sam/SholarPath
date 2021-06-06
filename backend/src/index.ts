@@ -9,9 +9,11 @@ import { MikroORM } from '@mikro-orm/core'
 import { graphqlUploadKoa } from 'graphql-upload'
 
 import { PORT, HOST, ENVIRONMENT } from 'src/dependencies/Config'
-import { CoreResolver } from './lib/resolvers/CoreResolver'
+
 import { Errornterceptor } from './dependencies/middlewares/Errornterceptor'
 import { CustomContext } from './types/interfaces/CustomContext'
+
+import { CoreResolver } from './lib/resolvers/CoreResolver'
 import { CourseProgramResolver } from './lib/resolvers/CourseProgramResolver'
 import { CallForSubmissionsResolver } from './lib/resolvers/CallForSubmissionsResolver'
 import { CandidateResolver } from './lib/resolvers/CandidateResolver'
