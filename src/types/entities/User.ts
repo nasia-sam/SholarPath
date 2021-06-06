@@ -12,7 +12,7 @@ export class User {
   id: string = v4()
 
   @Field()
-  @Property({ unique: true })
+  @Property()
   @Unique()
   email: string
 

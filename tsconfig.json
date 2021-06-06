@@ -39,6 +39,7 @@
   ],
   "include": [
     "./src/**/*.ts",
-    "./tests/**/*.ts"
+    "./tests/**/*.ts",
+    "./migrations/*.ts"
 , "mikro-orm.config.ts"  ]
 }
