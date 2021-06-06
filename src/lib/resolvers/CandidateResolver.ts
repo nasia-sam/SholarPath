@@ -5,7 +5,7 @@ import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/CandidateInput'
 import { createCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
 
-@Resolver()
+@Resolver(() => Candidate)
 export class CandidateResolver {
   @Mutation(() => Candidate)
   async createCandidate (

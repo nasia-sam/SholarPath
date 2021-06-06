@@ -13,6 +13,7 @@
     "@mikro-orm/core": "^4.4.4",
     "@mikro-orm/mariadb": "^4.4.4",
     "@types/koa-mount": "^4.0.0",
+    "@types/nodemailer": "^6.4.1",
     "apollo-server-koa": "^2.21.0",
     "class-validator": "^0.13.1",
     "dotenv": "^8.2.0",
@@ -23,6 +24,7 @@
     "koa-mount": "^4.0.0",
     "koa-static": "^5.0.0",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.5.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
   },

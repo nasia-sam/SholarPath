@@ -1,11 +1,14 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { CourseProgramInput } from 'src/types/classes/CourseProgramInput'
 import { createCourseProgramAction, deleteCourseProgramAction, updateCourseProgramAction } from '../actions/CourseProgramActions'
+import { UserRole } from 'src/types/entities/Roles'
+import { User } from 'src/types/entities/User'
 
-@Resolver()
+@Resolver(() => CourseProgram)
 export class CourseProgramResolver {
   @Query(() => [CourseProgram])
   async getAllCoursePrograms (
@@ -45,5 +48,12 @@ export class CourseProgramResolver {
       @Arg('id') id: string
   ): Promise<boolean> {
     return await deleteCourseProgramAction(id, em)
+  }
+
+  @FieldResolver()
+  admin (@Root() course: CourseProgram): User {
+    const courseRole = course.roles.getItems()
+    const adminRole = courseRole.find(role => role.role === UserRole.admin)
+    return adminRole!.user
   }
 }

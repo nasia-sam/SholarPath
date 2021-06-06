@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { CourseProgram } from './CourseProgram'
+import { Submission } from './Submission'
 
 export enum CFS_State {
   published = 'published',
@@ -40,4 +41,8 @@ export class CallForSubmissions {
   @ManyToOne(() => CourseProgram)
   @Field(() => CourseProgram)
   courseProgram: CourseProgram
+
+  @Field(() => [Submission])
+  @OneToMany(() => Submission, submissions => submissions.cfs)
+  submissions = new Collection<Submission>(this)
 }

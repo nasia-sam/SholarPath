@@ -5,7 +5,7 @@ import { CallForSubmissions, CFS_State } from 'src/types/entities/CallForSubmiss
 import { CallForSubmissionsInput } from 'src/types/classes/CallForSubmissionsInput'
 import { createCFSAction, deleteCFSAction, extendCFSAction, openCFSAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
 
-@Resolver()
+@Resolver(() => CallForSubmissions)
 export class CallForSubmissionsResolver {
   @Query(() => CallForSubmissions)
   async getPublishedCFSbyCourse (

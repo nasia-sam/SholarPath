@@ -1,15 +1,11 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { Candidate } from './Candidate'
+import { CallForSubmissions } from './CallForSubmissions'
 
-export enum State {
-  submitted = 'submitted',
-  reviewed = 'reviewed',
-  accepted = 'accepted',
-  declined = 'declined'
-}
+import { SubmissionState } from '../enums/SubmissionState'
 
 @Entity()
 @ObjectType()
@@ -19,8 +15,8 @@ export class Submission {
   id: string = v4()
 
   @Property()
-  @Field(() => State)
-  state = State
+  @Field(() => SubmissionState)
+  state = SubmissionState
 
   @Property()
   @Field()
@@ -44,7 +40,7 @@ export class Submission {
 
   @Property()
   @Field()
-  existance_of_other_diplomas: boolean
+  existance_of_other_diplomas: number
 
   @Property()
   @Field()
@@ -62,4 +58,8 @@ export class Submission {
 
   @OneToOne(() => Candidate, candidate => candidate.submission)
   candidate: Candidate
+
+  @ManyToOne(() => CallForSubmissions)
+  @Field(() => CallForSubmissions)
+  cfs: CallForSubmissions
 }

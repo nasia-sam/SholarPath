@@ -1,16 +1,11 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { Roles } from 'src/types/entities/Roles'
 import { createRoleAction, deleteRoleAction } from '../actions/RolesActions'
 
-@Resolver()
+@Resolver(() => Roles)
 export class RolesResolver {
-  @Query()
-  async ping (): Promise<string> {
-    return 'pong'
-  }
-
   @Mutation(() => Roles)
   async createRole (
     @Ctx('em') em: EntityManager,

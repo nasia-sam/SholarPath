@@ -46,6 +46,6 @@ export class CourseProgram {
   roles = new Collection<Roles>(this)
 
   @Field(() => [CallForSubmissions])
-  @OneToMany(() => CallForSubmissions, cfs => cfs.CourseProgram)
+  @OneToMany(() => CallForSubmissions, cfs => cfs.courseProgram)
   cfs = new Collection<CallForSubmissions>(this)
 }
