@@ -25,3 +25,31 @@ export const getAllCoursesQuery = gql`
     }
   }
 `
+
+export const getCourseProgramBySlug = gql`
+  query getCourcebySlug ($slug: String!) {
+    course: getCourcebySlug(slug: $slug) {
+      id
+      slug
+      university
+      department
+      title
+      description
+      open
+      sitelink
+      title
+      roles {
+        id
+        user {
+          name
+        }
+        role
+      }
+      cfs {
+        id
+        openFrom
+        closeAt
+      }
+    }
+  }
+`

@@ -16,6 +16,7 @@
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.5",
     "quasar": "^2.0.0",
+    "ramda": "^0.27.1",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

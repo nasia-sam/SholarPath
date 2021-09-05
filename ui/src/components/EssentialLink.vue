@@ -1,6 +1,5 @@
 <template>
   <q-item
-    class="bg-secondary"
     clickable
     exact
     :to="link"
