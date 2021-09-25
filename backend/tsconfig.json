@@ -40,6 +40,7 @@
   "include": [
     "./src/**/*.ts",
     "./tests/**/*.ts",
-    "./migrations/*.ts"
-, "mikro-orm.config.ts"  ]
+    "./migrations/*.ts",
+    "mikro-orm.config.ts"
+    ]
 }

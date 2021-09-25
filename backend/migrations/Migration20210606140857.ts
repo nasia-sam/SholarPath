@@ -6,7 +6,7 @@ export class Migration20210606140857 extends Migration {
     this.addSql('alter table `user` add primary key `user_pkey`(`id`);')
     this.addSql('alter table `user` add unique `user_email_unique`(`email`);')
 
-    this.addSql('create table `course_program` (`id` varchar(255) not null, `slug` varchar(255) not null, `university` varchar(255) not null, `department` varchar(255) not null, `title` varchar(255) not null, `description` varchar(255) not null, `open` tinyint(1) not null, `sitelink` varchar(255) not null) default character set utf8mb4 engine = InnoDB;')
+    this.addSql('create table `course_program` (`id` varchar(255) not null, `slug` varchar(255) not null, `university` varchar(255) not null, `department` varchar(255) not null, `title` varchar(255) not null, `description` text not null, `open` tinyint(1) not null, `sitelink` varchar(255) not null) default character set utf8mb4 engine = InnoDB;')
     this.addSql('alter table `course_program` add primary key `course_program_pkey`(`id`);')
     this.addSql('alter table `course_program` add unique `course_program_slug_unique`(`slug`);')
 
