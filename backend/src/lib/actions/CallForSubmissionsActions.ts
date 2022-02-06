@@ -2,11 +2,22 @@ import { EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
 
 import { CallForSubmissionsInput } from 'src/types/classes/CallForSubmissionsInput'
-import { CallForSubmissions, CFS_State } from 'src/types/entities/CallForSubmissions'
+import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
+import { CFS_State } from 'src/types/enums/CFSState'
 
 export async function createCFSAction (data: CallForSubmissionsInput, em: EntityManager): Promise<CallForSubmissions> {
-  await em.findOneOrFail(CourseProgram, data.courseProgram)
+  const course = await em.findOneOrFail(CourseProgram, data.courseProgram)
+
+  const scheduled = await em.find(CallForSubmissions, {
+    $and: [
+      { courseProgram: course.id },
+      { state: { $ne: CFS_State.closed } }
+    ]
+  })
+  if (scheduled.length > 0) {
+    throw new UserInputError('CFS_ALREADY_SCHEDULED')
+  }
 
   const cfs = em.create(CallForSubmissions, {
     openFrom: data.openFrom,

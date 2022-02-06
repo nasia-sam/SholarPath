@@ -4,12 +4,7 @@ import { v4 } from 'uuid'
 
 import { CourseProgram } from './CourseProgram'
 import { Submission } from './Submission'
-
-export enum CFS_State {
-  published = 'published',
-  open = 'open',
-  closed = 'closed'
-}
+import { CFS_State } from '../enums/CFSState'
 
 @Entity()
 @ObjectType()

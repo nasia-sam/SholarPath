@@ -1,5 +1,6 @@
 import { EntityManager } from '@mikro-orm/core'
-import { CallForSubmissions, CFS_State } from 'src/types/entities/CallForSubmissions'
+import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
+import { CFS_State } from 'src/types/enums/CFSState'
 
 export async function checkOpenCFS (em: EntityManager): Promise<void> {
   const cfs = await em.find(CallForSubmissions, {

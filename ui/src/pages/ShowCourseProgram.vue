@@ -6,6 +6,7 @@
         <span class="text-subtitle1 text-grey-8">
           {{ course.department }}, {{ course.university }}
         </span>
+
         <div>
           <q-fab color="accent" padding="sm" glossy  icon="keyboard_arrow_left" direction="left">
             <q-fab-action
@@ -22,6 +23,12 @@
         </div>
 
       </div>
+      <div class="text-subtitle2 text-grey-8" v-if="course.open">
+        Οι αιτήσεις είναι ανοιχτές έως {{ formatDate(course.currentCFS.closeAt) }}
+      </div>
+      <div class="text-subtitle2 text-grey-8" v-else-if="course.currentCFS?.state === 'published'">
+        Οι αιτήσεις ανοίγουν στις {{ formatDate(course.currentCFS.openFrom) }}
+      </div>
     </div>
 
     <q-card>
@@ -36,6 +43,7 @@
     </q-card>
 
     <CreateCFSDialog ref="CreateCFSDialogRef" :courseProgramId="course.id" />
+    <SubmissionForm :course="course" />
   </q-page>
 </template>
 
@@ -49,11 +57,16 @@ import fetchAllProgramCourses from 'src/hooks/CoursePrograms/fetchCoursePrograms
 
 // Components
 import CreateCFSDialog from 'src/components/CreateCFS.vue'
+import SubmissionForm from 'src/components/SubmissionForm.vue'
+
+// hooks
+import { formatDate } from 'src/hooks/commonFunctions'
 
 export default defineComponent({
   name: 'ShowCourseProgram',
   components: {
-    CreateCFSDialog
+    CreateCFSDialog,
+    SubmissionForm
   },
   setup () {
     const route = useRoute()
@@ -80,7 +93,8 @@ export default defineComponent({
 
     return {
       course,
-      CreateCFSDialogRef
+      CreateCFSDialogRef,
+      formatDate
     }
   }
 })

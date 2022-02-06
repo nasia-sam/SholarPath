@@ -1,8 +1,9 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
-import { CallForSubmissions, CFS_State } from 'src/types/entities/CallForSubmissions'
+import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CallForSubmissionsInput } from 'src/types/classes/CallForSubmissionsInput'
+import { CFS_State } from 'src/types/enums/CFSState'
 import { createCFSAction, deleteCFSAction, extendCFSAction, openCFSAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
 
 @Resolver(() => CallForSubmissions)

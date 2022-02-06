@@ -38,6 +38,12 @@ export const getCourseProgramBySlug = gql`
       open
       sitelink
       title
+      currentCFS {
+        id
+        openFrom
+        closeAt
+        state
+      }
       roles {
         id
         user {

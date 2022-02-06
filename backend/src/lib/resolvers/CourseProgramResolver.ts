@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { createCourseProgramAction, deleteCourseProgramAction, updateCourseProgramAction } from '../actions/CourseProgramActions'
@@ -7,6 +7,8 @@ import { createCourseProgramAction, deleteCourseProgramAction, updateCourseProgr
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { CourseProgramInput } from 'src/types/classes/CourseProgramInput'
 import { checkClosedCFS, checkOpenCFS } from '../tasks/CheckOpenCFS'
+import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
+import { CFS_State } from 'src/types/enums/CFSState'
 // import { User } from 'src/types/entities/User'
 
 @Resolver(() => CourseProgram)
@@ -51,5 +53,11 @@ export class CourseProgramResolver {
       @Arg('id') id: string
   ): Promise<boolean> {
     return await deleteCourseProgramAction(id, em)
+  }
+
+  @FieldResolver(() => CallForSubmissions, { nullable: true })
+  currentCFS (@Root() course: CourseProgram): CallForSubmissions | undefined {
+    const cfs = course.cfs.getItems().filter(c => c.state !== CFS_State.closed)
+    return cfs[0]
   }
 }
