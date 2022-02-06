@@ -31,6 +31,7 @@ export default function fetchAllProgramCourses () {
     }
   }
 
+  // todo move it to other file lol
   const fetchBySlug = async (slug) => {
     try {
       loading.value = true

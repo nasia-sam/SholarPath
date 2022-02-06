@@ -13,7 +13,6 @@ export async function createCFSAction (data: CallForSubmissionsInput, em: Entity
     closeAt: data.closeAt,
     state: CFS_State.published,
     documents: data.documents,
-    year: data.year,
     courseProgram: data.courseProgram
   })
 

@@ -34,10 +34,6 @@ export class CallForSubmissions {
   @Field()
   state: CFS_State
 
-  @Property()
-  @Field(() => Date)
-  year: Date
-
   @ManyToOne(() => CourseProgram)
   @Field(() => CourseProgram)
   courseProgram: CourseProgram

@@ -6,6 +6,7 @@ import { createCourseProgramAction, deleteCourseProgramAction, updateCourseProgr
 
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { CourseProgramInput } from 'src/types/classes/CourseProgramInput'
+import { checkClosedCFS, checkOpenCFS } from '../tasks/CheckOpenCFS'
 // import { User } from 'src/types/entities/User'
 
 @Resolver(() => CourseProgram)
@@ -14,7 +15,9 @@ export class CourseProgramResolver {
   async getAllCoursePrograms (
     @Ctx('em') em: EntityManager
   ): Promise<CourseProgram[]> {
-    return await em.find(CourseProgram, {}, ['roles', 'roles.user'])
+    await checkOpenCFS(em)
+    await checkClosedCFS(em)
+    return await em.find(CourseProgram, {}, ['roles', 'roles.user', 'cfs'])
   }
 
   @Query(() => CourseProgram)
@@ -22,7 +25,7 @@ export class CourseProgramResolver {
     @Ctx('em') em: EntityManager,
       @Arg('slug') slug: string
   ): Promise<CourseProgram> {
-    return await em.findOneOrFail(CourseProgram, { slug: slug })
+    return await em.findOneOrFail(CourseProgram, { slug: slug }, ['roles', 'roles.user', 'cfs'])
   }
 
   @Mutation(() => CourseProgram)

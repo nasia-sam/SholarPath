@@ -13,9 +13,6 @@ export class CallForSubmissionsInput {
   documents: string[]
 
   @Field()
-  year: Date
-
-  @Field()
   @IsUUID()
   courseProgram: string
 }

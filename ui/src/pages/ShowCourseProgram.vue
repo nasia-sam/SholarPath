@@ -7,7 +7,18 @@
           {{ course.department }}, {{ course.university }}
         </span>
         <div>
-          <q-btn dense color="indigo-10" icon="edit" glossy></q-btn>
+          <q-fab color="accent" padding="sm" glossy  icon="keyboard_arrow_left" direction="left">
+            <q-fab-action
+              color="indigo-10"
+              text-color="white"
+              icon="campaign"
+              external-label
+              label-position="top"
+              label="Create CFS"
+              @click="CreateCFSDialogRef.open()"
+            />
+            <q-fab-action color="indigo-10" text-color="white" icon="alarm" />
+          </q-fab>
         </div>
 
       </div>
@@ -18,11 +29,13 @@
 
       </q-card-section>
       <q-card-actions class="q-px-md">
-        <q-item class="text-blue-10" exact clickable dense tag="a" :href="course.sitelink">
+        <q-item class="text-blue-10"  clickable dense tag="a" :href="course.sitelink">
           Visit Website
         </q-item>
       </q-card-actions>
     </q-card>
+
+    <CreateCFSDialog ref="CreateCFSDialogRef" :courseProgramId="course.id" />
   </q-page>
 </template>
 
@@ -34,13 +47,20 @@ import { useRoute } from 'vue-router'
 // graphql
 import fetchAllProgramCourses from 'src/hooks/CoursePrograms/fetchCoursePrograms'
 
+// Components
+import CreateCFSDialog from 'src/components/CreateCFS.vue'
+
 export default defineComponent({
   name: 'ShowCourseProgram',
+  components: {
+    CreateCFSDialog
+  },
   setup () {
     const route = useRoute()
 
     const slug = ref('')
     const course = ref({
+      id: '',
       title: '',
       description: '',
       department: '',
@@ -55,8 +75,12 @@ export default defineComponent({
       fetchBySlug(slug.value).then(res => { course.value = res })
     })
 
+    // refs
+    const CreateCFSDialogRef = ref(null)
+
     return {
-      course
+      course,
+      CreateCFSDialogRef
     }
   }
 })

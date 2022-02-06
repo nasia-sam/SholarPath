@@ -1,18 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated class="bg-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
 
-        <q-toolbar-title>
-          Quasar App
+        <q-toolbar-title class="text-primary">
+          PMS Applications
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->
@@ -23,14 +15,20 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      class="bg-grey-1"
+
+      :mini="mini"
+      @mouseover="mini = false"
+      @mouseout="mini = true"
+
+      :width="200"
+      :breakpoint="500"
+      class="bg-primary text-white"
     >
       <q-list>
         <q-item-label
           header
           class="text-grey-8"
         >
-          Essential Links
         </q-item-label>
 
         <EssentialLink
@@ -41,7 +39,7 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-grey-2">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -106,12 +104,12 @@ export default defineComponent({
   setup () {
     const leftDrawerOpen = ref(false)
 
+    const mini = ref(false)
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      mini
     }
   }
 })
