@@ -50,24 +50,31 @@
             class="q-pb-lg"
           />
 
-          <span class="text-grey-9 text-subtitle1">Address</span>
-          <q-input
-            filled
-            v-model="candidate.address"
-            class="q-pb-lg"
-          />
+          <div class="row q-gutter-md">
+            <div class="col">
+              <span class="text-grey-9 text-subtitle1">Address</span>
+              <q-input
+                filled
+                v-model="candidate.address"
+                class="q-pb-lg"
+              />
+            </div>
 
-          <span class="text-grey-9 text-subtitle1">First Name</span>
-          <q-input
-            filled
-            v-model="candidate.name"
-            class="q-pb-lg"
-          />
+            <div class="col">
+              <span class="text-grey-9 text-subtitle1">Zip Code</span>
+              <q-input
+                filled
+                v-model="candidate.zip_code"
+                class="q-pb-lg"
+              />
 
-          <span class="text-grey-9 text-subtitle1">First Name</span>
+            </div>
+          </div>
+
+          <span class="text-grey-9 text-subtitle1">Phone Number</span>
           <q-input
             filled
-            v-model="candidate.name"
+            v-model="candidate.phone_number"
             class="q-pb-lg"
           />
         </q-form>

@@ -28,4 +28,7 @@ export class CandidateInput {
 
   @Field()
   gender: string
+
+  @Field(() => String, { nullable: true })
+  cv?: string
 }
