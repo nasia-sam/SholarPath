@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { Candidate } from 'src/types/entities/Candidate'
@@ -7,6 +7,14 @@ import { createCandidateAction, deleteCandidateAction } from '../actions/Candida
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
+  @Query(() => [Candidate])
+  async getCandidatesByCourseId (
+    @Ctx('em') em: EntityManager,
+      @Arg('id') id: string
+  ): Promise<Candidate[]> {
+    return await em.find(Candidate, { course_id: id })
+  }
+
   @Mutation(() => Candidate)
   async createCandidate (
     @Ctx('em') em: EntityManager,

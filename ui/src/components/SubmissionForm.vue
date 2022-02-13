@@ -19,64 +19,102 @@
         <div class="q-pa-md text-grey-8 q-gutter-lg">
         <q-form
           @submit="onSubmit"
-          @reset="onReset"
+          @reset="onCancel"
+          ref="myForm"
         >
-          <span class="text-grey-9 text-subtitle1">Last Name</span>
+          <span class="text-grey-9 text-subtitle1">Επίθετο</span>
           <q-input
             filled
             v-model="candidate.surname"
             class="q-pb-lg"
+            :rules="[isRequired]"
           />
 
-          <span class="text-grey-9 text-subtitle1">First Name</span>
+          <span class="text-grey-9 text-subtitle1">Όνομα</span>
           <q-input
             filled
             v-model="candidate.name"
             class="q-pb-lg"
+            :rules="[isRequired]"
           />
 
-          <span class="text-grey-9 text-subtitle1">Father's Name</span>
+          <span class="text-grey-9 text-subtitle1">Email</span>
+          <q-input
+            v-model="candidate.email"
+            filled
+            type="email"
+            :rules="[isRequired]"
+          />
+
+          <span class="text-grey-9 text-subtitle1">Όνομα Πατρός</span>
           <q-input
             filled
             v-model="candidate.father_name"
             class="q-pb-lg"
+            :rules="[isRequired]"
           />
 
-          <span class="text-grey-9 text-subtitle1">Age</span>
+          <span class="text-grey-9 text-subtitle1">Ηλικία</span>
           <q-input
             filled
             type="number"
             v-model.number="candidate.age"
             class="q-pb-lg"
+            :rules="[isRequired]"
           />
 
           <div class="row q-gutter-md">
             <div class="col">
-              <span class="text-grey-9 text-subtitle1">Address</span>
+              <span class="text-grey-9 text-subtitle1">Οδός Κατοικίας</span>
               <q-input
                 filled
                 v-model="candidate.address"
                 class="q-pb-lg"
+                :rules="[isRequired]"
               />
             </div>
 
             <div class="col">
-              <span class="text-grey-9 text-subtitle1">Zip Code</span>
+              <span class="text-grey-9 text-subtitle1">Ταχυδρομικός Κώδικας</span>
               <q-input
                 filled
                 v-model="candidate.zip_code"
                 class="q-pb-lg"
+                :rules="[isRequired]"
               />
 
             </div>
           </div>
 
-          <span class="text-grey-9 text-subtitle1">Phone Number</span>
+          <span class="text-grey-9 text-subtitle1">Νούμερο Τηλεφώνου</span>
           <q-input
             filled
             v-model="candidate.phone_number"
             class="q-pb-lg"
+            type="tel"
+            :rules="[isRequired]"
           />
+
+          <span class="text-grey-9 text-subtitle1">Βιογραφικό</span>
+          <q-file
+            color="dark"
+            filled
+            clearable
+            v-model="fileCv"
+            label="CV"
+            accept=".pdf"
+            :rules="[isRequired]"
+          >
+            <template v-slot:prepend>
+              <q-icon name="cloud_upload" />
+            </template>
+          </q-file>
+
+          <div>
+            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Cancel" type="reset" color="primary" flat class="q-ml-sm" />
+          </div>
+
         </q-form>
         </div>
       </q-page-container>
@@ -87,6 +125,13 @@
 <script>
 // vue
 import { defineComponent, ref } from 'vue'
+
+// common
+import { isRequired } from 'src/hooks/rules'
+import { errorMessage } from 'src/hooks/globalNotifications'
+
+// actions
+import useCandidateMutations from 'src/hooks/Candidate/useCandidateActions'
 
 export default defineComponent({
   name: 'SubmissionForm',
@@ -110,12 +155,76 @@ export default defineComponent({
       email: '',
       bachelor_degree: '',
       gender: '',
-      part_time: false
+      part_time: false,
+      cv: ''
     })
+
+    // convert pdf
+    const fileCv = ref()
+
+    const convertFileToBase64 = () =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(fileCv.value)
+
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = reject
+      })
+
+    const setPDF = () => {
+      if (fileCv.value !== null) {
+        convertFileToBase64()
+          .then((enc) => {
+            candidate.value.cv = enc
+            finalSubmit()
+          })
+          .catch(err => console.log(err))
+      } else {
+        candidate.value.cv = ''
+        finalSubmit()
+      }
+    }
+
+    // form validation
+    const myForm = ref(null)
+
+    function validate () {
+      myForm.value.validate().then(success => {
+        if (success) {
+          console.log('succ')
+        // yay, models are correct
+        } else {
+          errorMessage('Συμπληρώστε όλα τα απαραίτητα πεδία.')
+        }
+      })
+    }
+
+    // create hook
+    const { useCreateCandidate } = useCandidateMutations()
+
+    // actions
+    const onSubmit = () => {
+      validate()
+      setPDF()
+      console.log()
+    }
+
+    const finalSubmit = () => {
+      useCreateCandidate(candidate.value)
+        .then(onCancel())
+    }
+
+    const onCancel = () => {
+      visible.value = false
+    }
 
     return {
       visible,
-      candidate
+      candidate,
+      fileCv,
+      isRequired,
+      onSubmit,
+      onCancel
     }
   }
 })

@@ -69,6 +69,10 @@ export class Candidate {
   @Field(() => GraphQLJSONObject)
   cv: PdfFile
 
+  @Property()
+  @Field()
+  course_id: string
+
   @OneToOne(() => Submission, submission => submission.candidate, { owner: true, orphanRemoval: true })
   @Field(() => Submission)
   submission: Submission
