@@ -26,7 +26,7 @@ export class CallForSubmissions {
   documents: string[]
 
   @Property()
-  @Field()
+  @Field(() => CFS_State)
   state: CFS_State
 
   @ManyToOne(() => CourseProgram)

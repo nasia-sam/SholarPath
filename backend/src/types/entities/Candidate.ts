@@ -55,7 +55,7 @@ export class Candidate {
 
   @Property()
   @Field()
-  bachelor_digree: string
+  bachelor_degree: string
 
   @Property()
   @Field()

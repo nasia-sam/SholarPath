@@ -12,6 +12,12 @@ export class CandidateInput {
   father_name: string
 
   @Field()
+  email: string
+
+  @Field()
+  age: number
+
+  @Field()
   address: string
 
   @Field()
@@ -24,7 +30,7 @@ export class CandidateInput {
   part_time: boolean
 
   @Field()
-  bachelor_digree: string
+  bachelor_degree: string
 
   @Field()
   gender: string

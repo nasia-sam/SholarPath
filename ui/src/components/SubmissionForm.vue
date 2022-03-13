@@ -86,12 +86,32 @@
             </div>
           </div>
 
+          <div>
+            <span class="text-grey-9 text-subtitle1 q-py-md">Φύλο</span>
+            <q-option-group
+              v-model="candidate.gender"
+              :options="genderOptions"
+              color="primary"
+              inline
+            />
+          </div>
+
           <span class="text-grey-9 text-subtitle1">Νούμερο Τηλεφώνου</span>
           <q-input
             filled
             v-model="candidate.phone_number"
             class="q-pb-lg"
             type="tel"
+            :rules="[isRequired]"
+          />
+
+          <hr style="color:#ebebe0;background-color:#ebebe0" />
+
+          <span class="text-grey-9 text-subtitle1">Προπτυχιακός Τίτλος</span>
+          <q-input
+            filled
+            v-model="candidate.bachelor_degree"
+            class="q-pb-lg"
             :rules="[isRequired]"
           />
 
@@ -141,7 +161,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup () {
+  setup (props) {
     const visible = ref(true)
 
     const candidate = ref({
@@ -156,8 +176,16 @@ export default defineComponent({
       bachelor_degree: '',
       gender: '',
       part_time: false,
-      cv: ''
+      cv: '',
+      course_id: props.course.id
     })
+
+    // options
+    const genderOptions = [
+      { label: 'Άνδρας', value: 'M' },
+      { label: 'Γυναίκα', value: 'F' },
+      { label: 'Άλλο', value: 'O' }
+    ]
 
     // convert pdf
     const fileCv = ref()
@@ -219,8 +247,10 @@ export default defineComponent({
     }
 
     return {
+      myForm,
       visible,
       candidate,
+      genderOptions,
       fileCv,
       isRequired,
       onSubmit,
