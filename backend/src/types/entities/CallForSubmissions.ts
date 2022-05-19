@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
+import { Collection, Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { CourseProgram } from './CourseProgram'
@@ -25,7 +25,7 @@ export class CallForSubmissions {
   @Field(() => [String])
   documents: string[]
 
-  @Property()
+  @Enum(() => CFS_State)
   @Field(() => CFS_State)
   state: CFS_State
 

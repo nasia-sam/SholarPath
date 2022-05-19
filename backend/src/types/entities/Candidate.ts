@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, Enum, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { v4 } from 'uuid'
@@ -7,12 +7,7 @@ import { v4 } from 'uuid'
 import { JsonType } from '../classes/microORM/JSONType'
 import { PdfFile } from '../classes/PdfFile'
 import { Submission } from './Submission'
-
-export enum Gender {
-  male = 'M',
-  female = 'F',
-  other = 'O'
-}
+import { Gender } from '../enums/Gender'
 
 @Entity()
 @ObjectType()
@@ -61,8 +56,8 @@ export class Candidate {
   @Field()
   part_time: boolean
 
-  @Property()
-  @Field()
+  @Enum(() => Gender)
+  @Field(() => Gender)
   gender: Gender
 
   @Property({ type: JsonType })

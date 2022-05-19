@@ -29,7 +29,7 @@ export class CourseProgram {
   @Field()
   title: string
 
-  @Property()
+  @Property({ columnType: 'text' })
   @Field()
   description: string
 

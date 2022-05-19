@@ -6,7 +6,9 @@
   "scripts": {
     "start": "ts-node -r tsconfig-paths/register ./src/index.ts",
     "test": "jest",
-    "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts"
+    "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
+    "migration": "npx mikro-orm migration:create",
+    "migrationUp": "npx mikro-orm migration:up"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
