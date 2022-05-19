@@ -1,12 +1,12 @@
 import { Migration } from '@mikro-orm/migrations'
 
-export class Migration20220313171046 extends Migration {
+export class Migration20220508095605 extends Migration {
   async up (): Promise<void> {
     this.addSql('create table `user` (`id` varchar(255) not null, `email` varchar(255) not null, `name` varchar(255) not null, `confirm_email` tinyint(1) not null, `confirmed_by_admin` tinyint(1) not null) default character set utf8mb4 engine = InnoDB;')
     this.addSql('alter table `user` add primary key `user_pkey`(`id`);')
     this.addSql('alter table `user` add unique `user_email_unique`(`email`);')
 
-    this.addSql('create table `course_program` (`id` varchar(255) not null, `slug` varchar(255) not null, `university` varchar(255) not null, `department` varchar(255) not null, `title` varchar(255) not null, `description` varchar(255) not null, `open` tinyint(1) not null, `sitelink` varchar(255) not null) default character set utf8mb4 engine = InnoDB;')
+    this.addSql('create table `course_program` (`id` varchar(255) not null, `slug` varchar(255) not null, `university` varchar(255) not null, `department` varchar(255) not null, `title` varchar(255) not null, `description` text not null, `open` tinyint(1) not null, `sitelink` varchar(255) not null) default character set utf8mb4 engine = InnoDB;')
     this.addSql('alter table `course_program` add primary key `course_program_pkey`(`id`);')
     this.addSql('alter table `course_program` add unique `course_program_slug_unique`(`slug`);')
 
@@ -23,7 +23,7 @@ export class Migration20220313171046 extends Migration {
     this.addSql('alter table `submission` add primary key `submission_pkey`(`id`);')
     this.addSql('alter table `submission` add index `submission_cfs_id_index`(`cfs_id`);')
 
-    this.addSql('create table `candidate` (`id` varchar(255) not null, `name` varchar(255) not null, `surname` varchar(255) not null, `father_name` varchar(255) not null, `age` int(11) not null, `address` varchar(255) not null, `zip_code` varchar(255) not null, `phone_number` varchar(255) not null, `email` varchar(255) not null, `bachelor_degree` varchar(255) not null, `part_time` tinyint(1) not null, `gender` varchar(255) not null, `cv` json not null, `course_id` varchar(255) not null, `submission_id` varchar(255) not null) default character set utf8mb4 engine = InnoDB;')
+    this.addSql('create table `candidate` (`id` varchar(255) not null, `name` varchar(255) not null, `surname` varchar(255) not null, `father_name` varchar(255) not null, `age` int(11) not null, `address` varchar(255) not null, `zip_code` varchar(255) not null, `phone_number` varchar(255) not null, `email` varchar(255) not null, `bachelor_degree` varchar(255) not null, `part_time` tinyint(1) not null, `gender` varchar(255) not null, `cv` undefined not null, `course_id` varchar(255) not null, `submission_id` varchar(255) not null) default character set utf8mb4 engine = InnoDB;')
     this.addSql('alter table `candidate` add primary key `candidate_pkey`(`id`);')
     this.addSql('alter table `candidate` add index `candidate_submission_id_index`(`submission_id`);')
     this.addSql('alter table `candidate` add unique `candidate_submission_id_unique`(`submission_id`);')
