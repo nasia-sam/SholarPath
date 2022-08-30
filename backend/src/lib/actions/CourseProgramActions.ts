@@ -55,7 +55,7 @@ export async function createCourseProgramAction (data: CourseProgramInput, em: E
 }
 
 export async function updateCourseProgramAction (id: string, data: CourseProgramInput, em: EntityManager): Promise<CourseProgram> {
-  const course = await em.findOneOrFail(CourseProgram, id, ['roles'])
+  const course = await em.findOneOrFail(CourseProgram, id, { populate: ['roles'] })
 
   // TODO logged user === admin
 
@@ -76,7 +76,7 @@ export async function updateCourseProgramAction (id: string, data: CourseProgram
 }
 
 export async function deleteCourseProgramAction (id: string, em: EntityManager): Promise<boolean> {
-  const course = await em.findOneOrFail(CourseProgram, id, ['roles'])
+  const course = await em.findOneOrFail(CourseProgram, id, { populate: ['roles'] })
 
   // TODO logged user === admin
 

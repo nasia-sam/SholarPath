@@ -19,21 +19,21 @@ export class CourseProgramResolver {
   ): Promise<CourseProgram[]> {
     await checkOpenCFS(em)
     await checkClosedCFS(em)
-    return await em.find(CourseProgram, {}, ['roles', 'roles.user', 'cfs'])
+    return await em.find(CourseProgram, {}, { populate: ['roles', 'roles.user', 'cfs'] })
   }
 
   @Query(() => CourseProgram)
   async getCourcebySlug (
     @Ctx('em') em: EntityManager,
-      @Arg('slug') slug: string
+    @Arg('slug') slug: string
   ): Promise<CourseProgram> {
-    return await em.findOneOrFail(CourseProgram, { slug: slug }, ['roles', 'roles.user', 'cfs'])
+    return await em.findOneOrFail(CourseProgram, { slug: slug }, { populate: ['roles', 'roles.user', 'cfs'] })
   }
 
   @Mutation(() => CourseProgram)
   async createCourseProgram (
     @Ctx('em') em: EntityManager,
-      @Arg('data', () => CourseProgramInput) data: CourseProgramInput
+    @Arg('data', () => CourseProgramInput) data: CourseProgramInput
   ): Promise<CourseProgram> {
     return await createCourseProgramAction(data, em)
   }
@@ -41,8 +41,8 @@ export class CourseProgramResolver {
   @Mutation(() => CourseProgram)
   async updateCourseProgram (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string,
-      @Arg('data', () => CourseProgramInput) data: CourseProgramInput
+    @Arg('id') id: string,
+    @Arg('data', () => CourseProgramInput) data: CourseProgramInput
   ): Promise<CourseProgram> {
     return await updateCourseProgramAction(id, data, em)
   }
@@ -50,7 +50,7 @@ export class CourseProgramResolver {
   @Mutation(() => Boolean)
   async deleteCourseProgram (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string
+    @Arg('id') id: string
   ): Promise<boolean> {
     return await deleteCourseProgramAction(id, em)
   }

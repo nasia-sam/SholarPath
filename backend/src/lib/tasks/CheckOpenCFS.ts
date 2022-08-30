@@ -9,7 +9,7 @@ export async function checkOpenCFS (em: EntityManager): Promise<void> {
       { openFrom: { $lte: new Date() } },
       { closeAt: { $gte: new Date() } }
     ]
-  }, ['courseProgram'])
+  }, { populate: ['courseProgram'] })
 
   cfs.forEach(c => {
     c.state = CFS_State.open
@@ -25,7 +25,7 @@ export async function checkClosedCFS (em: EntityManager): Promise<void> {
       { state: { $eq: CFS_State.open } },
       { closeAt: { $lte: new Date() } }
     ]
-  }, ['courseProgram'])
+  }, { populate: ['courseProgram'] })
 
   cfs.forEach(c => {
     c.state = CFS_State.closed

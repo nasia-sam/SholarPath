@@ -51,7 +51,7 @@ export async function updateCFSAction (id: string, data: CallForSubmissionsInput
 }
 
 export async function openCFSAction (id: string, openFrom: Date, closeAt: Date, em: EntityManager): Promise<CallForSubmissions> {
-  const cfs = await em.findOneOrFail(CallForSubmissions, id, ['courseProgram'])
+  const cfs = await em.findOneOrFail(CallForSubmissions, id, { populate: ['courseProgram'] })
 
   if (cfs.state === CFS_State.closed) {
     throw new UserInputError('CANNOT_PUBLISH_CLOSED_CFS')
@@ -86,14 +86,13 @@ export async function extendCFSAction (id: string, closeAt: Date, em: EntityMana
   return cfs
 }
 
-export async function cloneCFSAction (oldId: string, openFrom: Date, closeAt: Date, year: Date, em: EntityManager): Promise<CallForSubmissions> {
+export async function cloneCFSAction (oldId: string, openFrom: Date, closeAt: Date, em: EntityManager): Promise<CallForSubmissions> {
   const oldCfs = await em.findOneOrFail(CallForSubmissions, oldId)
   const course = await em.findOneOrFail(CourseProgram, oldCfs.courseProgram)
 
   const clone = em.create(CallForSubmissions, {
     openFrom: openFrom,
     closeAt: closeAt,
-    year: year,
     documents: oldCfs.documents,
     courseProgram: course,
     state: CFS_State.published
