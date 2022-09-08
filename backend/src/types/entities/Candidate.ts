@@ -61,14 +61,13 @@ export class Candidate {
   gender: Gender
 
   @Property({ type: JsonType })
-  @Field(() => GraphQLJSONObject)
-  cv: PdfFile
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  cv?: PdfFile
 
   @Property()
   @Field()
   course_id: string
 
-  @OneToOne(() => Submission, submission => submission.candidate, { owner: true, orphanRemoval: true })
-  @Field(() => Submission)
-  submission: Submission
+  @OneToOne(() => Submission, submission => submission.candidate, { nullable: true })
+  submission?: Submission
 }

@@ -1,4 +1,5 @@
 import { Field, InputType } from 'type-graphql'
+import { Gender } from '../enums/Gender'
 
 @InputType()
 export class CandidateInput {
@@ -32,8 +33,8 @@ export class CandidateInput {
   @Field()
   bachelor_degree: string
 
-  @Field()
-  gender: string
+  @Field(() => Gender)
+  gender: Gender
 
   @Field()
   course_id: string

@@ -56,7 +56,7 @@ export class Submission {
 
   // TODO DOCUMENTS
 
-  @OneToOne(() => Candidate, candidate => candidate.submission)
+  @OneToOne(() => Candidate)
   candidate: Candidate
 
   @ManyToOne(() => CallForSubmissions)
