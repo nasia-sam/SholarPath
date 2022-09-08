@@ -38,6 +38,7 @@ export async function upploadFile (encoded: string, candidateId: string, em: Ent
 
 export async function downloadPdfFileAction (candidateId: string, file: PdfFile, em: EntityManager): Promise<string> {
   const candidate = await em.findOneOrFail(Candidate, candidateId)
+  if (candidate.cv === undefined) return ''
 
   if (candidate.cv.path !== file.path) throw new UserInputError('INVALID_CANDIDATE_FILE_MATCH')
 

@@ -8,19 +8,20 @@
     "test": "jest",
     "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "migration": "npx mikro-orm migration:create",
-    "migrationUp": "npx mikro-orm migration:up"
+    "migration-up": "npx mikro-orm migration:up"
   },
   "dependencies": {
     "@koa/cors": "^3.4.1",
     "@mikro-orm/cli": "^5.3.1",
     "@mikro-orm/core": "^5.3.1",
     "@mikro-orm/mariadb": "^5.3.1",
+    "@mikro-orm/migrations": "^5.3.1",
     "@types/koa-mount": "^4.0.1",
     "@types/nodemailer": "^6.4.5",
     "apollo-server-koa": "^2.26.0",
     "class-validator": "^0.13.2",
     "dotenv": "^8.6.0",
-    "graphql": "^16.6.0",
+    "graphql": "^15.3.0",
     "graphql-type-json": "^0.3.2",
     "graphql-upload": "^11.0.0",
     "koa": "^2.13.4",

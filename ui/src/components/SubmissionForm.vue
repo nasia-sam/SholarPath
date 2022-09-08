@@ -182,9 +182,9 @@ export default defineComponent({
 
     // options
     const genderOptions = [
-      { label: 'Άνδρας', value: 'M' },
-      { label: 'Γυναίκα', value: 'F' },
-      { label: 'Άλλο', value: 'O' }
+      { label: 'Άνδρας', value: 'male' },
+      { label: 'Γυναίκα', value: 'female' },
+      { label: 'Άλλο', value: 'other' }
     ]
 
     // convert pdf

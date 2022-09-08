@@ -5,8 +5,8 @@ import { Roles, UserRole } from 'src/types/entities/Roles'
 import { User } from 'src/types/entities/User'
 
 export async function createRoleAction (email: string, courseId: string, em: EntityManager): Promise<Roles> {
-  const user = em.findOneOrFail(User, { email: email })
-  const course = em.findOneOrFail(CourseProgram, courseId)
+  const user = await em.findOneOrFail(User, { email: email })
+  const course = await em.findOneOrFail(CourseProgram, courseId)
 
   // TODO check logged user is admin
 
