@@ -16,7 +16,7 @@ export async function upploadFile (encoded: string, candidateId: string, em: Ent
 
   if (!base64File) return
 
-  const filepath = path.join(process.cwd(), `/uploads/cv_${candidateId}.${type ?? 'pdf'}`)
+  const filepath = path.join(process.cwd(), `/src/uploads/cv_${candidateId}.${type ?? 'pdf'}`)
 
   await fsPromise.writeFile(
     filepath,

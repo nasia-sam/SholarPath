@@ -43,7 +43,7 @@
             v-model="candidate.email"
             filled
             type="email"
-            :rules="[isRequired]"
+            :rules="[isRequired, isValidEmai]"
           />
 
           <span class="text-grey-9 text-subtitle1">Όνομα Πατρός</span>
@@ -74,7 +74,7 @@
               />
             </div>
 
-            <div class="col">
+            <div     class="col">
               <span class="text-grey-9 text-subtitle1">Ταχυδρομικός Κώδικας</span>
               <q-input
                 filled
@@ -147,7 +147,7 @@
 import { defineComponent, ref } from 'vue'
 
 // common
-import { isRequired } from 'src/hooks/rules'
+import { isRequired, isValidEmai } from 'src/hooks/rules'
 import { errorMessage } from 'src/hooks/globalNotifications'
 
 // actions
@@ -252,7 +252,10 @@ export default defineComponent({
       candidate,
       genderOptions,
       fileCv,
+
       isRequired,
+      isValidEmai,
+
       onSubmit,
       onCancel
     }

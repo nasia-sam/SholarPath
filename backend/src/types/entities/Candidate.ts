@@ -60,7 +60,7 @@ export class Candidate {
   @Field(() => Gender)
   gender: Gender
 
-  @Property({ type: JsonType })
+  @Property({ type: JsonType, nullable: true })
   @Field(() => GraphQLJSONObject, { nullable: true })
   cv?: PdfFile
 

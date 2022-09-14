@@ -104,15 +104,15 @@
         },
         "gender": {
           "name": "gender",
-          "type": "enum('M', 'F', 'O')",
+          "type": "enum('male', 'female', 'other')",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
           "enumItems": [
-            "M",
-            "F",
-            "O"
+            "male",
+            "female",
+            "other"
           ],
           "mappedType": "enum"
         },
@@ -122,7 +122,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "text"
         },
         "course_id": {
