@@ -162,7 +162,7 @@ export default defineComponent({
     }
   },
   setup (props) {
-    const visible = ref(true)
+    const visible = ref(false)
 
     const candidate = ref({
       name: '',
@@ -246,6 +246,10 @@ export default defineComponent({
       visible.value = false
     }
 
+    const open = () => {
+      visible.value = true
+    }
+
     return {
       myForm,
       visible,
@@ -257,7 +261,8 @@ export default defineComponent({
       isValidEmai,
 
       onSubmit,
-      onCancel
+      onCancel,
+      open
     }
   }
 })

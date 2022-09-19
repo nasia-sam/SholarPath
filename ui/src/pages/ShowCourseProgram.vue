@@ -24,7 +24,12 @@
 
       </div>
       <div class="text-subtitle2 text-grey-8" v-if="course.open">
-        Οι αιτήσεις είναι ανοιχτές έως {{ formatDate(course.currentCFS.closeAt) }}
+        <div class="row justify-between">
+            Οι αιτήσεις είναι ανοιχτές έως {{ formatDate(course.currentCFS.closeAt) }}
+          <div>
+            <q-btn color="primary" class="q-px-xl q-py-xs" @click="CreateCandidateRef.open()">Αίτηση</q-btn  >
+          </div>
+        </div>
       </div>
       <div class="text-subtitle2 text-grey-8" v-else-if="course.currentCFS?.state === 'published'">
         Οι αιτήσεις ανοίγουν στις {{ formatDate(course.currentCFS.openFrom) }}
@@ -33,7 +38,6 @@
 
     <q-card>
       <q-card-section v-html="course.description">
-
       </q-card-section>
       <q-card-actions class="q-px-md">
         <q-item class="text-blue-10"  clickable dense tag="a" :href="course.sitelink">
@@ -43,7 +47,7 @@
     </q-card>
 
     <CreateCFSDialog ref="CreateCFSDialogRef" :courseProgramId="course.id" />
-    <SubmissionForm :course="course" />
+    <SubmissionForm :course="course" ref="CreateCandidateRef" />
   </q-page>
 </template>
 
@@ -90,11 +94,14 @@ export default defineComponent({
 
     // refs
     const CreateCFSDialogRef = ref(null)
+    const CreateCandidateRef = ref(null)
 
     return {
       course,
+      formatDate,
+
       CreateCFSDialogRef,
-      formatDate
+      CreateCandidateRef
     }
   }
 })
