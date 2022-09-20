@@ -16,43 +16,43 @@ export class Submission {
 
   @Property()
   @Field(() => SubmissionState)
-  state = SubmissionState
+  state: SubmissionState
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  bachelor_relevance: number
+  bachelor_relevance?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  research_field_relevance: number
+  research_field_relevance?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  bachelor_grade: number
+  bachelor_grade?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  thesis_grade: number
+  thesis_grade?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  prerequisites_courses_grade: number
+  prerequisites_courses_grade?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  existance_of_other_diplomas: number
+  existance_of_other_diplomas?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  working_experience_relevance: number
+  working_experience_relevance?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  interview: number
+  interview?: number
 
-  @Property()
+  @Property({ nullable: true })
   @Field()
-  total_grade: number
+  total_grade?: number
 
   // TODO DOCUMENTS
 
@@ -61,5 +61,5 @@ export class Submission {
 
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)
-  cfs: CallForSubmissions
+  cfs: CallForSubmissions // todo relationship with candidate
 }
