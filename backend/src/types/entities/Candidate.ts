@@ -1,13 +1,16 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, Enum, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, Enum, OneToOne, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { v4 } from 'uuid'
 
 import { JsonType } from '../classes/microORM/JSONType'
 import { PdfFile } from '../classes/PdfFile'
-import { Submission } from './Submission'
 import { Gender } from '../enums/Gender'
+
+import { Submission } from './Submission'
+import { CallForSubmissions } from './CallForSubmissions'
+
 
 @Entity()
 @ObjectType()
@@ -70,4 +73,8 @@ export class Candidate {
 
   @OneToOne(() => Submission, submission => submission.candidate, { nullable: true })
   submission?: Submission
+
+  @ManyToOne(() => CallForSubmissions)
+  @Field(() => CallForSubmissions)
+  cfs: CallForSubmissions // todo relationship with candidate
 }

@@ -8,10 +8,6 @@ export class GradeSubmissionInput {
   candidate: string
 
   @Field()
-  @IsUUID()
-  cfs: string
-
-  @Field()
   @IsOptional()
   @Max(5)
   @Min(1)

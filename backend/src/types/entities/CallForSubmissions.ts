@@ -3,7 +3,8 @@ import { Collection, Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } 
 import { v4 } from 'uuid'
 
 import { CourseProgram } from './CourseProgram'
-import { Submission } from './Submission'
+import { Candidate } from './Candidate'
+
 import { CFS_State } from '../enums/CFSState'
 
 @Entity()
@@ -33,7 +34,7 @@ export class CallForSubmissions {
   @Field(() => CourseProgram)
   courseProgram: CourseProgram
 
-  @Field(() => [Submission])
-  @OneToMany(() => Submission, submissions => submissions.cfs)
-  submissions = new Collection<Submission>(this)
+  @Field(() => [Candidate])
+  @OneToMany(() => Candidate, candidates => candidates.cfs)
+  candidates = new Collection<Candidate>(this)
 }

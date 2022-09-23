@@ -1,9 +1,8 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { Candidate } from './Candidate'
-import { CallForSubmissions } from './CallForSubmissions'
 
 import { SubmissionState } from '../enums/SubmissionState'
 
@@ -58,8 +57,4 @@ export class Submission {
 
   @OneToOne(() => Candidate)
   candidate: Candidate
-
-  @ManyToOne(() => CallForSubmissions)
-  @Field(() => CallForSubmissions)
-  cfs: CallForSubmissions // todo relationship with candidate
 }
