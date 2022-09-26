@@ -130,6 +130,8 @@
             </template>
           </q-file>
 
+          <q-checkbox size="lg" class="q-py-md" v-model="candidate.part_time" label="Ενδιαφέρομαι για Part time" />
+
           <div>
             <q-btn label="Submit" type="submit" color="primary"/>
             <q-btn label="Cancel" type="reset" color="primary" flat class="q-ml-sm" />
@@ -177,7 +179,8 @@ export default defineComponent({
       gender: '',
       part_time: false,
       cv: '',
-      course_id: props.course.id
+      course_id: props.course.id,
+      cfs: props.course?.cfs?.id || ''
     })
 
     // options
@@ -248,6 +251,7 @@ export default defineComponent({
 
     const open = () => {
       visible.value = true
+      candidate.value.cfs = props.course.cfs.id
     }
 
     return {

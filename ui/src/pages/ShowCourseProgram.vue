@@ -13,12 +13,17 @@
               color="indigo-10"
               text-color="white"
               icon="campaign"
-              external-label
               label-position="top"
               label="Create CFS"
               @click="CreateCFSDialogRef.open()"
             />
-            <q-fab-action color="indigo-10" text-color="white" icon="alarm" />
+            <q-fab-action
+              color="indigo-10"
+              text-color="white"
+              icon="people"
+              label-position="top"
+              label="Show Candidates"
+            />
           </q-fab>
         </div>
 
@@ -89,6 +94,7 @@ export default defineComponent({
 
     onMounted(() => {
       slug.value = route.params.slug
+      console.log('$$$lug', slug.value)
       fetchBySlug(slug.value).then(res => { course.value = res })
     })
 

@@ -10,15 +10,15 @@ export class CandidateResolver {
   @Query(() => [Candidate])
   async getCandidatesByCourseId (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string
+    @Arg('id') id: string
   ): Promise<Candidate[]> {
-    return await em.find(Candidate, { course_id: id })
+    return await em.find(Candidate, { cfs: { id: id } })
   }
 
   @Mutation(() => Candidate)
   async createCandidate (
     @Ctx('em') em: EntityManager,
-      @Arg('data') data: CandidateInput
+    @Arg('data') data: CandidateInput
   ): Promise<Candidate> {
     return await createCandidateAction(data, em)
   }
@@ -26,7 +26,7 @@ export class CandidateResolver {
   @Mutation(() => Boolean)
   async deleteCandidate (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string
+    @Arg('id') id: string
   ): Promise<boolean> {
     return await deleteCandidateAction(id, em)
   }
