@@ -13,12 +13,13 @@
     </div>
 
     <q-table
+      grid
       :rows="result"
       :columns="columns"
       :loading="loading"
       row-key="name"
     >
-      <template v-slot:body-cell="props">
+      <!-- <template v-slot:body-cell="props">
         <q-td
           :props="props"
           class="cursor-pointer"
@@ -26,6 +27,16 @@
         >
           {{ props.value }}
         </q-td>
+      </template> -->
+      <template v-slot:item="props">
+        <div class="q-pa-xs col-12" @click="redirectToPage(props.row.slug)">
+          <q-card>
+            <q-card-section class="text-center">
+              <div class=" text-h6">{{ props.row.title }}</div>
+              <div class="text-subtitle2 text-grey-9 q-pt-md">{{ props.row.university }}</div>
+            </q-card-section>
+          </q-card>
+        </div>
       </template>
 
     </q-table>

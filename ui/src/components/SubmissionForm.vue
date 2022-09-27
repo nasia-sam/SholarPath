@@ -180,7 +180,7 @@ export default defineComponent({
       part_time: false,
       cv: '',
       course_id: props.course.id,
-      cfs: props.course?.cfs?.id || ''
+      cfs: props.course?.currentCFS?.id || ''
     })
 
     // options
@@ -241,7 +241,7 @@ export default defineComponent({
     }
 
     const finalSubmit = () => {
-      useCreateCandidate(candidate.value)
+      useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id })
         .then(onCancel())
     }
 
@@ -251,7 +251,7 @@ export default defineComponent({
 
     const open = () => {
       visible.value = true
-      candidate.value.cfs = props.course.cfs.id
+      candidate.value.cfs = props.course.currentCFS.id
     }
 
     return {

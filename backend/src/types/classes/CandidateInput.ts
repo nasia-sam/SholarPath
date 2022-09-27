@@ -1,5 +1,5 @@
 import { Field, InputType } from 'type-graphql'
-import { IsEmail, IsUUID, Length } from 'class-validator'
+import { IsBoolean, IsEmail, IsInt, IsUUID, Length, Min } from 'class-validator'
 
 import { Gender } from '../enums/Gender'
 
@@ -26,7 +26,8 @@ export class CandidateInput {
   email: string
 
   @Field()
-  @Length(1)
+  @IsInt()
+  @Min(18)
   age: number
 
   @Field()
@@ -42,7 +43,7 @@ export class CandidateInput {
   phone_number: string
 
   @Field()
-  @Length(1)
+  @IsBoolean()
   part_time: boolean
 
   @Field()

@@ -8,7 +8,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'ShowCandidates',
-  setup() {
+  setup () {
     return {}
   }
 })

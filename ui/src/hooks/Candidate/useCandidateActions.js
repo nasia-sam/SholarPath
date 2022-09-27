@@ -13,6 +13,8 @@ export default function useCandidateMutations () {
     try {
       loading.value = true
 
+      console.log('CANDIDATE DATA', data)
+
       const response = await api({
         url: '',
         method: 'POST',
@@ -35,7 +37,7 @@ export default function useCandidateMutations () {
         successMessage('Candidate Submission sucessfully Created')
       }
     } catch (e) {
-      console.log('error while updating course program')
+      errorMessage('Error while creating Candidate Submission.')
     } finally {
       loading.value = false
     }
