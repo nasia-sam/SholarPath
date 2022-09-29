@@ -1,7 +1,7 @@
 import { Field, InputType } from 'type-graphql'
 import { IsBoolean, IsEmail, IsInt, IsUUID, Length, Min } from 'class-validator'
 
-import { Gender } from '../enums/Gender'
+import { Gender } from '../../enums/Gender'
 
 @InputType()
 export class CandidateInput {

@@ -1,6 +1,6 @@
 import { EntityManager } from '@mikro-orm/core'
 
-import { GradeSubmissionInput } from 'src/types/classes/GadeSubmissionInput'
+import { GradeSubmissionInput } from 'src/types/classes/inputs/GadeSubmissionInput'
 import { Submission } from 'src/types/entities/Submission'
 import { SubmissionState } from 'src/types/enums/SubmissionState'
 

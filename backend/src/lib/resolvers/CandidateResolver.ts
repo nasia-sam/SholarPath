@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { Candidate } from 'src/types/entities/Candidate'
-import { CandidateInput } from 'src/types/classes/CandidateInput'
+import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { createCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
 
 @Resolver(() => Candidate)

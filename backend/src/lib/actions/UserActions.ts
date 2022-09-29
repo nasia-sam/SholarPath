@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
 
-import { UserInput } from 'src/types/classes/UserInput'
+import { UserInput } from 'src/types/classes/inputs/UserInput'
 import { User } from 'src/types/entities/User'
 
 export async function createUserAction (data: UserInput, em: EntityManager): Promise<User> {

@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
 
-import { CallForSubmissionsInput } from 'src/types/classes/CallForSubmissionsInput'
+import { CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { CFS_State } from 'src/types/enums/CFSState'

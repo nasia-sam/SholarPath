@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
-import { CallForSubmissionsInput } from 'src/types/classes/CallForSubmissionsInput'
+import { CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
 import { CFS_State } from 'src/types/enums/CFSState'
 import { createCFSAction, deleteCFSAction, extendCFSAction, openCFSAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
 
@@ -11,7 +11,7 @@ export class CallForSubmissionsResolver {
   @Query(() => CallForSubmissions)
   async getPublishedCFSbyCourse (
     @Ctx('em') em: EntityManager,
-      @Arg('courseId') courseId: string
+    @Arg('courseId') courseId: string
   ): Promise<CallForSubmissions> {
     return await em.findOneOrFail(CallForSubmissions, { $and: [{ courseProgram: courseId }, { state: { $in: [CFS_State.published, CFS_State.open] } }] })
   }
@@ -19,7 +19,7 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async createCFS (
     @Ctx('em') em: EntityManager,
-      @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
+    @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
   ): Promise<CallForSubmissions> {
     return await createCFSAction(data, em)
   }
@@ -27,8 +27,8 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async updateCFS (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string,
-      @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
+    @Arg('id') id: string,
+    @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
   ): Promise<CallForSubmissions> {
     return await updateCFSAction(id, data, em)
   }
@@ -36,9 +36,9 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async openCFS (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string,
-      @Arg('openFrom') openFrom: Date,
-      @Arg('closeAt') closeAt: Date
+    @Arg('id') id: string,
+    @Arg('openFrom') openFrom: Date,
+    @Arg('closeAt') closeAt: Date
   ): Promise<CallForSubmissions> {
     return await openCFSAction(id, openFrom, closeAt, em)
   }
@@ -46,8 +46,8 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async extendCFS (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string,
-      @Arg('closeAt') closeAt: Date
+    @Arg('id') id: string,
+    @Arg('closeAt') closeAt: Date
   ): Promise<CallForSubmissions> {
     return await extendCFSAction(id, closeAt, em)
   }
@@ -55,7 +55,7 @@ export class CallForSubmissionsResolver {
   @Mutation(() => Boolean)
   async deleteCFS (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string
+    @Arg('id') id: string
   ): Promise<boolean> {
     return await deleteCFSAction(id, em)
   }

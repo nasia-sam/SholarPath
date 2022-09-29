@@ -2,7 +2,7 @@ import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { Submission } from 'src/types/entities/Submission'
-import { GradeSubmissionInput } from 'src/types/classes/GadeSubmissionInput'
+import { GradeSubmissionInput } from 'src/types/classes/inputs/GadeSubmissionInput'
 import { createSubmissionAction, gradeSubmissionAction } from '../actions/SubmissionActions'
 
 @Resolver(() => Submission)
