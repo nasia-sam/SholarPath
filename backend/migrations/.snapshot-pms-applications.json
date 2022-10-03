@@ -133,12 +133,12 @@
         },
         "documents": {
           "name": "documents",
-          "type": "text",
+          "type": "json",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "text"
+          "mappedType": "json"
         },
         "state": {
           "name": "state",

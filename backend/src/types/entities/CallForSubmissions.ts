@@ -1,11 +1,14 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Collection, Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
+import { Collection, Embedded, Entity, Enum, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core'
 import { v4 } from 'uuid'
+
+import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { CourseProgram } from './CourseProgram'
 import { Candidate } from './Candidate'
 
 import { CFS_State } from '../enums/CFSState'
+import { AdditionalFiles } from '../classes/AdditionalFiles'
 
 @Entity()
 @ObjectType()
@@ -22,9 +25,9 @@ export class CallForSubmissions {
   @Field(() => Date, { nullable: true })
   closeAt?: Date
 
-  @Property()
-  @Field(() => [String])
-  documents: string[]
+  @Embedded(() => AdditionalFiles, { object: true })
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  documents?: AdditionalFiles
 
   @Enum(() => CFS_State)
   @Field(() => CFS_State)
