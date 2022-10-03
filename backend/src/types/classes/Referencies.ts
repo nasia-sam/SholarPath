@@ -2,20 +2,20 @@ import { Embeddable, Property } from '@mikro-orm/core'
 import { Field } from 'type-graphql'
 
 @Embeddable()
-export class PdfFile {
-  @Field()
-  @Property()
-  path: string
-
-  @Field()
-  @Property()
-  type: string
-
+export class References {
   @Field()
   @Property()
   name: string
 
   @Field()
   @Property()
-  extension: string
+  email: string
+
+  @Field()
+  @Property()
+  title: string
+
+  @Field(() => Text)
+  @Property()
+  letter: Text
 }

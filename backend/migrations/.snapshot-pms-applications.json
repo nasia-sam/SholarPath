@@ -316,14 +316,14 @@
           ],
           "mappedType": "enum"
         },
-        "cv": {
-          "name": "cv",
-          "type": "text",
+        "attached_documents": {
+          "name": "attached_documents",
+          "type": "json",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
-          "mappedType": "text"
+          "nullable": false,
+          "mappedType": "json"
         },
         "course_id": {
           "name": "course_id",
@@ -333,6 +333,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "referencies": {
+          "name": "referencies",
+          "type": "json",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "json"
         },
         "cfs_id": {
           "name": "cfs_id",

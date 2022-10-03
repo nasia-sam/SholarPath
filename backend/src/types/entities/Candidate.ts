@@ -1,16 +1,16 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, Enum, OneToOne, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
+import { Entity, Enum, OneToOne, ManyToOne, PrimaryKey, Property, Embedded } from '@mikro-orm/core'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { v4 } from 'uuid'
 
-import { JsonType } from '../classes/microORM/JSONType'
+// import { JsonType } from '../classes/microORM/JSONType'
 import { PdfFile } from '../classes/PdfFile'
 import { Gender } from '../enums/Gender'
 
 import { Submission } from './Submission'
 import { CallForSubmissions } from './CallForSubmissions'
-
+import { References } from '../classes/Referencies'
 
 @Entity()
 @ObjectType()
@@ -63,13 +63,17 @@ export class Candidate {
   @Field(() => Gender)
   gender: Gender
 
-  @Property({ type: JsonType, nullable: true })
-  @Field(() => GraphQLJSONObject, { nullable: true })
-  cv?: PdfFile
+  @Embedded(() => PdfFile, { array: true })
+  @Field(() => [GraphQLJSONObject], { nullable: true })
+  attachedDocuments?: PdfFile[]
 
   @Property()
   @Field()
   course_id: string
+
+  @Embedded(() => References, { array: true })
+  @Field(() => [GraphQLJSONObject], { nullable: true })
+  referencies: References
 
   @OneToOne(() => Submission, submission => submission.candidate, { nullable: true })
   submission?: Submission

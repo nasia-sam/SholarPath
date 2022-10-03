@@ -1,5 +1,6 @@
 import { IsUUID } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
+import { AdditionalFilesInput } from './AdditionalFiles'
 
 @InputType()
 export class CallForSubmissionsInput {
@@ -9,8 +10,8 @@ export class CallForSubmissionsInput {
   @Field()
   closeAt: Date
 
-  @Field(() => [String])
-  documents: string[]
+  @Field(() => AdditionalFilesInput)
+  documents: AdditionalFilesInput
 
   @Field()
   @IsUUID()
