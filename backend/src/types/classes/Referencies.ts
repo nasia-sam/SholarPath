@@ -15,7 +15,7 @@ export class References {
   @Property()
   title: string
 
-  @Field(() => Text)
-  @Property()
-  letter: Text
+  @Field()
+  @Property({ columnType: 'text' })
+  letter: string
 }

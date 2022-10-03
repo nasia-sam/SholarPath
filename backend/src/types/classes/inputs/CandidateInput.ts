@@ -1,7 +1,18 @@
-import { Field, InputType } from 'type-graphql'
+import { Field, InputType, ObjectType } from 'type-graphql'
 import { IsBoolean, IsEmail, IsInt, IsUUID, Length, Min } from 'class-validator'
 
 import { Gender } from '../../enums/Gender'
+
+import { GraphQLJSONObject } from 'graphql-type-json'
+
+@ObjectType()
+class personalInfo {
+  @Field()
+  name: string
+
+  @Field()
+  email: string
+}
 
 @InputType()
 export class CandidateInput {
@@ -59,4 +70,13 @@ export class CandidateInput {
 
   @Field(() => String, { nullable: true })
   cv?: string
+
+  @Field(() => String, { nullable: true })
+  proofDegree?: string
+
+  @Field(() => String, { nullable: true })
+  otherMasters?: string
+
+  @Field(() => [GraphQLJSONObject], { nullable: true })
+  referenceInfo?: personalInfo[]
 }

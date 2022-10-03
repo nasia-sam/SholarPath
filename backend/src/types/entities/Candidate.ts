@@ -65,20 +65,20 @@ export class Candidate {
 
   @Embedded(() => PdfFile, { array: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  attachedDocuments?: PdfFile[]
+  attachedDocuments: PdfFile[]
 
   @Property()
   @Field()
-  course_id: string
+  course_id: string // todo ayto mporei na fygei
 
-  @Embedded(() => References, { array: true })
+  @Embedded(() => References, { array: true, nullable: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  referencies: References
+  referencies?: References
 
   @OneToOne(() => Submission, submission => submission.candidate, { nullable: true })
   submission?: Submission
 
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)
-  cfs: CallForSubmissions // todo relationship with candidate
+  cfs: CallForSubmissions
 }

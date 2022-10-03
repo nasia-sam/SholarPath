@@ -5,9 +5,11 @@ import { EntityManager } from '@mikro-orm/core'
 import { createCourseProgramAction, deleteCourseProgramAction, updateCourseProgramAction } from '../actions/CourseProgramActions'
 
 import { CourseProgram } from 'src/types/entities/CourseProgram'
-import { CallForSubmissions } from 'src/types/classes/inputs/CourseProgramInputs'
+import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
+
 import { CourseProgramInput } from 'src/types/classes/inputs/CourseProgramInput'
 import { CFS_State } from 'src/types/enums/CFSState'
+
 import { checkClosedCFS, checkOpenCFS } from '../tasks/CheckOpenCFS'
 // import { User } from 'src/types/entities/User'
 

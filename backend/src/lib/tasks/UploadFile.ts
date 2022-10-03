@@ -1,11 +1,13 @@
 import { EntityManager } from '@mikro-orm/core'
+import { UserInputError } from 'apollo-server-koa'
+
 import path from 'path'
 import fsPromise from 'fs/promises'
-import { UserInputError } from 'apollo-server-koa'
+
 import { Candidate } from 'src/types/entities/Candidate'
 import { PdfFile } from 'src/types/classes/PdfFile'
 
-export async function upploadFile (encoded: string, candidateId: string, em: EntityManager): Promise<void> {
+export async function upploadFile (encoded: string, fileType: string, candidateId: string, em: EntityManager, index?: number): Promise<void> {
   const candidate = await em.findOneOrFail(Candidate, candidateId)
 
   const splitBase64 = encoded.split(';base64,')
@@ -16,7 +18,10 @@ export async function upploadFile (encoded: string, candidateId: string, em: Ent
 
   if (!base64File) return
 
-  const filepath = path.join(process.cwd(), `/src/uploads/cv_${candidateId}.${type ?? 'pdf'}`)
+  let fileName = `${candidateId}/${fileType}_${candidateId}}`
+  if (index) fileName = fileName + `_${index}`
+
+  const filepath = path.join(process.cwd(), `/src/uploads/${fileName}.${type ?? 'pdf'}`)
 
   await fsPromise.writeFile(
     filepath,
@@ -27,20 +32,22 @@ export async function upploadFile (encoded: string, candidateId: string, em: Ent
     throw new UserInputError('INVALID_PDF_FILE')
   })
 
-  candidate.cv = {
+  const newFile = {
     name: `${candidate.id}_cv`,
     path: filepath,
+    type: fileType,
     extension: type ?? 'pdf'
   }
+  candidate.attachedDocuments.push(newFile)
 
   await em.flush()
 }
 
-export async function downloadPdfFileAction (candidateId: string, file: PdfFile, em: EntityManager): Promise<string> {
-  const candidate = await em.findOneOrFail(Candidate, candidateId)
-  if (candidate.cv === undefined) return ''
+export async function downloadPdfFileAction (file: PdfFile): Promise<string> {
+  // const candidate = await em.findOneOrFail(Candidate, candidateId)
+  // if (candidate.cv === undefined) return ''
 
-  if (candidate.cv.path !== file.path) throw new UserInputError('INVALID_CANDIDATE_FILE_MATCH')
+  // if (candidate.cv.path !== file.path) throw new UserInputError('INVALID_CANDIDATE_FILE_MATCH')
 
   const encodedFile = await fsPromise.readFile(
     file.path,
