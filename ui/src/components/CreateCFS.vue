@@ -20,13 +20,33 @@
           <p class="text-subtitle1">Pick Date Range</p>
           <q-date v-model="openRange" range />
 
-          <q-select
+          <!-- <q-select
             filled
-            v-model="cfp.documents"
+            v-model="cfs.documents"
             multiple
             :options="documentsOptions"
             label="Additional files"
-          />
+          /> -->
+          <p class="text-subtitle1">Additional Files</p>
+          <div class="q-gutter-y-md">
+            <div>
+              <q-checkbox v-model="cfs.documents.proofDegree" label="Proof of Degree" />
+            </div>
+            <div>
+              <q-checkbox v-model="cfs.documents.otherMasters" label="Proof of Other Masters" />
+            </div>
+
+            <q-checkbox v-model="cfs.documents.references" label="Referencies" />
+            <q-input
+              type="number"
+              v-model.number="cfs.documents.numberOfReferencies"
+              class="q-pb-lg q-pl-md"
+              :disable="!cfs.documents.references"
+              style="max-width: 220px"
+              label="Number of References"
+            />
+
+        </div>
         </div>
       </q-page-container>
 
@@ -53,10 +73,15 @@ export default defineComponent({
   },
   setup (props) {
     const visible = ref(false)
-    const cfp = ref({
+    const cfs = ref({
       openFrom: new Date(),
       closeAt: new Date(),
-      documents: []
+      documents: {
+        proofDegree: false,
+        otherMasters: false,
+        references: false,
+        numberOfReferencies: 0
+      }
     })
 
     const openRange = ref({ from: '', to: '' })
@@ -65,10 +90,15 @@ export default defineComponent({
 
     // visible dialog actions
     const open = () => {
-      cfp.value = {
+      cfs.value = {
         openFrom: new Date(),
         closeAt: new Date(),
-        documents: []
+        documents: {
+          proofDegree: false,
+          otherMasters: false,
+          references: false,
+          numberOfReferencies: 0
+        }
       }
 
       openRange.value = { from: '', to: '' }
@@ -84,16 +114,16 @@ export default defineComponent({
     const { createCfsMutation } = usesCfsAction()
 
     const submit = () => {
-      cfp.value.openFrom = openRange.value.from
-      cfp.value.closeAt = openRange.value.to
+      cfs.value.openFrom = openRange.value.from
+      cfs.value.closeAt = openRange.value.to
 
-      createCfsMutation({ ...cfp.value, courseProgram: props.courseProgramId })
+      createCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
         .then(() => { visible.value = false })
     }
 
     return {
       visible,
-      cfp,
+      cfs,
       openRange,
       documentsOptions,
       open,
