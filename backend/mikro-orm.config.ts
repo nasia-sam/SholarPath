@@ -9,7 +9,7 @@ import { DB_HOST, DB_NAME, DB_PORT, DB_PASSWORD, DB_USER } from './src/dependenc
 // import { Submission } from 'src/types/entities/Submission'
 
 export default {
-  type: 'mariadb',
+  type: 'mysql',
   dbName: DB_NAME,
   host: DB_HOST,
   port: DB_PORT,

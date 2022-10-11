@@ -74,8 +74,8 @@ export class CandidateInput {
   @Field(() => String, { nullable: true })
   proofDegree?: string
 
-  @Field(() => String, { nullable: true })
-  otherMasters?: string
+  @Field(() => [String], { nullable: true })
+  otherMasters?: string[]
 
   @Field(() => [GraphQLJSONObject], { nullable: true })
   referenceInfo?: personalInfo[]

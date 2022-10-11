@@ -130,6 +130,38 @@
             </template>
           </q-file>
 
+          <!-- <span class="text-grey-9 text-subtitle1">Απόδειξη Πτυχίου</span> -->
+          <q-file
+            v-if="course.currentCFS.documents.proofDegree"
+            color="dark"
+            filled
+            clearable
+            v-model="candidate.proofDegree"
+            label="Απόδειξη Πτυχίου"
+            accept=".pdf"
+            :rules="[isRequired]"
+          >
+            <template v-slot:prepend>
+              <q-icon name="cloud_upload" />
+            </template>
+          </q-file>
+
+          <!-- <span class="text-grey-9 text-subtitle1">Άλλα Μεταπτυχιακά</span> -->
+          <q-file
+            v-if="course.currentCFS.documents.otherMasters"
+            color="dark"
+            filled
+            clearable
+            multiple
+            v-model="masterFiles"
+            label="Άλλα Μεταπτυχιακά"
+            accept=".pdf"
+          >
+            <template v-slot:prepend>
+              <q-icon name="cloud_upload" />
+            </template>
+          </q-file>
+
           <q-checkbox size="lg" class="q-py-md" v-model="candidate.part_time" label="Ενδιαφέρομαι για Part time" />
 
           <div>
@@ -180,7 +212,10 @@ export default defineComponent({
       part_time: false,
       cv: '',
       course_id: props.course.id,
-      cfs: props.course?.currentCFS?.id || ''
+      cfs: props.course?.currentCFS?.id || '',
+      proofDegree: null,
+      otherMasters: [],
+      referenceInfo: []
     })
 
     // options
@@ -192,27 +227,34 @@ export default defineComponent({
 
     // convert pdf
     const fileCv = ref()
+    const masterFiles = ref()
 
-    const convertFileToBase64 = () =>
-      new Promise((resolve, reject) => {
+    const convertFileToBase64 = async (file) =>
+      await new Promise((resolve, reject) => {
         const reader = new FileReader()
-        reader.readAsDataURL(fileCv.value)
+        reader.readAsDataURL(file)
 
         reader.onload = () => resolve(reader.result)
         reader.onerror = reject
       })
 
-    const setPDF = () => {
+    const setPDF = async () => {
       if (fileCv.value !== null) {
-        convertFileToBase64()
-          .then((enc) => {
-            candidate.value.cv = enc
-            finalSubmit()
-          })
-          .catch(err => console.log(err))
+        candidate.value.cv = await convertFileToBase64(fileCv.value)
       } else {
         candidate.value.cv = ''
-        finalSubmit()
+      }
+
+      if (candidate.value.proofDegree !== null) {
+        candidate.value.proofDegree = await convertFileToBase64(candidate.value.proofDegree)
+      }
+
+      if (masterFiles.value.length > 0) {
+        candidate.value = masterFiles.value.map(async (master) => {
+          const enc = await convertFileToBase64(master)
+          console.log('ti gurnaei!!')
+          return enc
+        })
       }
     }
 
@@ -234,19 +276,20 @@ export default defineComponent({
     const { useCreateCandidate } = useCandidateMutations()
 
     // actions
-    const onSubmit = () => {
+    const onSubmit = async () => {
       validate()
-      setPDF()
-      console.log()
+      await setPDF()
+      finalSubmit()
     }
 
     const finalSubmit = () => {
-      useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id })
-        .then(onCancel())
+      console.log('candidate data', candidate.value)
     }
 
     const onCancel = () => {
       visible.value = false
+      useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id })
+      // .then(onCancel())
     }
 
     const open = () => {
@@ -260,6 +303,7 @@ export default defineComponent({
       candidate,
       genderOptions,
       fileCv,
+      masterFiles,
 
       isRequired,
       isValidEmai,

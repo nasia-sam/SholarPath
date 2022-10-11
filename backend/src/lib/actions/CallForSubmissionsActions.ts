@@ -2,9 +2,12 @@ import { EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
 
 import { CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
+import { CFS_State } from 'src/types/enums/CFSState'
+
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
-import { CFS_State } from 'src/types/enums/CFSState'
+
+import { checkOpenCFS } from '../tasks/CheckOpenCFS'
 
 export async function createCFSAction (data: CallForSubmissionsInput, em: EntityManager): Promise<CallForSubmissions> {
   const course = await em.findOneOrFail(CourseProgram, data.courseProgram)
@@ -28,6 +31,8 @@ export async function createCFSAction (data: CallForSubmissionsInput, em: Entity
   })
 
   await em.persistAndFlush(cfs)
+
+  await checkOpenCFS(em)
   return cfs
 }
 

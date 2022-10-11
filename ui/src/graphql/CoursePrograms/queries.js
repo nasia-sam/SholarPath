@@ -43,6 +43,7 @@ export const getCourseProgramBySlug = gql`
         openFrom
         closeAt
         state
+        documents
       }
       roles {
         id

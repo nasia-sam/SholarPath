@@ -89,15 +89,17 @@ export default defineComponent({
     const documentsOptions = ['CV']
 
     // visible dialog actions
-    const open = () => {
-      cfs.value = {
-        openFrom: new Date(),
-        closeAt: new Date(),
-        documents: {
-          proofDegree: false,
-          otherMasters: false,
-          references: false,
-          numberOfReferencies: 0
+    const open = (payload = false) => {
+      if (!payload) {
+        cfs.value = {
+          openFrom: new Date(),
+          closeAt: new Date(),
+          documents: {
+            proofDegree: false,
+            otherMasters: false,
+            references: false,
+            numberOfReferencies: 0
+          }
         }
       }
 
