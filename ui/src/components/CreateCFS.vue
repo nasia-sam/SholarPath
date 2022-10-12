@@ -49,11 +49,6 @@
         </div>
         </div>
       </q-page-container>
-
-      <q-page-container>
-        <q-page padding class="q-gutter-lg q-pa-md">
-        </q-page>
-      </q-page-container>
     </q-layout>
   </q-dialog>
 </template>

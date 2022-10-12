@@ -136,7 +136,7 @@
             color="dark"
             filled
             clearable
-            v-model="candidate.proofDegree"
+            v-model="degreeFile"
             label="Απόδειξη Πτυχίου"
             accept=".pdf"
             :rules="[isRequired]"
@@ -248,8 +248,8 @@ export default defineComponent({
           candidate.value.cv = ''
         }
 
-        if (candidate.value.proofDegree !== null) {
-          candidate.value.proofDegree = await convertFileToBase64(candidate.value.proofDegree)
+        if (degreeFile.value !== null) {
+          candidate.value.proofDegree = await convertFileToBase64(degreeFile.value)
           console.log('ti gurnaei!!')
         }
 
