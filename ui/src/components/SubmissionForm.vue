@@ -115,7 +115,7 @@
             :rules="[isRequired]"
           />
 
-          <span class="text-grey-9 text-subtitle1">Βιογραφικό</span>
+          <span class="text-grey-9 text-subtitle1">Απαραίτητα Έγγραφα</span>
           <q-file
             color="dark"
             filled
@@ -164,6 +164,20 @@
 
           <q-checkbox size="lg" class="q-py-md" v-model="candidate.part_time" label="Ενδιαφέρομαι για Part time" />
 
+          <hr style="color:#ebebe0;background-color:#ebebe0" />
+
+          <span class="text-grey-9 text-subtitle1">Χρειάζονται {{course.currentCFS.documents.numberOfReferencies}} Συστατικές</span>
+          <span class="text-grey-9 text-subtitle2">Συμπληρώστε παρακάτω τα emails όσων θέλετε να σας κάνουν συστατική.</span>
+            <div v-for="index in course.currentCFS.documents.numberOfReferencies" :key="index">
+              <q-input
+                filled
+                v-model="candidate.referenceInfo[index]"
+                class="q-pb-lg"
+                :label="`Συστατική #${index}`"
+                type="email"
+                :rules="[isRequired, isValidEmai]"
+              />
+            </div>
           <div>
             <q-btn label="Submit" type="submit" color="primary"/>
             <q-btn label="Cancel" type="reset" color="primary" flat class="q-ml-sm" />
@@ -285,7 +299,7 @@ export default defineComponent({
     const onSubmit = async () => {
       validate()
       await setPDF()
-      console.log('meta to try')
+
       finalSubmit()
     }
 
