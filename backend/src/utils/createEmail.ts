@@ -5,8 +5,8 @@ import { EMAIL_ADDRESS, EMAIL_NAME, USER_EMAIL, USER_EMAIL_PWD } from '../depend
 import { Submission } from 'src/types/entities/Submission'
 import { acceptedEmailContent } from './emailContent/accepted'
 
-export async function createContentEmail(submissionId: string, status: string, em: EntityManager): Promise<void> {
-  const submission = await em.findOneOrFail(Submission, ['candidate', 'cfs'])
+export async function createContentEmail (submissionId: string, status: string, em: EntityManager): Promise<void> {
+  const submission = await em.findOneOrFail(Submission, { id: submissionId }, { populate: ['candidate', 'candidate.cfs', 'candidate.cfs.courseProgram'] })
 
   const account = await nodemailer.createTestAccount()
 
@@ -28,7 +28,7 @@ export async function createContentEmail(submissionId: string, status: string, e
   const info = await transporter.sendMail({
     from: `"${EMAIL_NAME}" <${EMAIL_ADDRESS}>`,
     to: submission.candidate.email,
-    subject: `Αίτηση για Πρόγραμμα Σπουδών ${submission.cfs.courseProgram.title}`,
+    subject: `Αίτηση για Πρόγραμμα Σπουδών ${submission.candidate.cfs.courseProgram.title}`,
     html: context
   })
 

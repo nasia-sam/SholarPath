@@ -3,10 +3,10 @@ import { IsBoolean, IsEmail, IsInt, IsUUID, Length, Min } from 'class-validator'
 
 import { Gender } from '../../enums/Gender'
 
-import { GraphQLJSONObject } from 'graphql-type-json'
+// import { GraphQLJSONObject } from 'graphql-type-json'
 
 @ObjectType()
-class personalInfo {
+export class personalInfo {
   @Field()
   name: string
 
@@ -77,6 +77,9 @@ export class CandidateInput {
   @Field(() => [String], { nullable: true })
   otherMasters?: string[]
 
-  @Field(() => [GraphQLJSONObject], { nullable: true })
-  referenceInfo?: personalInfo[]
+  @Field(() => [String], { nullable: true })
+  referenceInfo?: string[]
+
+  // @Field(() => [GraphQLJSONObject], { nullable: true })
+  // referenceInfo?: personalInfo[]
 }
