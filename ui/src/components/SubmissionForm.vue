@@ -227,6 +227,7 @@ export default defineComponent({
 
     // convert pdf
     const fileCv = ref()
+    const degreeFile = ref()
     const masterFiles = ref()
 
     const convertFileToBase64 = async (file) =>
@@ -239,22 +240,27 @@ export default defineComponent({
       })
 
     const setPDF = async () => {
-      if (fileCv.value !== null) {
-        candidate.value.cv = await convertFileToBase64(fileCv.value)
-      } else {
-        candidate.value.cv = ''
-      }
-
-      if (candidate.value.proofDegree !== null) {
-        candidate.value.proofDegree = await convertFileToBase64(candidate.value.proofDegree)
-      }
-
-      if (masterFiles.value.length > 0) {
-        candidate.value = masterFiles.value.map(async (master) => {
-          const enc = await convertFileToBase64(master)
+      try {
+        if (fileCv.value !== null) {
+          candidate.value.cv = await convertFileToBase64(fileCv.value)
           console.log('ti gurnaei!!')
-          return enc
-        })
+        } else {
+          candidate.value.cv = ''
+        }
+
+        if (candidate.value.proofDegree !== null) {
+          candidate.value.proofDegree = await convertFileToBase64(candidate.value.proofDegree)
+          console.log('ti gurnaei!!')
+        }
+
+        if (masterFiles.value.length > 0) {
+          for await (const master of masterFiles.value) {
+            const enc = await convertFileToBase64(master)
+            candidate.value.otherMasters.push(enc)
+          }
+        }
+      } catch (error) {
+        console.error(error)
       }
     }
 
@@ -279,17 +285,18 @@ export default defineComponent({
     const onSubmit = async () => {
       validate()
       await setPDF()
+      console.log('meta to try')
       finalSubmit()
     }
 
     const finalSubmit = () => {
       console.log('candidate data', candidate.value)
+      useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id, course_id: props.course.id })
+        .then(onCancel())
     }
 
     const onCancel = () => {
       visible.value = false
-      useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id })
-      // .then(onCancel())
     }
 
     const open = () => {
@@ -302,6 +309,8 @@ export default defineComponent({
       visible,
       candidate,
       genderOptions,
+
+      degreeFile,
       fileCv,
       masterFiles,
 

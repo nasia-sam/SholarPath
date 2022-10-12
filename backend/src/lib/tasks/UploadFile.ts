@@ -3,6 +3,7 @@ import { UserInputError } from 'apollo-server-koa'
 
 import path from 'path'
 import fsPromise from 'fs/promises'
+import fs from 'fs'
 
 import { Candidate } from 'src/types/entities/Candidate'
 import { PdfFile } from 'src/types/classes/PdfFile'
@@ -22,6 +23,11 @@ export async function upploadFile (encoded: string, fileType: string, candidateI
   if (index) fileName = fileName + `_${index}`
 
   const filepath = path.join(process.cwd(), `/src/uploads/${fileName}.${type ?? 'pdf'}`)
+
+  // create dir if it doesnt exist
+  if (!fs.existsSync(path.join(process.cwd(), `/src/uploads/${candidateId}`))) {
+    fs.mkdirSync(path.join(process.cwd(), `/src/uploads/${candidateId}`))
+  }
 
   await fsPromise.writeFile(
     filepath,

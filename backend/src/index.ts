@@ -3,6 +3,8 @@ import 'reflect-metadata'
 import { createServer } from 'http'
 import Koa, { Context } from 'koa'
 import cors from '@koa/cors'
+import bodyParser from 'koa-bodyparser'
+
 import { ApolloServer } from 'apollo-server-koa'
 import { buildSchema } from 'type-graphql'
 import { MikroORM } from '@mikro-orm/core'
@@ -53,6 +55,8 @@ async function main (): Promise<void> {
 
   app.use(cors())
   app.use(graphqlUploadKoa())
+  app.use(bodyParser({ jsonLimit: '150mb' }))
+
   app.use(apolloServer.getMiddleware({ cors: false }))
   const httpServer = createServer(app.callback())
 
