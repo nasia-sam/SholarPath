@@ -10,12 +10,13 @@
         <div>
           <q-fab color="accent" padding="sm" glossy  icon="keyboard_arrow_left" direction="left">
             <q-fab-action
+              v-if="!course.open"
               color="indigo-10"
               text-color="white"
               icon="campaign"
               label-position="top"
-              label="Create CFS"
-              @click="CreateCFSDialogRef.open()"
+              :label="course.currentCFS?.state === 'published' ? 'Edit CFS' : 'Create CFS'"
+              @click="CreateCFSDialogRef.open(course.currentCFS ?? undefined)"
             />
             <q-fab-action
               color="indigo-10"

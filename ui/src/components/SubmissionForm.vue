@@ -7,13 +7,6 @@
           <q-toolbar-title>Application for </q-toolbar-title>
         </q-toolbar>
       </q-header>
-<!--
-      <q-footer class="text-white">
-        <q-toolbar class="row justify-end">
-          <q-btn flat label="Cancel" />
-          <q-btn flat label="Save"/>
-        </q-toolbar>
-      </q-footer> -->
 
       <q-page-container>
         <div class="q-pa-md text-grey-8 q-gutter-lg">
@@ -171,7 +164,7 @@
             <div v-for="index in course.currentCFS.documents.numberOfReferencies" :key="index">
               <q-input
                 filled
-                v-model="candidate.referenceInfo[index]"
+                v-model="candidate.referenceInfo[index - 1]"
                 class="q-pb-lg"
                 :label="`Συστατική #${index}`"
                 type="email"

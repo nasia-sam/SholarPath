@@ -56,7 +56,9 @@
 <script>
 import { defineComponent, ref } from 'vue'
 
+// hooks
 import usesCfsAction from 'src/hooks/Cfs/useCfsMutations'
+import { formatDate } from 'src/hooks/commonFunctions'
 
 export default defineComponent({
   name: 'CreateCFSDialog',
@@ -79,6 +81,9 @@ export default defineComponent({
       }
     })
 
+    const editMode = ref(false)
+    const cfsId = ref('')
+
     const openRange = ref({ from: '', to: '' })
 
     const documentsOptions = ['CV']
@@ -96,9 +101,27 @@ export default defineComponent({
             numberOfReferencies: 0
           }
         }
-      }
+        openRange.value = { from: '', to: '' }
+        editMode.value = false
+      } else {
+        cfsId.value = payload.id
 
-      openRange.value = { from: '', to: '' }
+        cfs.value = {
+          openFrom: payload.openFrom,
+          closeAt: payload.closeAt,
+          documents: {
+            proofDegree: payload.documents.proofDegree,
+            otherMasters: payload.documents.otherMasters,
+            references: payload.documents.references,
+            numberOfReferencies: payload.documents.numberOfReferencies
+          }
+        }
+
+        openRange.value.from = formatDate(payload.openFrom)
+        openRange.value.to = formatDate(payload.closeAt)
+
+        editMode.value = true
+      }
 
       visible.value = true
     }
@@ -108,21 +131,29 @@ export default defineComponent({
     }
 
     // create cfs action
-    const { createCfsMutation } = usesCfsAction()
+    const { createCfsMutation, updateCfsMutation } = usesCfsAction()
 
     const submit = () => {
       cfs.value.openFrom = openRange.value.from
       cfs.value.closeAt = openRange.value.to
 
-      createCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
-        .then(() => { visible.value = false })
+      if (!editMode.value) {
+        createCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
+          .then(() => { visible.value = false })
+      } else {
+        updateCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
+          .then(() => { visible.value = false })
+      }
     }
 
     return {
       visible,
+      editMode,
+
       cfs,
       openRange,
       documentsOptions,
+
       open,
       cancel,
       submit

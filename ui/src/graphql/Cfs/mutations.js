@@ -7,3 +7,11 @@ export const createCfs = gql`
     }
   }
 `
+
+export const updateCfs = gql`
+  mutation updateCFS ($id: String!, $data: CallForSubmissionsInput!) {
+    updateCFS (id: $id, data: $data) {
+      id
+    }
+  }
+`

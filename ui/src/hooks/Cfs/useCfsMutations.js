@@ -3,7 +3,7 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { createCfs } from 'src/graphql/Cfs/mutations'
+import { createCfs, updateCfs } from 'src/graphql/Cfs/mutations'
 
 import { successMessage, errorMessage } from 'src/hooks/globalNotifications'
 
@@ -37,8 +37,37 @@ export default function usesCfsAction () {
     }
   }
 
+  const updateCfsMutation = async (id, payload) => {
+    try {
+      loading.value = true
+
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(updateCfs),
+          variables: {
+            id: id,
+            data: payload
+          }
+        }
+      })
+
+      if (response.data.data) {
+        successMessage('Call For Submissions succesfully updated.')
+      } else if (response.data.errors) {
+        errorMessage('error while updating Call for Submissions.')
+      }
+    } catch (e) {
+      console.log('error while updating Call for Submissions.')
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     loading,
-    createCfsMutation
+    createCfsMutation,
+    updateCfsMutation
   }
 }
