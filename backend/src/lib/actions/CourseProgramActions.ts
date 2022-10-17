@@ -39,7 +39,8 @@ export async function createCourseProgramAction (data: CourseProgramInput, em: E
     title: data.title,
     description: data.description,
     sitelink: data.sitelink,
-    open: false
+    open: false,
+    gradeFields: data.gradeFields
   })
   em.persist(course)
 
@@ -70,6 +71,7 @@ export async function updateCourseProgramAction (id: string, data: CourseProgram
   course.description = data.description
   course.department = data.department
   course.sitelink = data.sitelink
+  course.gradeFields = data.gradeFields // todo check with open courses
 
   await em.flush()
   return course

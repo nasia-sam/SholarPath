@@ -52,6 +52,8 @@ export async function updateCFSAction (id: string, data: CallForSubmissionsInput
   cfs.documents = data.documents
 
   await em.flush()
+  await checkOpenCFS(em)
+
   return cfs
 }
 

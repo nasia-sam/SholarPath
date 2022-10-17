@@ -1,9 +1,12 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
+import { Collection, Embedded, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
+
+import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { CallForSubmissions } from './CallForSubmissions'
 import { Roles } from './Roles'
+import { GradeFields } from '../classes/GradeFields'
 
 @Entity()
 @ObjectType()
@@ -40,6 +43,10 @@ export class CourseProgram {
   @Property()
   @Field()
   sitelink: string
+
+  @Embedded(() => GradeFields, { array: true })
+  @Field(() => [GraphQLJSONObject], { nullable: true })
+  gradeFields: GradeFields[]
 
   @Field(() => [Roles])
   @OneToMany(() => Roles, role => role.course)

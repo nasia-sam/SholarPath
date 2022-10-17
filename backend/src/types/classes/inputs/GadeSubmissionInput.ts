@@ -7,6 +7,22 @@ export class GradeSubmissionInput {
   @IsUUID()
   candidate: string
 
+  // {
+  //   key: 'bachelor_relevance',
+  //   title: 'Bachelor Relevance',
+  //   weight: 0.3,
+  //   min_val: 0,
+  //   max: 5
+  // }
+
+  // candidate_id: 32,
+  // review: {
+  //   {
+  //     key: bachelor_relevance
+  //     grade: 4
+  //   }
+  // }
+
   @Field()
   @IsOptional()
   @Max(5)
