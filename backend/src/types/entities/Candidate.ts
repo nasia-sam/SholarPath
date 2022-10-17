@@ -4,13 +4,13 @@ import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { v4 } from 'uuid'
 
-// import { JsonType } from '../classes/microORM/JSONType'
 import { PdfFile } from '../classes/PdfFile'
 import { Gender } from '../enums/Gender'
 
 import { Submission } from './Submission'
 import { CallForSubmissions } from './CallForSubmissions'
 import { References } from '../classes/Referencies'
+import { Review } from '../classes/Review'
 
 @Entity()
 @ObjectType()
@@ -75,8 +75,12 @@ export class Candidate {
   @Field(() => [GraphQLJSONObject], { nullable: true })
   referencies?: References
 
+  @Embedded(() => Review, { object: true, nullable: true })
+  @Field(() => GraphQLJSONObject, { nullable: true })
+  review?: Review
+
   @OneToOne(() => Submission, submission => submission.candidate, { nullable: true })
-  submission?: Submission
+  submission?: Submission // todo podi
 
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)

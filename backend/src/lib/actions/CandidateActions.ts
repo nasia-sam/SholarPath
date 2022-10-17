@@ -9,6 +9,8 @@ import { CFS_State } from 'src/types/enums/CFSState'
 import { FileType } from 'src/types/enums/FileType'
 
 import { upploadFile } from 'src/lib/tasks/UploadFile'
+import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
+import { GradeFields } from 'src/types/classes/GradeFields'
 
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
   const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfs })
@@ -29,6 +31,29 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
   }
 
   return candidate
+}
+
+export async function gradeCandidateAction (data: ReviewInput, em: EntityManager): Promise<boolean> {
+  const candidate = await em.findOneOrFail(Candidate, { id: data.candidate }, { populate: ['cfs', 'cfs.courseProgram'] })
+
+  if (!candidate) throw new UserInputError('INVALID_CANDIDATE')
+
+  const gradeFields = candidate.cfs.courseProgram
+    .gradeFields.reduce<{[key: string]: number}>((acc, cur) => {
+    acc[cur.key] = cur.weigth
+    return acc
+  }, {})
+
+  candidate.review = {
+    review: data.review,
+    total: data.review.reduce((acc, cur) => {
+      acc += (cur.grade * gradeFields[cur.key])
+      return acc
+    }, 0)
+  }
+
+  await em.flush()
+  return true
 }
 
 export async function deleteCandidateAction (id: string, em: EntityManager): Promise<boolean> {
