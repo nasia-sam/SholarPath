@@ -74,6 +74,15 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "grade_fields": {
+          "name": "grade_fields",
+          "type": "json",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "json"
         }
       },
       "name": "course_program",
@@ -336,6 +345,15 @@
         },
         "referencies": {
           "name": "referencies",
+          "type": "json",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "json"
+        },
+        "review": {
+          "name": "review",
           "type": "json",
           "unsigned": false,
           "autoincrement": false,
