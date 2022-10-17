@@ -3,7 +3,9 @@ import { EntityManager } from '@mikro-orm/core'
 
 import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
-import { createCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
+import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
+
+import { createCandidateAction, gradeCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
@@ -21,6 +23,14 @@ export class CandidateResolver {
     @Arg('data') data: CandidateInput
   ): Promise<Candidate> {
     return await createCandidateAction(data, em)
+  }
+
+  @Mutation(() => Boolean)
+  async gradeCandidate (
+    @Ctx('em') em: EntityManager,
+    @Arg('data') data: ReviewInput
+  ): Promise<boolean> {
+    return await gradeCandidateAction(data, em)
   }
 
   @Mutation(() => Boolean)
