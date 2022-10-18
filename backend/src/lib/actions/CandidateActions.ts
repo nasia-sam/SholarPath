@@ -10,7 +10,7 @@ import { FileType } from 'src/types/enums/FileType'
 
 import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
-import { GradeFields } from 'src/types/classes/GradeFields'
+// import { GradeFields } from 'src/types/classes/GradeFields'
 
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
   const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfs })

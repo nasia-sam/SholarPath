@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
 
-import { CourseProgramInput } from 'src/types/classes/inputs/CourseProgramInput'
+import { CourseProgramInput, GradeFieldsInput } from 'src/types/classes/inputs/CourseProgramInput'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { Roles, UserRole } from 'src/types/entities/Roles'
 import { User } from 'src/types/entities/User'
@@ -20,7 +20,7 @@ async function validateSlugs (slug: string, em: EntityManager, id: string | null
   return true
 }
 
-export async function createCourseProgramAction (data: CourseProgramInput, em: EntityManager): Promise<CourseProgram> {
+export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput, em: EntityManager): Promise<CourseProgram> {
   const admin = await em.findOneOrFail(User, data.adminId)
 
   if (!admin.confirmed_by_admin) {
@@ -40,7 +40,7 @@ export async function createCourseProgramAction (data: CourseProgramInput, em: E
     description: data.description,
     sitelink: data.sitelink,
     open: false,
-    gradeFields: data.gradeFields
+    gradeFields: gradeFields
   })
   em.persist(course)
 
@@ -71,7 +71,7 @@ export async function updateCourseProgramAction (id: string, data: CourseProgram
   course.description = data.description
   course.department = data.department
   course.sitelink = data.sitelink
-  course.gradeFields = data.gradeFields // todo check with open courses
+  // course.gradeFields = data.gradeFields // todo check with open courses
 
   await em.flush()
   return course

@@ -7,7 +7,7 @@ import { createCourseProgramAction, deleteCourseProgramAction, updateCourseProgr
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 
-import { CourseProgramInput } from 'src/types/classes/inputs/CourseProgramInput'
+import { CourseProgramInput, GradeFieldsInput } from 'src/types/classes/inputs/CourseProgramInput'
 import { CFS_State } from 'src/types/enums/CFSState'
 
 import { checkClosedCFS, checkOpenCFS } from '../tasks/CheckOpenCFS'
@@ -35,9 +35,10 @@ export class CourseProgramResolver {
   @Mutation(() => CourseProgram)
   async createCourseProgram (
     @Ctx('em') em: EntityManager,
-    @Arg('data', () => CourseProgramInput) data: CourseProgramInput
+    @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
+    @Arg('gradeFields', () => GradeFieldsInput) gradeFields: GradeFieldsInput
   ): Promise<CourseProgram> {
-    return await createCourseProgramAction(data, em)
+    return await createCourseProgramAction(data, gradeFields, em)
   }
 
   @Mutation(() => CourseProgram)

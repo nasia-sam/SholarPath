@@ -1,5 +1,6 @@
 import { IsInt, IsUUID } from 'class-validator'
 import { Field, InputType, ObjectType } from 'type-graphql'
+import { GraphQLJSONObject } from 'graphql-type-json'
 
 ObjectType()
 export class ReviewGrade {
@@ -17,6 +18,6 @@ export class ReviewInput {
   @IsUUID()
   candidate: string
 
-  @Field(() => [ReviewGrade])
+  @Field(() => [GraphQLJSONObject])
   review: ReviewGrade[]
 }

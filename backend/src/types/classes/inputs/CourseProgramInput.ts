@@ -1,5 +1,22 @@
 import { Field, InputType } from 'type-graphql'
-import { GradeFields } from '../GradeFields'
+
+@InputType()
+export class GradeFieldsInput {
+  @Field()
+  key: string
+
+  @Field()
+  title: string
+
+  @Field()
+  weigth: number
+
+  @Field()
+  min_val: number
+
+  @Field()
+  max_val: number
+}
 
 @InputType()
 export class CourseProgramInput {
@@ -23,7 +40,4 @@ export class CourseProgramInput {
 
   @Field()
   adminId: string
-
-  @Field(() => [GradeFields])
-  gradeFields: GradeFields[]
 }
