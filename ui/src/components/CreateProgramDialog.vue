@@ -1,6 +1,6 @@
 <template>
    <q-dialog v-model="visible">
-     <q-layout view="Lhh lpR fff" container class="bg-white q-pa-md" style="height: 550px">
+     <q-layout view="Lhh lpR fff" container class="bg-white q-pa-md" style=" height: 95%;">
 
        <q-header>
         <q-toolbar>
@@ -57,6 +57,34 @@
             label="Link to site"
             v-model="course.sitelink"
           />
+
+          <hr style="color:#ebebe0;background-color:#ebebe0" />
+          <span class="text-grey-9 text-subtitle1">Grade Fields</span>
+
+          <AddGradeField v-model="gradeFields" />
+
+          <q-list bordered separator class="rounded-borders" >
+            <q-item v-for="(field, index) in gradeFields" :key="field.key">
+              <q-item-section top class="col-5 gt-sm">
+                <q-item-label class="q-mt-sm text-weight-bold">{{ field.title }}</q-item-label>
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>{{ field.weigth }} <span class="text-grey-8 text-caption">weigth</span> </q-item-label>
+              </q-item-section>
+
+              <q-item-section top class="gt-sm">
+                <q-item-label class="q-mt-sm"><span class="text-grey-8 text-caption">Values: </span>{{ field.min_val }} - {{ field.max_val }}</q-item-label>
+              </q-item-section>
+
+              <q-item-section top side>
+                <div class="text-grey-8 q-gutter-xs">
+                  <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="removeFields(index)" />
+                </div>
+              </q-item-section>
+            </q-item>
+          </q-list>
+
         </q-page>
       </q-page-container>
 
@@ -68,6 +96,8 @@
 import { defineComponent, ref } from 'vue'
 
 import useProgramMutations from 'src/hooks/CoursePrograms/useProgramMutations'
+
+import AddGradeField from 'src/components/content/AddGradeField.vue'
 
 // libraries
 import { clone } from 'ramda'
@@ -81,8 +111,18 @@ const emptyCourse = {
   sitelink: ''
 }
 
+const newField = ref({
+  key: '',
+  title: '',
+  miv_val: 0,
+  max_val: 0
+})
+
 export default defineComponent({
   name: 'CreateProgramCourseDialog',
+  components: {
+    AddGradeField
+  },
   setup (_, { emit }) {
     const course = ref(clone(emptyCourse))
 
@@ -90,6 +130,12 @@ export default defineComponent({
 
     // open - close dialog
     const visible = ref(false)
+
+    const gradeFields = ref([])
+
+    const removeFields = (index) => {
+      gradeFields.value.splice(index, 1)
+    }
 
     const open = () => {
       visible.value = true
@@ -113,7 +159,12 @@ export default defineComponent({
       cancel,
       submit,
       open,
+
       course,
+      gradeFields,
+      newField,
+      removeFields,
+
       useCreateProgram
     }
   }

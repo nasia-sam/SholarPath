@@ -38,6 +38,7 @@ export const getCourseProgramBySlug = gql`
       open
       sitelink
       title
+      gradeFields
       currentCFS {
         id
         openFrom

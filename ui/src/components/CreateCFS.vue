@@ -20,13 +20,6 @@
           <p class="text-subtitle1">Pick Date Range</p>
           <q-date v-model="openRange" range />
 
-          <!-- <q-select
-            filled
-            v-model="cfs.documents"
-            multiple
-            :options="documentsOptions"
-            label="Additional files"
-          /> -->
           <p class="text-subtitle1">Additional Files</p>
           <div class="q-gutter-y-md">
             <div>
