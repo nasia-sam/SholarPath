@@ -8,7 +8,7 @@ import { createCourseProgram } from 'src/graphql/CoursePrograms/mutations'
 export default function useProgramMutations () {
   const loading = ref(false)
 
-  const useCreateProgram = async (data) => {
+  const useCreateProgram = async (data, gradeFields) => {
     try {
       loading.value = true
 
@@ -21,7 +21,8 @@ export default function useProgramMutations () {
             data: {
               ...data,
               adminId: '1234'
-            }
+            },
+            gradeFields
           }
         }
       })

@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 export const createCourseProgram = gql`
-  mutation createCourseProgram ($data: CourseProgramInput!) {
-    course: createCourseProgram (data: $data) {
+  mutation createCourseProgram ($data: CourseProgramInput!, $gradeFields: GradeFieldsInput!) {
+    course: createCourseProgram (data: $data, gradeFields: $gradeFields) {
       id
       slug
       university

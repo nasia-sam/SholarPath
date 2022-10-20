@@ -147,7 +147,7 @@ export default defineComponent({
     }
 
     const submit = () => {
-      useCreateProgram(course.value)
+      useCreateProgram(course.value, gradeFields.value)
         .then(() => {
           emit('refetch')
           cancel()
