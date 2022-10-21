@@ -110,8 +110,8 @@ export default defineComponent({
           }
         }
 
-        openRange.value.from = formatDate(payload.openFrom)
-        openRange.value.to = formatDate(payload.closeAt)
+        openRange.value.from = formatDate(payload.openFrom, 'y/MM/dd')
+        openRange.value.to = formatDate(payload.closeAt, 'y/MM/dd')
 
         editMode.value = true
       }
@@ -134,7 +134,7 @@ export default defineComponent({
         createCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
           .then(() => { visible.value = false })
       } else {
-        updateCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
+        updateCfsMutation(cfsId, { ...cfs.value, courseProgram: props.courseProgramId })
           .then(() => { visible.value = false })
       }
     }
