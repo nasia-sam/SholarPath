@@ -126,7 +126,7 @@ export default defineComponent({
   setup (_, { emit }) {
     const course = ref(clone(emptyCourse))
 
-    const { useCreateProgram } = useProgramMutations()
+    const { useCreateProgram, useUpdateProgram } = useProgramMutations()
 
     // open - close dialog
     const visible = ref(false)
@@ -136,6 +136,8 @@ export default defineComponent({
     const removeFields = (index) => {
       gradeFields.value.splice(index, 1)
     }
+
+    const id = ref()
 
     const open = (payload = false) => {
       if (payload) {
@@ -149,6 +151,7 @@ export default defineComponent({
         }
 
         gradeFields.value = payload.gradeFields ?? []
+        id.value = payload.id
       }
 
       visible.value = true
@@ -156,15 +159,25 @@ export default defineComponent({
 
     const cancel = () => {
       visible.value = false
-      course.value = emptyCourse
+      course.value = clone(emptyCourse)
+      id.value = ''
+      gradeFields.value = []
     }
 
     const submit = () => {
-      useCreateProgram(course.value, gradeFields.value)
-        .then(() => {
-          emit('refetch')
-          cancel()
-        })
+      if (!id.value) {
+        useCreateProgram(course.value, gradeFields.value)
+          .then(() => {
+            emit('refetch')
+            cancel()
+          })
+      } else {
+        useUpdateProgram(id.value, course.value, gradeFields.value)
+          .then(() => {
+            emit('refetch')
+            cancel()
+          })
+      }
     }
 
     return {
