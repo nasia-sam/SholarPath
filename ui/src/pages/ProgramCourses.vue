@@ -29,10 +29,15 @@
         </q-td>
       </template> -->
       <template v-slot:item="props">
-        <div class="q-pa-xs col-12" @click="redirectToPage(props.row.slug)">
+        <div class="q-pa-xs col-12 cursor-pointer" @click="redirectToPage(props.row.slug)">
           <q-card>
             <q-card-section class="text-center">
-              <div class=" text-h6">{{ props.row.title }}</div>
+              <div class="row items-center no-wrap">
+                <div class="col text-h6">{{ props.row.title }}</div>
+                <div class="col-auto">
+                  <q-btn color="grey-7" round size="sm" flat icon="edit" @click.stop="CreateProgramCourseDialogRef.open(props.row)" />
+                </div>
+              </div>
               <div class="text-subtitle2 text-grey-9 q-pt-md">{{ props.row.university }}</div>
             </q-card-section>
           </q-card>

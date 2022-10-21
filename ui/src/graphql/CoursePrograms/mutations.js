@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const createCourseProgram = gql`
-  mutation createCourseProgram ($data: CourseProgramInput!, $gradeFields: GradeFieldsInput!) {
+  mutation createCourseProgram ($data: CourseProgramInput!, $gradeFields: [GradeFieldsInput!]!) {
     course: createCourseProgram (data: $data, gradeFields: $gradeFields) {
       id
       slug
@@ -16,8 +16,8 @@ export const createCourseProgram = gql`
 `
 
 export const updateCourseProgram = gql`
-  mutation udpdateCourseProgram ($id: String!, $data: CourseProgramInput!) {
-    course: updateCourseProgram (id: $id, data: $data) {
+  mutation udpdateCourseProgram ($id: String!, $data: CourseProgramInput!, $gradeFields: [GradeFieldsInput!]!) {
+    course: updateCourseProgram (id: $id, data: $data, gradeFields: $gradeFields) {
       id
       slug
       university

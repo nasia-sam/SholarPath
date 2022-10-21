@@ -11,6 +11,7 @@ export const getAllCoursesQuery = gql`
       description
       open
       sitelink
+      gradeFields
       roles {
         id
         role

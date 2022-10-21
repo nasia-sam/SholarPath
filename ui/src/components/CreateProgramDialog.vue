@@ -65,7 +65,7 @@
 
           <q-list bordered separator class="rounded-borders" >
             <q-item v-for="(field, index) in gradeFields" :key="field.key">
-              <q-item-section top class="col-5 gt-sm">
+              <q-item-section >
                 <q-item-label class="q-mt-sm text-weight-bold">{{ field.title }}</q-item-label>
               </q-item-section>
 
@@ -73,11 +73,11 @@
                 <q-item-label>{{ field.weigth }} <span class="text-grey-8 text-caption">weigth</span> </q-item-label>
               </q-item-section>
 
-              <q-item-section top class="gt-sm">
+              <q-item-section >
                 <q-item-label class="q-mt-sm"><span class="text-grey-8 text-caption">Values: </span>{{ field.min_val }} - {{ field.max_val }}</q-item-label>
               </q-item-section>
 
-              <q-item-section top side>
+              <q-item-section side>
                 <div class="text-grey-8 q-gutter-xs">
                   <q-btn class="gt-xs" size="12px" flat dense round icon="delete" @click="removeFields(index)" />
                 </div>
@@ -137,7 +137,20 @@ export default defineComponent({
       gradeFields.value.splice(index, 1)
     }
 
-    const open = () => {
+    const open = (payload = false) => {
+      if (payload) {
+        course.value = {
+          slug: payload.slug,
+          university: payload.university,
+          department: payload.department,
+          title: payload.title,
+          description: payload.description,
+          sitelink: payload.sitelink
+        }
+
+        gradeFields.value = payload.gradeFields ?? []
+      }
+
       visible.value = true
     }
 

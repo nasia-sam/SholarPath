@@ -20,7 +20,7 @@ async function validateSlugs (slug: string, em: EntityManager, id: string | null
   return true
 }
 
-export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput, em: EntityManager): Promise<CourseProgram> {
+export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], em: EntityManager): Promise<CourseProgram> {
   const admin = await em.findOneOrFail(User, data.adminId)
 
   if (!admin.confirmed_by_admin) {
@@ -55,7 +55,7 @@ export async function createCourseProgramAction (data: CourseProgramInput, grade
   return course
 }
 
-export async function updateCourseProgramAction (id: string, data: CourseProgramInput, em: EntityManager): Promise<CourseProgram> {
+export async function updateCourseProgramAction (id: string, data: CourseProgramInput, gradeFields: GradeFieldsInput[], em: EntityManager): Promise<CourseProgram> {
   const course = await em.findOneOrFail(CourseProgram, id, { populate: ['roles'] })
 
   // TODO logged user === admin
@@ -71,7 +71,7 @@ export async function updateCourseProgramAction (id: string, data: CourseProgram
   course.description = data.description
   course.department = data.department
   course.sitelink = data.sitelink
-  // course.gradeFields = data.gradeFields // todo check with open courses
+  course.gradeFields = gradeFields // todo check with open courses
 
   await em.flush()
   return course

@@ -36,7 +36,7 @@ export class CourseProgramResolver {
   async createCourseProgram (
     @Ctx('em') em: EntityManager,
     @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
-    @Arg('gradeFields', () => GradeFieldsInput) gradeFields: GradeFieldsInput
+    @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
   ): Promise<CourseProgram> {
     return await createCourseProgramAction(data, gradeFields, em)
   }
@@ -45,9 +45,10 @@ export class CourseProgramResolver {
   async updateCourseProgram (
     @Ctx('em') em: EntityManager,
     @Arg('id') id: string,
-    @Arg('data', () => CourseProgramInput) data: CourseProgramInput
+    @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
+    @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
   ): Promise<CourseProgram> {
-    return await updateCourseProgramAction(id, data, em)
+    return await updateCourseProgramAction(id, data, gradeFields, em)
   }
 
   @Mutation(() => Boolean)
