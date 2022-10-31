@@ -28,4 +28,6 @@ export const USER_EMAIL = process.env.USER_EMAIL as string || ''
 
 export const USER_EMAIL_PWD = process.env.USER_EMAIL_PWD as string || ''
 
+export const CLIENT_URL = process.env.CLIENT_URL as string || 'localhost:8080/'
+
 Debug.enable(DEBUG)

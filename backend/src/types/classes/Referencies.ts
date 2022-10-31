@@ -1,21 +1,25 @@
 import { Embeddable, Property } from '@mikro-orm/core'
-import { Field } from 'type-graphql'
 
 @Embeddable()
 export class References {
-  @Field()
-  @Property()
+  @Property({ nullable: true })
   name: string
 
-  @Field()
-  @Property()
+  @Property({ nullable: true })
   email: string
 
-  @Field()
-  @Property()
+  @Property({ nullable: true })
   title: string // Dr Professor mr
 
-  @Field()
-  @Property({ columnType: 'text' })
+  @Property({ columnType: 'text', nullable: true })
   letter: string
+
+  @Property({ nullable: true })
+  token: string
+
+  @Property({ nullable: true })
+  expiresAt: Date
+
+  @Property({ nullable: true })
+  candidateId: string
 }

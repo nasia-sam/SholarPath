@@ -250,14 +250,12 @@ export default defineComponent({
       try {
         if (fileCv.value !== null) {
           candidate.value.cv = await convertFileToBase64(fileCv.value)
-          console.log('ti gurnaei!!')
         } else {
           candidate.value.cv = ''
         }
 
         if (degreeFile.value !== null) {
           candidate.value.proofDegree = await convertFileToBase64(degreeFile.value)
-          console.log('ti gurnaei!!')
         }
 
         if (masterFiles.value.length > 0) {

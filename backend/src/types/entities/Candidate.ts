@@ -73,7 +73,7 @@ export class Candidate {
 
   @Embedded(() => References, { array: true, nullable: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  referencies?: References
+  referencies?: References[]
 
   @Embedded(() => Review, { object: true, nullable: true })
   @Field(() => GraphQLJSONObject, { nullable: true })
