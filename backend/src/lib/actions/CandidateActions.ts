@@ -90,11 +90,14 @@ export async function writeCandidateReference (reference: References, em: Entity
   const index = candidate.referencies.findIndex(ref => ref.token === reference.token)
   if (index === -1) throw new UserInputError('NO_REFERENCE_FOUND')
 
+  if (candidate.referencies[index].submittedAt) throw new UserInputError('REFERENCE_ALREADY_SUBMITTED')
+
   candidate.referencies[index] = {
     ...candidate.referencies[index],
     letter: reference.letter,
     name: reference.name,
-    title: reference.title
+    title: reference.title,
+    submittedAt: new Date()
   }
 
   await em.flush()

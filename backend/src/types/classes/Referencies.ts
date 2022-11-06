@@ -22,4 +22,7 @@ export class References {
 
   @Property({ nullable: true })
   candidateId: string
+
+  @Property({ nullable: true })
+  submittedAt?: Date
 }

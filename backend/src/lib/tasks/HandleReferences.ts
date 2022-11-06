@@ -1,14 +1,24 @@
 import { EntityManager } from '@mikro-orm/core'
-import { nanoid } from 'nanoid'
+// import { nanoid } from 'nanoid'
 import { addWeeks } from 'date-fns'
 
 import { personalInfo } from 'src/types/classes/inputs/CandidateInput'
 import { References } from 'src/types/classes/Referencies'
 import { Candidate } from 'src/types/entities/Candidate'
 
-async function createUniqueToken (em: EntityManager): Promise<string> {
-  const token = nanoid()
+function randomToken (): string {
+  let result = ''
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-'
 
+  for (let i = 0; i < 15; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  return result
+}
+
+async function createUniqueToken (em: EntityManager): Promise<string> {
+  const token = randomToken()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, count] = await em.findAndCount(Candidate, {
     referencies: { token: token }
   })
@@ -29,10 +39,11 @@ export async function handleReferences (referenceInfo: personalInfo[], candidate
       candidateId: candidateId,
       title: '',
       letter: '',
-      expiresAt: new Date(addWeeks(new Date(), 2))
+      expiresAt: new Date(addWeeks(new Date(), 2)),
+      submittedAt: undefined
     })
 
-    // send emails
+    // todo send emails
   }
 
   return references
