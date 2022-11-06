@@ -11,9 +11,9 @@ import { FileType } from 'src/types/enums/FileType'
 import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 import { handleReferences } from '../tasks/HandleReferences'
-import { References } from 'src/types/classes/Referencies'
+import { ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
 
-export async function getCandidateReferenceByTokenAction (token: string, em: EntityManager): Promise<References> {
+export async function getCandidateReferenceByTokenAction (token: string, em: EntityManager): Promise<Candidate> {
   const candidate = await em.findOneOrFail(Candidate, {
     referencies: { token: token }
   })
@@ -21,7 +21,11 @@ export async function getCandidateReferenceByTokenAction (token: string, em: Ent
   const reference = candidate.referencies?.filter(r => r.token === token)[0]
   if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
 
-  return reference
+  // returns candidate with the Reference we asked for
+  return {
+    ...candidate,
+    referencies: [reference]
+  }
 }
 
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
@@ -77,12 +81,12 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
   return true
 }
 
-export async function writeReferenceAction (data: References, em: EntityManager): Promise<boolean> {
+export async function writeReferenceAction (token: string, data: ReferenceInput, em: EntityManager): Promise<boolean> {
   const candidate = await em.findOneOrFail(Candidate, {
     id: data.candidateId
   })
 
-  const reference = candidate.referencies?.filter(r => r.token === data.token)[0]
+  const reference = candidate.referencies?.filter(r => r.token === token)[0]
   if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
 
   const now = new Date()
