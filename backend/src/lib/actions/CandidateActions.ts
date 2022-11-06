@@ -10,21 +10,19 @@ import { FileType } from 'src/types/enums/FileType'
 
 import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
-import { References } from 'src/types/classes/Referencies'
 import { handleReferences } from '../tasks/HandleReferences'
+import { References } from 'src/types/classes/Referencies'
 
-// import { GradeFields } from 'src/types/classes/GradeFields'
+export async function getCandidateReferenceByTokenAction (token: string, em: EntityManager): Promise<References> {
+  const candidate = await em.findOneOrFail(Candidate, {
+    referencies: { token: token }
+  })
 
-// async function createUniqueToken (em: EntityManager): Promise<string> {
-//   const token = nanoid()
+  const reference = candidate.referencies?.filter(r => r.token === token)[0]
+  if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
 
-//   const [_, count] = await em.findAndCount(Candidate, {
-//     referencies: { token: token }
-//   })
-
-//   if (count > 0) return await createUniqueToken(em)
-//   else return token
-// }
+  return reference
+}
 
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
   const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfs })
@@ -79,12 +77,12 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
   return true
 }
 
-export async function writeReferenceAction (token: string, em: EntityManager): Promise<boolean> {
+export async function writeReferenceAction (data: References, em: EntityManager): Promise<boolean> {
   const candidate = await em.findOneOrFail(Candidate, {
-    referencies: { token: token }
+    id: data.candidateId
   })
 
-  const reference = candidate.referencies?.filter(r => r.token === token)[0]
+  const reference = candidate.referencies?.filter(r => r.token === data.token)[0]
   if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
 
   const now = new Date()
@@ -97,9 +95,9 @@ export async function writeReferenceAction (token: string, em: EntityManager): P
 
   candidate.referencies[index] = {
     ...candidate.referencies[index],
-    letter: reference.letter,
-    name: reference.name,
-    title: reference.title,
+    letter: data.letter,
+    name: data.name,
+    title: data.title,
     submittedAt: new Date()
   }
 
