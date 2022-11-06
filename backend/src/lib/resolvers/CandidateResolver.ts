@@ -5,7 +5,7 @@ import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
-import { createCandidateAction, gradeCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
+import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, writeReferenceAction } from '../actions/CandidateActions'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
@@ -31,6 +31,14 @@ export class CandidateResolver {
     @Arg('data') data: ReviewInput
   ): Promise<boolean> {
     return await gradeCandidateAction(data, em)
+  }
+
+  @Mutation(() => Boolean)
+  async writeReference (
+    @Ctx('em') em: EntityManager,
+    @Arg('token') token: string
+  ): Promise<boolean> {
+    return await writeReferenceAction(token, em)
   }
 
   @Mutation(() => Boolean)

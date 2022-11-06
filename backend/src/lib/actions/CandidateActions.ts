@@ -79,13 +79,16 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
   return true
 }
 
-export async function writeCandidateReference (reference: References, em: EntityManager): Promise<boolean> {
+export async function writeReferenceAction (token: string, em: EntityManager): Promise<boolean> {
+  const candidate = await em.findOneOrFail(Candidate, {
+    referencies: { token: token }
+  })
+
+  const reference = candidate.referencies?.filter(r => r.token === token)[0]
+  if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
+
   const now = new Date()
   if (now > reference.expiresAt) throw new UserInputError('REFERENCE_EXPIRED')
-
-  const candidate = await em.findOneOrFail(Candidate, { id: reference.candidateId })
-
-  if (!candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
 
   const index = candidate.referencies.findIndex(ref => ref.token === reference.token)
   if (index === -1) throw new UserInputError('NO_REFERENCE_FOUND')
