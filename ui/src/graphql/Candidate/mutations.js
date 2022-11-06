@@ -7,3 +7,9 @@ export const createCandidate = gql`
     }
   }
 `
+
+export const writeReference = gql`
+  mutation writeReference ($data: References!) {
+    writeReference (data: $data)
+  }
+`

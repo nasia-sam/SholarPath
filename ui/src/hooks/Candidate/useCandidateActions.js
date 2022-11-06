@@ -3,7 +3,7 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { createCandidate } from 'src/graphql/Candidate/mutations'
+import { createCandidate, writeReference } from 'src/graphql/Candidate/mutations'
 import { errorMessage, successMessage } from '../globalNotifications'
 
 export default function useCandidateMutations () {
@@ -13,22 +13,16 @@ export default function useCandidateMutations () {
     try {
       loading.value = true
 
-      console.log('CANDIDATE DATA', data)
-
       const response = await api({
         url: '',
         method: 'POST',
         data: {
           query: print(createCandidate),
           variables: {
-            data: {
-              ...data
-            }
+            data
           }
         }
       })
-
-      console.log(response.data)
 
       if (response.data.errors) {
         errorMessage('Error while creating Candidate Submission.')
@@ -43,8 +37,37 @@ export default function useCandidateMutations () {
     }
   }
 
+  const useWriteReference = async (data) => {
+    try {
+      loading.value = true
+
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(writeReference),
+          variables: {
+            data
+          }
+        }
+      })
+
+      if (response.data.errors) {
+        errorMessage('Error while submitting Reference.')
+      } else {
+        console.log('in here')
+        successMessage('Candidate Reference Successfully Submitted.')
+      }
+    } catch (e) {
+      errorMessage('Error while submiting Reference.')
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     useCreateCandidate,
+    useWriteReference,
     loading
   }
 }
