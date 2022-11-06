@@ -23,5 +23,6 @@ export const getCandidatesByCourse = gql`
       cfs {
         id
       }
+    }
   }
 `
