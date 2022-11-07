@@ -67,7 +67,7 @@
               />
             </div>
 
-            <div     class="col">
+            <div class="col">
               <span class="text-grey-9 text-subtitle1">Ταχυδρομικός Κώδικας</span>
               <q-input
                 filled
@@ -159,17 +159,31 @@
 
           <hr style="color:#ebebe0;background-color:#ebebe0" />
 
-          <span class="text-grey-9 text-subtitle1">Χρειάζονται {{course.currentCFS.documents.numberOfReferencies}} Συστατικές</span>
-          <span class="text-grey-9 text-subtitle2">Συμπληρώστε παρακάτω τα emails όσων θέλετε να σας κάνουν συστατική.</span>
-            <div v-for="index in course.currentCFS.documents.numberOfReferencies" :key="index">
-              <q-input
-                filled
-                v-model="candidate.referenceInfo[index - 1]"
-                class="q-pb-lg"
-                :label="`Συστατική #${index}`"
-                type="email"
-                :rules="[isRequired, isValidEmai]"
-              />
+          <div >
+
+          </div>
+          <span class="text-grey-9 text-subtitle1 row">Χρειάζονται {{course.currentCFS.documents.numberOfReferencies}} Συστατικές</span>
+          <span class="text-grey-8 text-subtitle2 row">Συμπληρώστε παρακάτω τα στοιχεία όσων θέλετε να σας κάνουν συστατική.</span>
+            <div class="row q-gutter-x-sm" v-for="index in course.currentCFS.documents.numberOfReferencies" :key="index">
+              <div class="col">
+                <q-input
+                  filled
+                  v-model="candidate.referenceInfo[index - 1].name"
+                  class="q-pb-lg"
+                  :label="`Συστατική #${index} Όνομα`"
+                  :rules="[isRequired]"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  filled
+                  v-model="candidate.referenceInfo[index - 1].email"
+                  class="q-pb-lg"
+                  :label="`Συστατική #${index} Email`"
+                  type="email"
+                  :rules="[isRequired, isValidEmai]"
+                />
+              </div>
             </div>
           <div>
             <q-btn label="Submit" type="submit" color="primary"/>
@@ -307,6 +321,12 @@ export default defineComponent({
     const open = () => {
       visible.value = true
       candidate.value.cfs = props.course.currentCFS.id
+
+      if (props.course.currentCFS.documents.numberOfReferencies > 0) {
+        for (let i = 0; i < props.course.currentCFS.documents.numberOfReferencies; i++) {
+          candidate.value.referenceInfo.push({ name: '', email: '' })
+        }
+      }
     }
 
     return {
