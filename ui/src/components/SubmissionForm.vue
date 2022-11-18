@@ -319,7 +319,6 @@ export default defineComponent({
     }
 
     const open = () => {
-      visible.value = true
       candidate.value.cfs = props.course.currentCFS.id
 
       if (props.course.currentCFS.documents.numberOfReferencies > 0) {
@@ -327,6 +326,7 @@ export default defineComponent({
           candidate.value.referenceInfo.push({ name: '', email: '' })
         }
       }
+      visible.value = true
     }
 
     return {

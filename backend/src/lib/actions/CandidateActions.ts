@@ -4,29 +4,13 @@ import { UserInputError } from 'apollo-server-koa'
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
+import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
 import { CFS_State } from 'src/types/enums/CFSState'
 import { FileType } from 'src/types/enums/FileType'
 
 import { upploadFile } from 'src/lib/tasks/UploadFile'
-import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
-import { handleReferences } from '../tasks/HandleReferences'
-import { ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
-
-export async function getCandidateReferenceByTokenAction (token: string, em: EntityManager): Promise<Candidate> {
-  const candidate = await em.findOneOrFail(Candidate, {
-    referencies: { token: token }
-  })
-
-  const reference = candidate.referencies?.filter(r => r.token === token)[0]
-  if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
-
-  // returns candidate with the Reference we asked for
-  return {
-    ...candidate,
-    referencies: [reference]
-  }
-}
+import { createReferenceAction } from 'src/lib/actions/ReferenceActions'
 
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
   const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfs })
@@ -35,7 +19,7 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
     throw new UserInputError('CFS NOT OPEN')
   }
 
-  const candidate = em.create(Candidate, { ...data, attachedDocuments: [], referencies: undefined })
+  const candidate = em.create(Candidate, { ...data, attachedDocuments: [] })
   await em.persistAndFlush(candidate)
 
   // handle referencies
@@ -43,7 +27,7 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
     if (!data.referenceInfo) {
       throw new UserInputError('MISSING_REFERENCE')
     }
-    candidate.referencies = await handleReferences(data.referenceInfo, candidate.id, em)
+    await createReferenceAction(data.referenceInfo, candidate, em)
   }
 
   // handle documents
@@ -75,34 +59,6 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
       acc += (cur.grade * gradeFields[cur.key])
       return acc
     }, 0)
-  }
-
-  await em.flush()
-  return true
-}
-
-export async function writeReferenceAction (token: string, data: ReferenceInput, em: EntityManager): Promise<boolean> {
-  const candidate = await em.findOneOrFail(Candidate, {
-    id: data.candidateId
-  })
-
-  const reference = candidate.referencies?.filter(r => r.token === token)[0]
-  if (!reference || !candidate.referencies) throw new UserInputError('NO_REFERENCE_FOUND')
-
-  const now = new Date()
-  if (now > reference.expiresAt) throw new UserInputError('REFERENCE_EXPIRED')
-
-  const index = candidate.referencies.findIndex(ref => ref.token === reference.token)
-  if (index === -1) throw new UserInputError('NO_REFERENCE_FOUND')
-
-  if (candidate.referencies[index].submittedAt) throw new UserInputError('REFERENCE_ALREADY_SUBMITTED')
-
-  candidate.referencies[index] = {
-    ...candidate.referencies[index],
-    letter: data.letter,
-    name: data.name,
-    title: data.title,
-    submittedAt: new Date()
   }
 
   await em.flush()

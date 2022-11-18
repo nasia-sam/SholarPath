@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, Enum, OneToOne, ManyToOne, PrimaryKey, Property, Embedded } from '@mikro-orm/core'
+import { Entity, Enum, OneToOne, ManyToOne, PrimaryKey, Property, Embedded, OneToMany, Collection } from '@mikro-orm/core'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { v4 } from 'uuid'
@@ -11,6 +11,7 @@ import { Submission } from './Submission'
 import { CallForSubmissions } from './CallForSubmissions'
 import { References } from '../classes/Referencies'
 import { Review } from '../classes/Review'
+import { Reference } from './Reference'
 
 @Entity()
 @ObjectType()
@@ -71,9 +72,9 @@ export class Candidate {
   @Field()
   course_id: string // todo ayto mporei na fygei
 
-  @Embedded(() => References, { array: true, nullable: true })
-  @Field(() => [GraphQLJSONObject], { nullable: true })
-  referencies?: References[]
+  // @Embedded(() => References, { array: true, nullable: true })
+  // @Field(() => [GraphQLJSONObject], { nullable: true })
+  // referencies?: References[]
 
   @Embedded(() => Review, { object: true, nullable: true })
   @Field(() => GraphQLJSONObject, { nullable: true })
@@ -85,4 +86,8 @@ export class Candidate {
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)
   cfs: CallForSubmissions
+
+  @Field(() => [Reference])
+  @OneToMany(() => Reference, references => references.candidate)
+  references = new Collection<Reference>(this)
 }
