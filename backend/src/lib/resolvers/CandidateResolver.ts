@@ -5,8 +5,7 @@ import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
-import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, writeReferenceAction, getCandidateReferenceByTokenAction } from '../actions/CandidateActions'
-import { ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
+import { createCandidateAction, gradeCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
@@ -16,14 +15,6 @@ export class CandidateResolver {
     @Arg('id') id: string
   ): Promise<Candidate[]> {
     return await em.find(Candidate, { cfs: { id: id } })
-  }
-
-  @Query(() => Candidate)
-  async getCandidateReferenceByToken (
-    @Ctx('em') em: EntityManager,
-    @Arg('token') token: string
-  ): Promise<Candidate> {
-    return await getCandidateReferenceByTokenAction(token, em)
   }
 
   @Mutation(() => Candidate)
@@ -40,15 +31,6 @@ export class CandidateResolver {
     @Arg('data') data: ReviewInput
   ): Promise<boolean> {
     return await gradeCandidateAction(data, em)
-  }
-
-  @Mutation(() => Boolean)
-  async writeReference (
-    @Ctx('em') em: EntityManager,
-    @Arg('token') token: string,
-    @Arg('data', () => ReferenceInput) data: ReferenceInput
-  ): Promise<boolean> {
-    return await writeReferenceAction(token, data, em)
   }
 
   @Mutation(() => Boolean)

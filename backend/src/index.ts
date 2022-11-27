@@ -20,6 +20,7 @@ import { CourseProgramResolver } from './lib/resolvers/CourseProgramResolver'
 import { CallForSubmissionsResolver } from './lib/resolvers/CallForSubmissionsResolver'
 import { CandidateResolver } from './lib/resolvers/CandidateResolver'
 import { RolesResolver } from './lib/resolvers/RolesResolver'
+import { ReferenceResolver } from './lib/resolvers/ReferenceResolver'
 
 async function main (): Promise<void> {
   const connection = await MikroORM.init()
@@ -31,7 +32,8 @@ async function main (): Promise<void> {
       CourseProgramResolver,
       CallForSubmissionsResolver,
       CandidateResolver,
-      RolesResolver
+      RolesResolver,
+      ReferenceResolver
     ],
     globalMiddlewares: [Errornterceptor]
   })

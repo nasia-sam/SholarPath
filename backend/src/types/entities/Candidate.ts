@@ -9,7 +9,6 @@ import { Gender } from '../enums/Gender'
 
 import { Submission } from './Submission'
 import { CallForSubmissions } from './CallForSubmissions'
-import { References } from '../classes/Referencies'
 import { Review } from '../classes/Review'
 import { Reference } from './Reference'
 

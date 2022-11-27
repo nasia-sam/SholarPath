@@ -17,7 +17,7 @@ export async function sentReferenceContent (candidate: Candidate, info: personal
     candidateName = `τ@ ${candidate.surname} ${candidate.name}`
   }
 
-  content = content.concat(`<br /><p> 'Εχετε' επιλεγεί για την σύνταξη συστατικής επιλογής ${candidateName} στο Μεταπτυχιακό Πρόγραμμα Σπουδών <br />
+  content = content.concat(`<br /><p> 'Εχετε επιλεγεί για την σύνταξη συστατικής επιλογής ${candidateName} στο Μεταπτυχιακό Πρόγραμμα Σπουδών <br />
     <b> ${courseName}</b><br />.
     <br />Για την σύσταση παρακαλώ επισκεφθείτε την σελίδα <b>${CLIENT_URL}/${referenceInfo.token}</b>.
     <br /><br />
