@@ -9,6 +9,10 @@ import { CourseProgram } from 'src/types/entities/CourseProgram'
 
 import { checkOpenCFS } from '../tasks/CheckOpenCFS'
 
+export async function getCFSByCourseAction (courseId: string, em: EntityManager): Promise<CallForSubmissions[]> {
+  return await em.find(CallForSubmissions, { courseProgram: { id: courseId } })
+}
+
 export async function createCFSAction (data: CallForSubmissionsInput, em: EntityManager): Promise<CallForSubmissions> {
   const course = await em.findOneOrFail(CourseProgram, data.courseProgram)
 

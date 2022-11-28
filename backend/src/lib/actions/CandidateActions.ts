@@ -12,6 +12,10 @@ import { FileType } from 'src/types/enums/FileType'
 import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { createReferenceAction } from 'src/lib/actions/ReferenceActions'
 
+export async function getCandidatesByCfsAction (cfsId: string, em: EntityManager): Promise<Candidate[]> {
+  return await em.find(Candidate, { cfs: { id: cfsId } })
+}
+
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
   const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfs })
 

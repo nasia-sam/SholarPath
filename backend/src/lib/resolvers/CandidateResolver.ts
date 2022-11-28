@@ -5,16 +5,16 @@ import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
-import { createCandidateAction, gradeCandidateAction, deleteCandidateAction } from '../actions/CandidateActions'
+import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction } from '../actions/CandidateActions'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
   @Query(() => [Candidate])
-  async getCandidatesByCourseId (
+  async getCandidatesByCfs (
     @Ctx('em') em: EntityManager,
     @Arg('id') id: string
   ): Promise<Candidate[]> {
-    return await em.find(Candidate, { cfs: { id: id } })
+    return await getCandidatesByCfsAction(id, em)
   }
 
   @Mutation(() => Candidate)

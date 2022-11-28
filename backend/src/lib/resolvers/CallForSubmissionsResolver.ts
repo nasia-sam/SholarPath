@@ -4,7 +4,7 @@ import { EntityManager } from '@mikro-orm/core'
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
 import { CFS_State } from 'src/types/enums/CFSState'
-import { createCFSAction, deleteCFSAction, extendCFSAction, openCFSAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
+import { createCFSAction, deleteCFSAction, extendCFSAction, getCFSByCourseAction, openCFSAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
 
 @Resolver(() => CallForSubmissions)
 export class CallForSubmissionsResolver {
@@ -14,6 +14,14 @@ export class CallForSubmissionsResolver {
     @Arg('courseId') courseId: string
   ): Promise<CallForSubmissions> {
     return await em.findOneOrFail(CallForSubmissions, { $and: [{ courseProgram: courseId }, { state: { $in: [CFS_State.published, CFS_State.open] } }] })
+  }
+
+  @Query(() => [CallForSubmissions])
+  async getCFSByCourse (
+    @Ctx('em') em: EntityManager,
+    @Arg('courseId') courseId: string
+  ): Promise<CallForSubmissions[]> {
+    return await getCFSByCourseAction(courseId, em)
   }
 
   @Mutation(() => CallForSubmissions)
