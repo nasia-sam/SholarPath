@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
-export const getCandidatesByCourse = gql`
+export const getCandidatesByCfs = gql`
   query getCandidates ($id: String!) {
-    candidates: getCandidatesByCourseId (id: $id) {
+    candidates: getCandidatesByCfs (id: $id) {
       id
       name
       surname

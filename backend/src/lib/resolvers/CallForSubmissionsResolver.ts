@@ -19,9 +19,9 @@ export class CallForSubmissionsResolver {
   @Query(() => [CallForSubmissions])
   async getCFSByCourse (
     @Ctx('em') em: EntityManager,
-    @Arg('courseId') courseId: string
+    @Arg('slug') slug: string
   ): Promise<CallForSubmissions[]> {
-    return await getCFSByCourseAction(courseId, em)
+    return await getCFSByCourseAction(slug, em)
   }
 
   @Mutation(() => CallForSubmissions)
