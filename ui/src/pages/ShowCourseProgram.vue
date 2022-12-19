@@ -24,6 +24,7 @@
               icon="people"
               label-position="top"
               label="Show Candidates"
+              @click="redirectCandidatesPage"
             />
           </q-fab>
         </div>
@@ -60,7 +61,7 @@
 <script>
 // vue
 import { defineComponent, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 // graphql
 import fetchAllProgramCourses from 'src/hooks/CoursePrograms/fetchCoursePrograms'
@@ -80,6 +81,7 @@ export default defineComponent({
   },
   setup () {
     const route = useRoute()
+    const router = useRouter()
 
     const slug = ref('')
     const course = ref({
@@ -99,6 +101,10 @@ export default defineComponent({
       fetchBySlug(slug.value).then(res => { course.value = res })
     })
 
+    const redirectCandidatesPage = () => {
+      router.push(`/courses/${slug.value}/candidates`)
+    }
+
     // refs
     const CreateCFSDialogRef = ref(null)
     const CreateCandidateRef = ref(null)
@@ -106,6 +112,8 @@ export default defineComponent({
     return {
       course,
       formatDate,
+
+      redirectCandidatesPage,
 
       CreateCFSDialogRef,
       CreateCandidateRef
