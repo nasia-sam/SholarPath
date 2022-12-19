@@ -4,7 +4,7 @@
       <q-toolbar>
 
         <q-toolbar-title class="text-primary">
-          PMS Applications
+          MSC Applications
         </q-toolbar-title>
 
         <!-- <div>Quasar v{{ $q.version }}</div> -->

@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Entity, Enum, OneToOne, ManyToOne, PrimaryKey, Property, Embedded, OneToMany, Collection } from '@mikro-orm/core'
+import { Entity, Enum, ManyToOne, PrimaryKey, Property, Embedded, OneToMany, Collection } from '@mikro-orm/core'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { v4 } from 'uuid'
@@ -7,7 +7,6 @@ import { v4 } from 'uuid'
 import { PdfFile } from '../classes/PdfFile'
 import { Gender } from '../enums/Gender'
 
-import { Submission } from './Submission'
 import { CallForSubmissions } from './CallForSubmissions'
 import { Review } from '../classes/Review'
 import { Reference } from './Reference'
@@ -78,9 +77,6 @@ export class Candidate {
   @Embedded(() => Review, { object: true, nullable: true })
   @Field(() => GraphQLJSONObject, { nullable: true })
   review?: Review
-
-  @OneToOne(() => Submission, submission => submission.candidate, { nullable: true })
-  submission?: Submission // todo podi
 
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)

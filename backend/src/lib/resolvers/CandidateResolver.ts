@@ -5,7 +5,7 @@ import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
-import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction } from '../actions/CandidateActions'
+import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction, getCandidateByIdAction } from '../actions/CandidateActions'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
@@ -15,6 +15,14 @@ export class CandidateResolver {
     @Arg('id') id: string
   ): Promise<Candidate[]> {
     return await getCandidatesByCfsAction(id, em)
+  }
+
+  @Query(() => Candidate)
+  async getCandidateById (
+    @Ctx('em') em: EntityManager,
+    @Arg('id') id: string
+  ): Promise<Candidate> {
+    return await getCandidateByIdAction(id, em)
   }
 
   @Mutation(() => Candidate)

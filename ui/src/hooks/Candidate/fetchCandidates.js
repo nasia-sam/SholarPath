@@ -3,10 +3,11 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { getCandidatesByCfs } from 'src/graphql/Candidate/queries'
+import { getCandidatesByCfs, getCandidateById } from 'src/graphql/Candidate/queries'
 
 export default function fetchAllCandidates () {
   const result = ref([])
+  const candidate = ref()
   const loading = ref(false)
 
   const fetch = async (cfsId) => {
@@ -24,8 +25,33 @@ export default function fetchAllCandidates () {
         }
       })
 
-      if (response.data.data.courses) {
-        result.value = response.data.data.courses
+      if (response.data.data.candidates) {
+        result.value = response.data.data.candidates
+      }
+    } catch (err) {
+      console.log('error while fetching course candidates')
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const fetchById = async (id) => {
+    try {
+      loading.value = true
+
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(getCandidateById),
+          variables: {
+            id: id
+          }
+        }
+      })
+
+      if (response.data.data.candidates) {
+        result.value = response.data.data.candidates
       }
     } catch (err) {
       console.log('error while fetching course candidates')
@@ -37,6 +63,8 @@ export default function fetchAllCandidates () {
   return {
     result,
     fetch,
+    fetchById,
+    candidate,
     loading
   }
 }
