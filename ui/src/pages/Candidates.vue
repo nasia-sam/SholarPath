@@ -23,13 +23,13 @@
       :columns="columns"
       row-key="name"
     >
-      <template #body-cell-actions>
+      <template v-slot:body-cell-actions="props">
         <q-td :props="props">
           <q-btn flat color="secondary" icon="more_vert">
         <q-menu>
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-popup>
-              <q-item-section>Grade Candidate</q-item-section>
+            <q-item clickable v-close-popup @click="GradeCandidateFormRef.open(props.row)">
+              <q-item-section> Grade </q-item-section>
             </q-item>
             <!-- <q-item clickable v-close-popup>
               <q-item-section>New incognito tab</q-item-section>
@@ -43,6 +43,8 @@
       </template>
     </q-table>
   </q-page>
+
+  <GradeCandidateForm ref="GradeCandidateFormRef" :gradeFields="gradeFields" />
 </template>
 <script>
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
@@ -53,8 +55,14 @@ import useFetchCFS from 'src/hooks/Cfs/useFetchCFS'
 import fetchAllCandidates from 'src/hooks/Candidate/fetchCandidates'
 import { formatDate } from 'src/hooks/commonFunctions'
 
+// components
+import GradeCandidateForm from 'src/components/GradeCandidate.vue'
+
 export default defineComponent({
   name: 'Candidates',
+  components: {
+    GradeCandidateForm
+  },
   setup () {
     const route = useRoute()
 
@@ -82,10 +90,16 @@ export default defineComponent({
     }))
 
     const selectedCfs = ref('')
+    const gradeFields = computed(() => {
+      const cfs = result.value.find(c => c.id === selectedCfs.value)
+      return cfs ? cfs.courseProgram.gradeFields : []
+    })
 
     watch(selectedCfs, () => {
       if (selectedCfs.value !== '') fetchCandidates(selectedCfs.value)
     })
+
+    const GradeCandidateFormRef = ref()
 
     return {
       cfs,
@@ -93,7 +107,9 @@ export default defineComponent({
       columns,
       selectedCfs,
       candidates,
-      fetchCandidates
+      gradeFields,
+      fetchCandidates,
+      GradeCandidateFormRef
     }
   }
 })

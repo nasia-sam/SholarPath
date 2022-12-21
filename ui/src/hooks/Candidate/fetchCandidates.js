@@ -38,7 +38,6 @@ export default function fetchAllCandidates () {
   const fetchById = async (id) => {
     try {
       loading.value = true
-
       const response = await api({
         url: '',
         method: 'POST',
@@ -50,8 +49,8 @@ export default function fetchAllCandidates () {
         }
       })
 
-      if (response.data.data.candidates) {
-        result.value = response.data.data.candidates
+      if (response.data.data.candidate) {
+        candidate.value = response.data.data.candidate
       }
     } catch (err) {
       console.log('error while fetching course candidates')

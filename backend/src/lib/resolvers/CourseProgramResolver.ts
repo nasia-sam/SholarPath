@@ -29,7 +29,7 @@ export class CourseProgramResolver {
     @Ctx('em') em: EntityManager,
     @Arg('slug') slug: string
   ): Promise<CourseProgram> {
-    return await em.findOneOrFail(CourseProgram, { slug: slug }, { populate: ['roles', 'roles.user', 'cfs'] })
+    return await em.findOneOrFail(CourseProgram, { slug: slug }, { populate: ['roles', 'roles.user', 'cfs', 'cfs.courseProgram'] })
   }
 
   @Mutation(() => CourseProgram)

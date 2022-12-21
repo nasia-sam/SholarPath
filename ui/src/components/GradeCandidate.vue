@@ -10,16 +10,27 @@
 
       <q-footer class="text-white">
         <q-toolbar class="row justify-end">
-          <q-btn flat label="Cancel" @click="cancel"/>
-          <q-btn flat label="Save" @click="submit"/>
+          <q-btn flat label="Cancel" />
+          <q-btn flat label="Save" />
         </q-toolbar>
       </q-footer>
 
       <q-page-container>
-        <q-page>
-          <pre>
+        <q-page padding>
+          <div v-for="field in gradeFields" :key="field.key">
+            <span class="text-grey-9 text-subtitle1">{{ field.title }}</span>
+            <q-input
+              filled
+              dense
+              v-model:number="review[field.key]"
+              type="number"
+              class="q-pb-lg"
+              :rules="[isRequired]"
+            />
+          </div>
+          <!-- <pre>
             {{ candidate }}
-          </pre>
+          </pre> -->
         </q-page>
       </q-page-container>
 
@@ -27,27 +38,48 @@
   </q-dialog>
 </template>
 <script>
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 import fetchAllCandidates from 'src/hooks/Candidate/fetchCandidates'
 
 export default defineComponent({
   name: 'GradeCandidateForm',
   props: {
-    candidateId: {
-      type: String,
+    gradeFields: {
+      type: Array,
       required: true
     }
   },
   setup (props) {
-    const { fetch: fetchById, candidate } = fetchAllCandidates()
+    const { fetchById, candidate } = fetchAllCandidates()
 
-    onMounted(async () => {
-      await fetchById(props.candidateId)
-    })
+    // onMounted(async () => {
+    //   await fetchById(props.candidateId)
+    // })
+
+    const visible = ref(false)
+
+    // const candidate = ref({})
+    const review = ref()
+
+    const open = async (candidateRow) => {
+      console.log('!!', candidateRow)
+      // candidate.value = candidateRow
+      await fetchById(candidateRow.id)
+
+      review.value = props.gradeFields.map(field => {
+        return {
+          [field.key]: (candidate.value.review && candidate.value.review[field.key]) ? candidate.value.review[field.key] : 0
+        }
+      })
+      visible.value = true
+    }
 
     return {
-      candidate
+      candidate,
+      visible,
+      review,
+      open
     }
   }
 })

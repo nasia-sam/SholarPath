@@ -42,6 +42,8 @@ export const getCandidateById = gql`
       cfs {
         id
       }
+      attachedDocuments
+      review
     }
   }
 `

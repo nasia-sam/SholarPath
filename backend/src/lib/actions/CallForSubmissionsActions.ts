@@ -10,7 +10,12 @@ import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { checkOpenCFS } from '../tasks/CheckOpenCFS'
 
 export async function getCFSByCourseAction (slug: string, em: EntityManager): Promise<CallForSubmissions[]> {
-  return await em.find(CallForSubmissions, { courseProgram: { slug: slug } }, { orderBy: { openFrom: 'ASC' } })
+  return await em.find(CallForSubmissions, {
+    courseProgram: { slug: slug }
+  }, {
+    orderBy: { openFrom: 'ASC' },
+    populate: ['courseProgram']
+  })
 }
 
 export async function createCFSAction (data: CallForSubmissionsInput, em: EntityManager): Promise<CallForSubmissions> {

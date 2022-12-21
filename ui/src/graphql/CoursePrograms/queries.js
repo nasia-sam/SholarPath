@@ -56,8 +56,6 @@ export const getCourseProgramBySlug = gql`
       }
       cfs {
         id
-        openFrom
-        closeAt
       }
     }
   }

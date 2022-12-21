@@ -7,6 +7,9 @@ export const getCFSByCourse = gql`
       openFrom
       closeAt
       state
+      courseProgram {
+        gradeFields
+      }
     }
   }
 `
