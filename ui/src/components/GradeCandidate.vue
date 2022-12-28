@@ -22,10 +22,9 @@
             <q-input
               filled
               dense
-              v-model:number="review[field.key]"
+              v-model="review[field.key]"
               type="number"
               class="q-pb-lg"
-              :rules="[isRequired]"
             />
           </div>
           <!-- <pre>
@@ -60,18 +59,18 @@ export default defineComponent({
     const visible = ref(false)
 
     // const candidate = ref({})
-    const review = ref()
+    const review = ref({})
 
     const open = async (candidateRow) => {
       console.log('!!', candidateRow)
       // candidate.value = candidateRow
       await fetchById(candidateRow.id)
 
-      review.value = props.gradeFields.map(field => {
-        return {
-          [field.key]: (candidate.value.review && candidate.value.review[field.key]) ? candidate.value.review[field.key] : 0
-        }
-      })
+      review.value = props.gradeFields.reduce((acc, cur) => {
+        acc[cur.key] = (candidate.value.review && candidate.value.review[cur.key]) ? candidate.value.review[cur.key] : null
+        return acc
+      }, {})
+
       visible.value = true
     }
 
