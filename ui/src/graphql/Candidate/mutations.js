@@ -7,3 +7,9 @@ export const createCandidate = gql`
     }
   }
 `
+
+export const gradeCandidate = gql`
+  mutation gradeCandidate ($data: ReviewInput!) {
+    gradeCandidate (data: $data)
+  }
+`

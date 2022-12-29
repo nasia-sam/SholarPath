@@ -452,7 +452,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
+          "nullable": false,
           "length": 0,
           "mappedType": "datetime"
         },

@@ -11,7 +11,7 @@
       <q-footer class="text-white">
         <q-toolbar class="row justify-end">
           <q-btn flat label="Cancel" />
-          <q-btn flat label="Save" />
+          <q-btn flat label="Save" @click="submit"/>
         </q-toolbar>
       </q-footer>
 
@@ -19,17 +19,24 @@
         <q-page padding>
           <div v-for="field in gradeFields" :key="field.key">
             <span class="text-grey-9 text-subtitle1">{{ field.title }}</span>
-            <q-input
-              filled
-              dense
-              v-model="review[field.key]"
-              type="number"
-              class="q-pb-lg"
-            />
+
+              <q-input
+                filled
+                dense
+                square
+                v-model="review[field.key]"
+                :suffix="field.weigth"
+                :min="field.min_val"
+                :max="field.max_val"
+                type="number"
+                class="q-pb-lg"
+              >
+              <template v-slot:append>
+                <q-icon name="fitness_center" />
+              </template>
+              </q-input>
           </div>
-          <!-- <pre>
-            {{ candidate }}
-          </pre> -->
+
         </q-page>
       </q-page-container>
 
@@ -39,7 +46,9 @@
 <script>
 import { defineComponent, ref } from 'vue'
 
+// hooks
 import fetchAllCandidates from 'src/hooks/Candidate/fetchCandidates'
+import useCandidateMutations from 'src/hooks/Candidate/useCandidateActions'
 
 export default defineComponent({
   name: 'GradeCandidateForm',
@@ -51,6 +60,7 @@ export default defineComponent({
   },
   setup (props) {
     const { fetchById, candidate } = fetchAllCandidates()
+    const { gradeCandidateMutation } = useCandidateMutations()
 
     // onMounted(async () => {
     //   await fetchById(props.candidateId)
@@ -74,11 +84,18 @@ export default defineComponent({
       visible.value = true
     }
 
+    const submit = async () => {
+      await gradeCandidateMutation(candidate.value.id, review.value)
+
+      visible.value = false
+    }
+
     return {
       candidate,
       visible,
       review,
-      open
+      open,
+      submit
     }
   }
 })

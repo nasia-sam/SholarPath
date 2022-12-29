@@ -3,7 +3,7 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { createCandidate } from 'src/graphql/Candidate/mutations'
+import { createCandidate, gradeCandidate } from 'src/graphql/Candidate/mutations'
 import { errorMessage, successMessage } from '../globalNotifications'
 
 export default function useCandidateMutations () {
@@ -36,8 +36,38 @@ export default function useCandidateMutations () {
     }
   }
 
+  const gradeCandidateMutation = async (id, data) => {
+    try {
+      loading.value = true
+
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(gradeCandidate),
+          variables: {
+            id,
+            data
+          }
+        }
+      })
+
+      if (response.data.errors) {
+        errorMessage('Error while grading Candidate Submission.')
+      } else {
+        successMessage('Candidate Review sucessfully Created')
+      }
+    } catch (e) {
+      errorMessage('Error while grading Candidate Submission.')
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     useCreateCandidate,
+    gradeCandidateMutation,
+
     loading
   }
 }
