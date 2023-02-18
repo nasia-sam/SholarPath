@@ -48,8 +48,8 @@ export default function fetchAllCandidates () {
           }
         }
       })
-
-      if (response.data.data.candidate) {
+      console.log('ress', response.data.data.candidate)
+      if (response.data) {
         candidate.value = response.data.data.candidate
       }
     } catch (err) {

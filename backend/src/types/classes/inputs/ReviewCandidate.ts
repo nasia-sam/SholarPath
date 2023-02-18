@@ -1,14 +1,17 @@
 import { IsInt, IsUUID } from 'class-validator'
-import { Field, InputType, ObjectType } from 'type-graphql'
+import { Field, InputType } from 'type-graphql'
 import { GraphQLJSONObject } from 'graphql-type-json'
+import { Embeddable, Property } from '@mikro-orm/core'
 
-ObjectType()
+@Embeddable()
 export class ReviewGrade {
   @Field()
+  @Property()
   key: string
 
   @Field()
   @IsInt()
+  @Property()
   grade: number
 }
 

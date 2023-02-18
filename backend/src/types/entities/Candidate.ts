@@ -8,8 +8,8 @@ import { PdfFile } from '../classes/PdfFile'
 import { Gender } from '../enums/Gender'
 
 import { CallForSubmissions } from './CallForSubmissions'
-import { Review } from '../classes/Review'
 import { Reference } from './Reference'
+import { ReviewGrade } from '../classes/inputs/ReviewCandidate'
 
 @Entity()
 @ObjectType()
@@ -74,9 +74,9 @@ export class Candidate {
   // @Field(() => [GraphQLJSONObject], { nullable: true })
   // referencies?: References[]
 
-  @Embedded(() => Review, { object: true, nullable: true })
-  @Field(() => GraphQLJSONObject, { nullable: true })
-  review?: Review
+  @Embedded(() => ReviewGrade, { array: true, nullable: true })
+  @Field(() => [GraphQLJSONObject], { nullable: true })
+  review?: ReviewGrade[]
 
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)

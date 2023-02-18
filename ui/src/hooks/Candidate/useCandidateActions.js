@@ -36,7 +36,7 @@ export default function useCandidateMutations () {
     }
   }
 
-  const gradeCandidateMutation = async (id, data) => {
+  const gradeCandidateMutation = async (id, review) => {
     try {
       loading.value = true
 
@@ -46,8 +46,10 @@ export default function useCandidateMutations () {
         data: {
           query: print(gradeCandidate),
           variables: {
-            id,
-            data
+            data: {
+              candidate: id,
+              review: review
+            }
           }
         }
       })

@@ -1,11 +1,11 @@
-import { Field } from 'type-graphql'
-import { Embeddable, Property } from '@mikro-orm/core'
+import { Field, ObjectType } from 'type-graphql'
+import { Embeddable, Embedded, Property } from '@mikro-orm/core'
 
 import { ReviewGrade } from './inputs/ReviewCandidate'
 
 @Embeddable()
 export class Review {
-  @Field(() => [ReviewGrade])
+  @Embedded(() => [ReviewGrade], { object: true, nullable: true })
   @Property()
   review: ReviewGrade[]
 

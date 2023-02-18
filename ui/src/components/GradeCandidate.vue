@@ -24,8 +24,8 @@
                 filled
                 dense
                 square
-                v-model="review[field.key]"
-                :suffix="field.weigth"
+                v-model.number="review[field.key]"
+                :suffix="field.weigth.toString()"
                 :min="field.min_val"
                 :max="field.max_val"
                 type="number"
@@ -69,23 +69,44 @@ export default defineComponent({
     const visible = ref(false)
 
     // const candidate = ref({})
-    const review = ref({})
+    const review = ref([])
 
     const open = async (candidateRow) => {
       console.log('!!', candidateRow)
+      const gradeKeys = props.gradeFields.map(gf => gf.key)
       // candidate.value = candidateRow
       await fetchById(candidateRow.id)
 
       review.value = props.gradeFields.reduce((acc, cur) => {
-        acc[cur.key] = (candidate.value.review && candidate.value.review[cur.key]) ? candidate.value.review[cur.key] : null
+        acc[cur.key] = null
         return acc
       }, {})
+
+      const fieldKeys = Object.keys(review.value)
+      if (candidate.value?.review && candidate.value.review.length > 0) {
+        console.log('!!!!!!!!', fieldKeys)
+        fieldKeys.forEach(key => {
+          review.value[key] = candidate.value.review.find(review => review.key === key).grade
+        })
+      } else {
+        review.value = gradeKeys.map(gf => { return { [gf]: null } })
+      }
+
+      // review.value = props.gradeFields.reduce((acc, cur) => {
+      //   acc[cur.key] = (candidate.value.review && candidate.value.review[cur.key]) ? candidate.value.review[cur.key] : null
+      //   return acc
+      // }, {})
 
       visible.value = true
     }
 
     const submit = async () => {
-      await gradeCandidateMutation(candidate.value.id, review.value)
+      const finalReview = []
+
+      Object.keys(review.value).forEach(k => {
+        finalReview.push({ key: k, grade: review.value[k] })
+      })
+      await gradeCandidateMutation(candidate.value.id, finalReview)
 
       visible.value = false
     }
