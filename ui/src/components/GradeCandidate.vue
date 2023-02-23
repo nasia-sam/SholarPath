@@ -10,13 +10,16 @@
 
       <q-footer class="text-white">
         <q-toolbar class="row justify-end">
-          <q-btn flat label="Cancel" />
-          <q-btn flat label="Save" @click="submit"/>
+          <q-btn flat label="Cancel" @click="() => visible = false"/>
+          <q-btn flat label="Save" @click="validate" />
         </q-toolbar>
       </q-footer>
 
       <q-page-container>
         <q-page padding>
+          <q-form
+            ref="myForm"
+          >
           <div v-for="field in gradeFields" :key="field.key">
             <span class="text-grey-9 text-subtitle1">{{ field.title }}</span>
 
@@ -30,13 +33,14 @@
                 :max="field.max_val"
                 type="number"
                 class="q-pb-lg"
+                :rules="[(val) => isLessOrEqualThan(val, field.max_val), isPositiveNumber]"
               >
               <template v-slot:append>
                 <q-icon name="fitness_center" />
               </template>
               </q-input>
           </div>
-
+          </q-form>
         </q-page>
       </q-page-container>
 
@@ -45,6 +49,10 @@
 </template>
 <script>
 import { defineComponent, ref } from 'vue'
+
+// common
+import { isLessOrEqualThan, isPositiveNumber } from 'src/hooks/rules'
+import { errorMessage } from 'src/hooks/globalNotifications'
 
 // hooks
 import fetchAllCandidates from 'src/hooks/Candidate/fetchCandidates'
@@ -62,19 +70,12 @@ export default defineComponent({
     const { fetchById, candidate } = fetchAllCandidates()
     const { gradeCandidateMutation } = useCandidateMutations()
 
-    // onMounted(async () => {
-    //   await fetchById(props.candidateId)
-    // })
-
     const visible = ref(false)
 
-    // const candidate = ref({})
     const review = ref([])
 
     const open = async (candidateRow) => {
-      console.log('!!', candidateRow)
       const gradeKeys = props.gradeFields.map(gf => gf.key)
-      // candidate.value = candidateRow
       await fetchById(candidateRow.id)
 
       review.value = props.gradeFields.reduce((acc, cur) => {
@@ -84,7 +85,6 @@ export default defineComponent({
 
       const fieldKeys = Object.keys(review.value)
       if (candidate.value?.review && candidate.value.review.length > 0) {
-        console.log('!!!!!!!!', fieldKeys)
         fieldKeys.forEach(key => {
           review.value[key] = candidate.value.review.find(review => review.key === key).grade
         })
@@ -100,7 +100,21 @@ export default defineComponent({
       visible.value = true
     }
 
+    // form validation
+    const myForm = ref(null)
+
+    const validate = () => {
+      myForm.value.validate().then(success => {
+        if (success) {
+          submit()
+        } else {
+          errorMessage('Συμπληρώστε όλα τα απαραίτητα πεδία.')
+        }
+      })
+    }
+
     const submit = async () => {
+      validate()
       const finalReview = []
 
       Object.keys(review.value).forEach(k => {
@@ -115,8 +129,11 @@ export default defineComponent({
       candidate,
       visible,
       review,
+      myForm,
+      isPositiveNumber,
+      isLessOrEqualThan,
       open,
-      submit
+      validate
     }
   }
 })
