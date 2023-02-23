@@ -70,10 +70,6 @@ export class Candidate {
   @Field()
   course_id: string // todo ayto mporei na fygei
 
-  // @Embedded(() => References, { array: true, nullable: true })
-  // @Field(() => [GraphQLJSONObject], { nullable: true })
-  // referencies?: References[]
-
   @Embedded(() => ReviewGrade, { array: true, nullable: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
   review?: ReviewGrade[]
