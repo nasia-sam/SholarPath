@@ -11,7 +11,7 @@
       <q-footer class="text-white">
         <q-toolbar class="row justify-end">
           <q-btn flat label="Cancel" @click="() => visible = false"/>
-          <q-btn flat label="Save" @click="validate" />
+          <q-btn flat label="Save" @click.once="validate" />
         </q-toolbar>
       </q-footer>
 
@@ -114,7 +114,6 @@ export default defineComponent({
     }
 
     const submit = async () => {
-      validate()
       const finalReview = []
 
       Object.keys(review.value).forEach(k => {

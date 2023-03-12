@@ -55,31 +55,9 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
 
   if (!candidate) throw new UserInputError('INVALID_CANDIDATE')
 
-  console.log('candidate data', data.review)
-
-  // eslint-disable-next-line no-useless-computed-key
   candidate.review = data.review
 
-  console.log('aa', candidate.review)
-
   await em.flush()
-  em.clear()
-  const scandidate = await em.findOneOrFail(Candidate, { id: data.candidate })
-  console.log('META TO FLUSH!!!!', scandidate.review)
-
-  // const gradeFields = candidate.cfs.courseProgram
-  //   .gradeFields.reduce<{[key: string]: number}>((acc, cur) => {
-  //   acc[cur.key] = cur.weigth
-  //   return acc
-  // }, {})
-
-  // candidate.review = {
-  //   review: data.review,
-  //   total: data.review.reduce((acc, cur) => {
-  //     acc += (cur.grade * gradeFields[cur.key])
-  //     return acc
-  //   }, 0)
-  // }
 
   return true
 }
