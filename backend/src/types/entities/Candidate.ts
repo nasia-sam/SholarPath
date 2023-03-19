@@ -91,7 +91,6 @@ export class Candidate {
       }, 0)
       : null
 
-    console.log('AA', total)
     return total
   }
 }

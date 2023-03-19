@@ -13,7 +13,7 @@ export async function getCFSByCourseAction (slug: string, em: EntityManager): Pr
   return await em.find(CallForSubmissions, {
     courseProgram: { slug: slug }
   }, {
-    orderBy: { openFrom: 'ASC' },
+    orderBy: { openFrom: 'DESC' },
     populate: ['courseProgram']
   })
 }

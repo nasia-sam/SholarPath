@@ -10,7 +10,7 @@
           :options="cfs"
           label="CFS"
           emit-value
-          map-option
+          map-options
           option-value="value"
           option-label="label"
           style="width: 250px"
