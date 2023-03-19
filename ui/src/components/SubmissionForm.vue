@@ -36,7 +36,7 @@
             v-model="candidate.email"
             filled
             type="email"
-            :rules="[isRequired, isValidEmai]"
+            :rules="[isRequired, isValidEmail]"
           />
 
           <span class="text-grey-9 text-subtitle1">Όνομα Πατρός</span>
@@ -53,7 +53,7 @@
             type="number"
             v-model.number="candidate.age"
             class="q-pb-lg"
-            :rules="[isRequired]"
+            :rules="[(val) =>  isMoreOrEqualThan(val, 18), isRequired]"
           />
 
           <div class="row q-gutter-md">
@@ -181,7 +181,7 @@
                   class="q-pb-lg"
                   :label="`Συστατική #${index} Email`"
                   type="email"
-                  :rules="[isRequired, isValidEmai]"
+                  :rules="[isRequired, isValidEmail]"
                 />
               </div>
             </div>
@@ -202,7 +202,7 @@
 import { defineComponent, ref } from 'vue'
 
 // common
-import { isRequired, isValidEmai } from 'src/hooks/rules'
+import { isRequired, isValidEmail, isMoreOrEqualThan } from 'src/hooks/rules'
 import { errorMessage } from 'src/hooks/globalNotifications'
 
 // actions
@@ -340,7 +340,8 @@ export default defineComponent({
       masterFiles,
 
       isRequired,
-      isValidEmai,
+      isValidEmail,
+      isMoreOrEqualThan,
 
       onSubmit,
       onCancel,

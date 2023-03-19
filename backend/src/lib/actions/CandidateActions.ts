@@ -13,11 +13,11 @@ import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { createReferenceAction } from 'src/lib/actions/ReferenceActions'
 
 export async function getCandidatesByCfsAction (cfsId: string, em: EntityManager): Promise<Candidate[]> {
-  return await em.find(Candidate, { cfs: { id: cfsId } }, { populate: ['cfs'] })
+  return await em.find(Candidate, { cfs: { id: cfsId } }, { populate: ['cfs', 'references'] })
 }
 
 export async function getCandidateByIdAction (id: string, em: EntityManager): Promise<Candidate> {
-  return await em.findOneOrFail(Candidate, { id })
+  return await em.findOneOrFail(Candidate, { id }, { populate: ['references'] })
 }
 
 export async function createCandidateAction (data: CandidateInput, em: EntityManager): Promise<Candidate> {
@@ -30,7 +30,7 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
   const candidate = em.create(Candidate, { ...data, attachedDocuments: [] })
   await em.persistAndFlush(candidate)
 
-  // handle referencies
+  // handle references
   if (cfs.documents?.references) {
     if (!data.referenceInfo) {
       throw new UserInputError('MISSING_REFERENCE')
