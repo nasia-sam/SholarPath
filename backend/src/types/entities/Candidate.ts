@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, Float } from 'type-graphql'
 import { Entity, Enum, ManyToOne, PrimaryKey, Property, Embedded, OneToMany, Collection } from '@mikro-orm/core'
 import { GraphQLJSONObject } from 'graphql-type-json'
 
@@ -81,4 +81,17 @@ export class Candidate {
   @Field(() => [Reference])
   @OneToMany(() => Reference, references => references.candidate)
   references = new Collection<Reference>(this)
+
+  @Field(() => Float, { nullable: true })
+  totalGrade (): number | null {
+    const total = this.review
+      ? this.review.reduce((acc, cur) => {
+        acc += cur.grade
+        return acc
+      }, 0)
+      : null
+
+    console.log('AA', total)
+    return total
+  }
 }

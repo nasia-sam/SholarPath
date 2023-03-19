@@ -21,22 +21,20 @@
     <q-table
       :rows="candidates"
       :columns="columns"
-      row-key="name"
+      :filter="filter"
+      row-key="id"
     >
+    <template v-slot:top-right>
+      <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+    </template>
+
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
-          <q-btn flat color="secondary" icon="more_vert">
-        <q-menu>
-          <q-list style="min-width: 100px">
-            <q-item clickable v-close-popup @click="GradeCandidateFormRef.open(props.row)">
-              <q-item-section> Grade </q-item-section>
-            </q-item>
-            <!-- <q-item clickable v-close-popup>
-              <q-item-section>New incognito tab</q-item-section>
-            </q-item> -->
-            <q-separator />
-          </q-list>
-        </q-menu>
+          <q-btn flat color="secondary" icon="history_edu" @click="GradeCandidateFormRef.open(props.row)">
       </q-btn>
 
         </q-td>
@@ -73,13 +71,16 @@ export default defineComponent({
       fetchCFSbyCourse(route.params.slug)
     })
 
+    const filter = ref('')
+
     const columns = [
       { name: 'surname', align: 'left', label: 'Surname', field: 'surname', sortable: true },
       { name: 'name', align: 'center', label: 'name', field: 'name', sortable: true },
       { name: 'age', align: 'center', label: 'age', field: 'age', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
       { name: 'bachelor_degree', align: 'center', label: 'bachelor_degree', field: 'bachelor_degree', sortable: true },
-      { name: 'actions', align: 'center', label: 'Actions', sortable: true }
+      { name: 'totalGrade', align: 'center', label: 'Total Grade', field: 'totalGrade', sortable: true },
+      { name: 'actions', align: 'center', label: 'Grade', sortable: true }
     ]
 
     const cfs = computed(() => result.value.map(cfs => {
@@ -105,6 +106,7 @@ export default defineComponent({
       cfs,
       result,
       columns,
+      filter,
       selectedCfs,
       candidates,
       gradeFields,
