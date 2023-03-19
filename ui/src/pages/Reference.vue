@@ -18,7 +18,7 @@
         square
         outlined
         type="email"
-        :rules="[isRequired, isValidEmai]"
+        :rules="[isRequired, isValidEmail]"
         disable
         label="Email"
       />
@@ -42,7 +42,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 // common
-import { isRequired, isValidEmai } from 'src/hooks/rules'
+import { isRequired, isValidEmail } from 'src/hooks/rules'
 
 // hooks
 import useReferences from 'src/hooks/Candidate/useReferences'
@@ -83,7 +83,7 @@ export default defineComponent({
     return {
       newRef,
       isRequired,
-      isValidEmai,
+      isValidEmail,
 
       reference,
       submit

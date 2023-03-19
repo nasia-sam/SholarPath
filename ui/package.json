@@ -18,6 +18,8 @@
     "graphql-tag": "^2.12.5",
     "quasar": "^2.0.0",
     "ramda": "^0.27.1",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6",
     "vuex": "^4.0.1"
   },
   "devDependencies": {
