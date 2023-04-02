@@ -22,6 +22,8 @@ import { CandidateResolver } from './lib/resolvers/CandidateResolver'
 import { RolesResolver } from './lib/resolvers/RolesResolver'
 import { ReferenceResolver } from './lib/resolvers/ReferenceResolver'
 
+import uploadsRouter from 'src/routes/uploads'
+
 async function main (): Promise<void> {
   const connection = await MikroORM.init()
 
@@ -54,6 +56,8 @@ async function main (): Promise<void> {
   if (ENVIRONMENT === 'production') {
     app.proxy = true
   }
+
+  app.use(uploadsRouter.routes())
 
   app.use(cors())
   app.use(graphqlUploadKoa())

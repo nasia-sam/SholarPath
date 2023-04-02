@@ -19,7 +19,7 @@ export async function upploadFile (encoded: string, fileType: string, candidateI
 
   if (!base64File) return
 
-  let fileName = `${candidateId}/${fileType}_${candidateId}}`
+  let fileName = `${candidateId}/${fileType}_${candidateId}`
   if (index) fileName = fileName + `_${index}`
 
   const filepath = path.join(process.cwd(), `/src/uploads/${fileName}.${type ?? 'pdf'}`)
@@ -40,7 +40,7 @@ export async function upploadFile (encoded: string, fileType: string, candidateI
 
   const newFile = {
     name: `${candidate.id}_cv`,
-    path: filepath,
+    path: fileName,
     type: fileType,
     extension: type ?? 'pdf'
   }

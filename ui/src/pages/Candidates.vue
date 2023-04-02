@@ -24,25 +24,34 @@
       :filter="filter"
       row-key="id"
     >
-    <template v-slot:top-right>
-      <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-    </template>
+      <!-- Search Button -->
+      <template v-slot:top-right>
+        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
 
-      <template v-slot:body-cell-actions="props">
+      <!-- Show Attached Pdfs -->
+      <template v-slot:body-cell-attachments="props">
         <q-td :props="props">
-          <q-btn flat color="secondary" icon="history_edu" @click="GradeCandidateFormRef.open(props.row)">
-      </q-btn>
-
+          <q-btn flat color="secondary" icon="attach_file" @click="ShowPdfFilesRef.open(props.row.attachedDocuments[0])" />
         </q-td>
       </template>
+
+      <!-- Grade Candidate Button -->
+      <template v-slot:body-cell-actions="props">
+        <q-td :props="props">
+          <q-btn flat color="secondary" icon="history_edu" @click="GradeCandidateFormRef.open(props.row)" />
+        </q-td>
+      </template>
+
     </q-table>
   </q-page>
 
   <GradeCandidateForm ref="GradeCandidateFormRef" :gradeFields="gradeFields" />
+  <ShowPdfFiles ref="ShowPdfFilesRef" />
 </template>
 <script>
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
@@ -55,11 +64,13 @@ import { formatDate } from 'src/hooks/commonFunctions'
 
 // components
 import GradeCandidateForm from 'src/components/GradeCandidate.vue'
+import ShowPdfFiles from 'src/components/content/ShowPdfFiles.vue'
 
 export default defineComponent({
   name: 'Candidates',
   components: {
-    GradeCandidateForm
+    GradeCandidateForm,
+    ShowPdfFiles
   },
   setup () {
     const route = useRoute()
@@ -79,6 +90,7 @@ export default defineComponent({
       { name: 'age', align: 'center', label: 'age', field: 'age', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
       { name: 'bachelor_degree', align: 'center', label: 'bachelor_degree', field: 'bachelor_degree', sortable: true },
+      { name: 'attachments', align: 'center', label: 'Attachments', sortable: false },
       { name: 'totalGrade', align: 'center', label: 'Total Grade', field: 'totalGrade', sortable: true },
       { name: 'actions', align: 'center', label: 'Grade', sortable: true }
     ]
@@ -101,6 +113,7 @@ export default defineComponent({
     })
 
     const GradeCandidateFormRef = ref()
+    const ShowPdfFilesRef = ref()
 
     return {
       cfs,
@@ -111,7 +124,8 @@ export default defineComponent({
       candidates,
       gradeFields,
       fetchCandidates,
-      GradeCandidateFormRef
+      GradeCandidateFormRef,
+      ShowPdfFilesRef
     }
   }
 })

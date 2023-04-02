@@ -16,6 +16,7 @@ export const getCandidatesByCfs = gql`
       part_time
       gender
       course_id
+      attachedDocuments
       cfs {
         id
       }
@@ -43,7 +44,6 @@ export const getCandidateById = gql`
       cfs {
         id
       }
-      attachedDocuments
       review
     }
   }
