@@ -36,7 +36,20 @@
       <!-- Show Attached Pdfs -->
       <template v-slot:body-cell-attachments="props">
         <q-td :props="props">
-          <q-btn flat color="secondary" icon="attach_file" @click="ShowPdfFilesRef.open(props.row.attachedDocuments[0])" />
+          <!-- <q-btn flat color="secondary" icon="attach_file" @click="ShowPdfFilesRef.open(props.row.attachedDocuments[0])" /> -->
+          <q-btn flat color="secondary" icon="attach_file">
+            <q-menu>
+              <q-list style="min-width: 100px">
+                <q-item clickable v-close-popup v-for="item in props.row.attachedDocuments" :key="item.name">
+                  <q-item-section @click="ShowPdfFilesRef.open(item)">{{ item.type }}</q-item-section>
+                </q-item>
+                <q-separator spaced />
+                <q-item clickable v-close-popup v-for="(item, index) in props.row.references" :key="item">
+                  <q-item-section @click="ShowPdfFilesRef.open(item)">Refence #{{ index + 1 }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-btn>
         </q-td>
       </template>
 
@@ -90,7 +103,7 @@ export default defineComponent({
       { name: 'age', align: 'center', label: 'age', field: 'age', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
       { name: 'bachelor_degree', align: 'center', label: 'bachelor_degree', field: 'bachelor_degree', sortable: true },
-      { name: 'attachments', align: 'center', label: 'Attachments', sortable: false },
+      { name: 'attachments', align: 'center', label: 'Documents', sortable: false },
       { name: 'totalGrade', align: 'center', label: 'Total Grade', field: 'totalGrade', sortable: true },
       { name: 'actions', align: 'center', label: 'Grade', sortable: true }
     ]

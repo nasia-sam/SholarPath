@@ -1,6 +1,7 @@
 <template>
   <q-dialog v-model="visible">
-    <q-card>
+    <q-card style="width: 50vw">
+
       <q-card-section>
         <embed
           id="pdfID"
@@ -9,7 +10,6 @@
           height="830px"
           :src="'http://127.0.0.1:9999/uploads/' + file.path + '.pdf'"
         />
-        <!-- <iframe src="C:\myapplications\pms\pms-applications\backend\src\uploads\03e5a12a-7dda-4d9d-a120-e699a1a2e610\DEGREE_03e5a12a-7dda-4d9d-a120-e699a1a2e610.pdf" width="100%" height="500px"></iframe> -->
 
       </q-card-section>
     </q-card>
@@ -22,6 +22,8 @@ import { defineComponent, ref } from 'vue'
 export default defineComponent({
   name: 'ShowPdfFiles',
   setup () {
+    const baseUrl = process.env.baseUrl
+
     const visible = ref(false)
     const file = ref()
 
@@ -30,8 +32,6 @@ export default defineComponent({
       file.value = payload
       visible.value = true
     }
-
-    const baseUrl = process.env.baseUrl
 
     return {
       visible,

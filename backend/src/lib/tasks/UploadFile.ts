@@ -19,10 +19,10 @@ export async function upploadFile (encoded: string, fileType: string, candidateI
 
   if (!base64File) return
 
-  let fileName = `${candidateId}/${fileType}_${candidateId}`
+  let fileName = `${fileType}_${candidateId}`
   if (index) fileName = fileName + `_${index}`
 
-  const filepath = path.join(process.cwd(), `/src/uploads/${fileName}.${type ?? 'pdf'}`)
+  const filepath = path.join(process.cwd(), `/src/uploads/${candidateId}/${fileName}.${type ?? 'pdf'}`)
 
   // create dir if it doesnt exist
   if (!fs.existsSync(path.join(process.cwd(), `/src/uploads/${candidateId}`))) {

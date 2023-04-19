@@ -17,6 +17,9 @@ export const getCandidatesByCfs = gql`
       gender
       course_id
       attachedDocuments
+      references {
+        token
+      }
       cfs {
         id
       }
