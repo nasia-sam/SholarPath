@@ -63,7 +63,6 @@ export default defineComponent({
     })
 
     const addField = () => {
-      console.log('hi')
       newField.value.key = newField.value.title.toLocaleLowerCase().replace(' ', '_')
 
       const temp = props.modelValue

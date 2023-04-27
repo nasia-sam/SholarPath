@@ -20,7 +20,7 @@
           <q-input
             filled
             autofocus
-            label="Title"
+            label="Τίτλος"
             v-model="course.title"
           />
 
@@ -29,37 +29,37 @@
             label="Slug"
             v-model="course.slug"
             prefix="/"
-            hint="Slug must be unique"
+            hint="Πρέπει να είναι μοναδικό για κάθε Πρόγραμμα Σπουδών"
           />
 
           <q-input
             filled
-            label="University"
+            label="Πανεπιστήμιο"
             v-model="course.university"
           />
 
           <q-input
             filled
-            label="Department"
+            label="Τμήμα"
             v-model="course.department"
           />
 
           <q-input
             filled
-            label="Description"
+            label="Περγραφή"
             v-model="course.description"
             autogrow
-            hint="A short description for this course program."
+            hint="Σύντομη πρεριγραφή του Προγραμματος Σπουδών"
           />
 
           <q-input
             filled
-            label="Link to site"
+            label="Link του site"
             v-model="course.sitelink"
           />
 
           <hr style="color:#ebebe0;background-color:#ebebe0" />
-          <span class="text-grey-9 text-subtitle1">Grade Fields</span>
+          <span class="text-grey-9 text-subtitle1">Πεδία Αξιολόγησης</span>
 
           <AddGradeField v-model="gradeFields" />
 

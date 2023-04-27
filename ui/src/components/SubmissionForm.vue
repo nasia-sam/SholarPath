@@ -309,7 +309,6 @@ export default defineComponent({
     }
 
     const finalSubmit = () => {
-      console.log('candidate data', candidate.value)
       useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id, course_id: props.course.id })
         .then(onCancel())
     }

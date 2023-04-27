@@ -1,7 +1,7 @@
 <template>
   <q-page padding>
     <div class="row justify-between q-mb-lg">
-      <span class="text-h4"> Courses </span>
+      <span class="text-h4"> Προγράματα Σπουδών </span>
       <div>
         <q-btn
           color="indigo-10"
@@ -19,15 +19,7 @@
       :loading="loading"
       row-key="name"
     >
-      <!-- <template v-slot:body-cell="props">
-        <q-td
-          :props="props"
-          class="cursor-pointer"
-          @click="redirectToPage(props.row.slug)"
-        >
-          {{ props.value }}
-        </q-td>
-      </template> -->
+
       <template v-slot:item="props">
         <div class="q-pa-xs col-12 cursor-pointer" @click="redirectToPage(props.row.slug)">
           <q-card>

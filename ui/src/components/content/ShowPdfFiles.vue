@@ -28,7 +28,6 @@ export default defineComponent({
     const file = ref()
 
     const open = (payload) => {
-      console.log('$$', payload)
       file.value = payload
       visible.value = true
     }
