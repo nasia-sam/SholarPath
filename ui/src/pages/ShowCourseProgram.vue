@@ -97,7 +97,6 @@ export default defineComponent({
 
     onMounted(() => {
       slug.value = route.params.slug
-      console.log('$$$lug', slug.value)
       fetchBySlug(slug.value).then(res => { course.value = res })
     })
 

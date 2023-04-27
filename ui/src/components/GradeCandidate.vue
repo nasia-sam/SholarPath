@@ -92,11 +92,6 @@ export default defineComponent({
         review.value = gradeKeys.map(gf => { return { [gf]: null } })
       }
 
-      // review.value = props.gradeFields.reduce((acc, cur) => {
-      //   acc[cur.key] = (candidate.value.review && candidate.value.review[cur.key]) ? candidate.value.review[cur.key] : null
-      //   return acc
-      // }, {})
-
       visible.value = true
     }
 

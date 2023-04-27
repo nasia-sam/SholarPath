@@ -19,6 +19,9 @@ export const getCandidatesByCfs = gql`
       attachedDocuments
       references {
         token
+        name
+        email
+        letter
       }
       cfs {
         id

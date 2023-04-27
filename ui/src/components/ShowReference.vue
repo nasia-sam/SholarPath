@@ -11,6 +11,10 @@
 
         <q-page-container>
           <q-page padding>
+            Όνομα: <span class="text-grey-9 text-bold text-subtitle1">{{ reference.name }}</span>
+            <div class="text-body-1 q-pa-md">
+              {{  reference.letter }}
+            </div>
           </q-page>
         </q-page-container>
       </q-layout>
@@ -18,10 +22,25 @@
 
 </template>
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
+  name: 'ShowReference',
+  setup () {
+    const visible = ref(false)
+    const reference = ref()
 
+    const open = (payload) => {
+      reference.value = payload
+      visible.value = true
+    }
+
+    return {
+      visible,
+      reference,
+      open
+    }
+  }
 })
 </script>
 <style>

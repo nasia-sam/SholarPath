@@ -45,7 +45,7 @@
                 </q-item>
                 <q-separator spaced />
                 <q-item clickable v-close-popup v-for="(item, index) in props.row.references" :key="item">
-                  <q-item-section @click="ShowPdfFilesRef.open(item)">Refence #{{ index + 1 }}</q-item-section>
+                  <q-item-section @click="ShowReferenceRef.open(item)">Refence #{{ index + 1 }}</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
@@ -65,7 +65,9 @@
 
   <GradeCandidateForm ref="GradeCandidateFormRef" :gradeFields="gradeFields" />
   <ShowPdfFiles ref="ShowPdfFilesRef" />
+  <ShowReference ref="ShowReferenceRef" />
 </template>
+
 <script>
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -78,12 +80,14 @@ import { formatDate } from 'src/hooks/commonFunctions'
 // components
 import GradeCandidateForm from 'src/components/GradeCandidate.vue'
 import ShowPdfFiles from 'src/components/content/ShowPdfFiles.vue'
+import ShowReference from 'src/components/ShowReference.vue'
 
 export default defineComponent({
   name: 'Candidates',
   components: {
     GradeCandidateForm,
-    ShowPdfFiles
+    ShowPdfFiles,
+    ShowReference
   },
   setup () {
     const route = useRoute()
@@ -127,6 +131,7 @@ export default defineComponent({
 
     const GradeCandidateFormRef = ref()
     const ShowPdfFilesRef = ref()
+    const ShowReferenceRef = ref()
 
     return {
       cfs,
@@ -138,7 +143,8 @@ export default defineComponent({
       gradeFields,
       fetchCandidates,
       GradeCandidateFormRef,
-      ShowPdfFilesRef
+      ShowPdfFilesRef,
+      ShowReferenceRef
     }
   }
 })
