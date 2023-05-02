@@ -30,4 +30,8 @@ export const USER_EMAIL_PWD = process.env.USER_EMAIL_PWD as string || ''
 
 export const CLIENT_URL = process.env.CLIENT_URL as string || 'localhost:8080/'
 
+export const TOKEN_SECRET = process.env.TOKEN_SECRET as string || 's3creT'
+
+export const TOKEN_EXPIRATION = process.env.TOKEN_EXPIRATION as string || '1h'
+
 Debug.enable(DEBUG)

@@ -9,8 +9,8 @@ export class RolesResolver {
   @Mutation(() => Roles)
   async createRole (
     @Ctx('em') em: EntityManager,
-      @Arg('email') email: string,
-      @Arg('courseId') courseId: string
+    @Arg('email') email: string,
+    @Arg('courseId') courseId: string
   ): Promise<Roles> {
     return await createRoleAction(email, courseId, em)
   }
@@ -18,7 +18,7 @@ export class RolesResolver {
   @Mutation(() => String)
   async deleteRole (
     @Ctx('em') em: EntityManager,
-      @Arg('id') id: string
+    @Arg('id') id: string
   ): Promise<string> {
     return await deleteRoleAction(id, em)
   }
