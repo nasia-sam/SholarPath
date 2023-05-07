@@ -4,7 +4,7 @@ import { EntityManager } from '@mikro-orm/core'
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
 import { CFS_State } from 'src/types/enums/CFSState'
-import { createCFSAction, deleteCFSAction, extendCFSAction, getCFSByCourseAction, openCFSAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
+import { createCFSAction, deleteCFSAction, extendCFSAction, getCFSByCourseAction, updateCFSAction } from '../actions/CallForSubmissionsActions'
 
 @Resolver(() => CallForSubmissions)
 export class CallForSubmissionsResolver {

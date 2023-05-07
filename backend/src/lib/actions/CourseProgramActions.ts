@@ -23,7 +23,7 @@ async function validateSlugs (slug: string, em: EntityManager, id: string | null
 export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], em: EntityManager): Promise<CourseProgram> {
   const admin = await em.findOneOrFail(User, data.adminId)
 
-  if (!admin.confirmed_by_admin) {
+  if (!admin.is_admin) {
     throw new UserInputError('NOT_ENOUGH_PERMISSIONS')
   }
 
