@@ -11,3 +11,9 @@ export const generateToken = (payload: User): string => {
 
   return token
 }
+
+export const verifyToken = (token: string): boolean => {
+  const result = jwt.verify(token, TOKEN_SECRET) as User
+
+  return !!result.id
+}

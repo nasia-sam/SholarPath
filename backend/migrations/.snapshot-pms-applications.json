@@ -690,17 +690,8 @@
           "nullable": false,
           "mappedType": "string"
         },
-        "confirm_email": {
-          "name": "confirm_email",
-          "type": "tinyint(1)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "boolean"
-        },
-        "confirmed_by_admin": {
-          "name": "confirmed_by_admin",
+        "is_admin": {
+          "name": "is_admin",
           "type": "tinyint(1)",
           "unsigned": false,
           "autoincrement": false,
@@ -822,6 +813,82 @@
             "user_id"
           ],
           "localTableName": "roles",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "user",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "invited_by_id": {
+          "name": "invited_by_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "state": {
+          "name": "state",
+          "type": "tinyint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "enum"
+        }
+      },
+      "name": "invitation",
+      "indexes": [
+        {
+          "columnNames": [
+            "invited_by_id"
+          ],
+          "composite": false,
+          "keyName": "invitation_invited_by_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "keyName": "PRIMARY",
+          "columnNames": [
+            "id"
+          ],
+          "composite": false,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "invitation_invited_by_id_foreign": {
+          "constraintName": "invitation_invited_by_id_foreign",
+          "columnNames": [
+            "invited_by_id"
+          ],
+          "localTableName": "invitation",
           "referencedColumnNames": [
             "id"
           ],

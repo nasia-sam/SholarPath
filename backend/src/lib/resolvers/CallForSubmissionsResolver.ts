@@ -42,16 +42,6 @@ export class CallForSubmissionsResolver {
   }
 
   @Mutation(() => CallForSubmissions)
-  async openCFS (
-    @Ctx('em') em: EntityManager,
-    @Arg('id') id: string,
-    @Arg('openFrom') openFrom: Date,
-    @Arg('closeAt') closeAt: Date
-  ): Promise<CallForSubmissions> {
-    return await openCFSAction(id, openFrom, closeAt, em)
-  }
-
-  @Mutation(() => CallForSubmissions)
   async extendCFS (
     @Ctx('em') em: EntityManager,
     @Arg('id') id: string,

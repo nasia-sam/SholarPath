@@ -16,17 +16,17 @@ export class User {
   @Unique()
   email: string
 
+  @Property({ hidden: true })
+  @Field()
+  password: string
+
   @Field()
   @Property()
   name: string
 
   @Field()
   @Property()
-  confirm_email: boolean
-
-  @Field()
-  @Property()
-  confirmed_by_admin: boolean
+  is_admin: boolean
 
   @OneToMany(() => Roles, role => role.user)
   @Field(() => [Roles])

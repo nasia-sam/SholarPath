@@ -20,6 +20,7 @@
     "@types/koa-mount": "^4.0.1",
     "@types/nodemailer": "^6.4.5",
     "apollo-server-koa": "^2.26.0",
+    "bcrypt": "^5.1.0",
     "class-validator": "^0.14.0",
     "date-fns": "^2.29.3",
     "dotenv": "^8.6.0",
@@ -40,6 +41,7 @@
     "type-graphql": "^1.1.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/debug": "^4.1.7",
     "@types/graphql": "^14.5.0",
     "@types/graphql-upload": "^8.0.11",

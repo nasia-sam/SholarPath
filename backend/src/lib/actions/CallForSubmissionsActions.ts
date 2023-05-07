@@ -66,29 +66,6 @@ export async function updateCFSAction (id: string, data: CallForSubmissionsInput
   return cfs
 }
 
-export async function openCFSAction (id: string, openFrom: Date, closeAt: Date, em: EntityManager): Promise<CallForSubmissions> {
-  const cfs = await em.findOneOrFail(CallForSubmissions, id, { populate: ['courseProgram'] })
-
-  if (cfs.state === CFS_State.closed) {
-    throw new UserInputError('CANNOT_PUBLISH_CLOSED_CFS')
-  }
-
-  if (cfs.state === CFS_State.open) {
-    throw new UserInputError('CFS_ALREADY_OPEN')
-  }
-
-  if (openFrom < new Date()) {
-    throw new UserInputError('CANNOT_OPEN_CFS_TO_PAST')
-  }
-
-  cfs.openFrom = openFrom
-  cfs.closeAt = closeAt
-  cfs.courseProgram.open = true
-
-  await em.flush()
-  return cfs
-}
-
 export async function extendCFSAction (id: string, closeAt: Date, em: EntityManager): Promise<CallForSubmissions> {
   const cfs = await em.findOneOrFail(CallForSubmissions, id)
 
