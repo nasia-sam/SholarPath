@@ -5,15 +5,24 @@ import { User } from 'src/types/entities/User'
 import { Invitation } from 'src/types/entities/Invitation'
 import { LoginInput, UserInput } from 'src/types/classes/inputs/UserInput'
 import { InvitationState } from 'src/types/enums/InvitationState'
-import { ValidationError, AuthenticationError } from 'apollo-server-koa'
+import { ValidationError, AuthenticationError, UserInputError } from 'apollo-server-koa'
 import { generateToken, verifyToken } from 'src/utils/token'
+
+export async function getInvitationByTokenAction (token: string, em: EntityManager): Promise<Invitation> {
+  const invitation = await em.findOneOrFail(Invitation, { id: token })
+
+  if (invitation.state !== 'SEND') throw new UserInputError('INVALID_INVITATION')
+
+  return invitation
+}
 
 export async function registerUserAction (payload: UserInput, em: EntityManager): Promise<boolean> {
   const invitation = await em.findOneOrFail(Invitation, { id: payload.invitation })
+
   const hash = bcrypt.hashSync(payload.password, 12)
 
   const user = em.create(User, {
-    email: payload.email,
+    email: invitation.email,
     name: payload.name,
     is_admin: false,
     password: hash

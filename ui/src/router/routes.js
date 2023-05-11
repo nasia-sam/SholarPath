@@ -8,7 +8,8 @@ const routes = [
       { path: '/courses', component: () => import('pages/ProgramCourses.vue') },
       { path: '/courses/:slug', component: () => import('pages/ShowCourseProgram.vue') },
       { path: '/courses/:slug/candidates', component: () => import('pages/Candidates.vue') },
-      { path: '/reference/:token', component: () => import('pages/Reference.vue') }
+      { path: '/reference/:token', component: () => import('pages/Reference.vue') },
+      { path: '/register/:token', component: () => import('pages/Registration.vue') }
     ]
   },
 

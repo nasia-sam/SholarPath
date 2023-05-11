@@ -681,6 +681,15 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
         "name": {
           "name": "name",
           "type": "varchar(255)",
@@ -852,11 +861,15 @@
         },
         "state": {
           "name": "state",
-          "type": "tinyint",
+          "type": "enum('SEND', 'ACCEPTED')",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "enumItems": [
+            "SEND",
+            "ACCEPTED"
+          ],
           "mappedType": "enum"
         }
       },

@@ -16,6 +16,7 @@ import { Errornterceptor } from './dependencies/middlewares/Errornterceptor'
 import { CustomContext } from './types/interfaces/CustomContext'
 
 import { CoreResolver } from './lib/resolvers/CoreResolver'
+import { AuhenticationResolver } from './lib/resolvers/Authentication'
 import { CourseProgramResolver } from './lib/resolvers/CourseProgramResolver'
 import { CallForSubmissionsResolver } from './lib/resolvers/CallForSubmissionsResolver'
 import { CandidateResolver } from './lib/resolvers/CandidateResolver'
@@ -31,6 +32,7 @@ async function main (): Promise<void> {
   const schema = await buildSchema({
     resolvers: [
       CoreResolver,
+      AuhenticationResolver,
       CourseProgramResolver,
       CallForSubmissionsResolver,
       CandidateResolver,
