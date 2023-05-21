@@ -1,8 +1,9 @@
 import { EntityManager } from '@mikro-orm/core'
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
-import { getInvitationByTokenAction, loginAction, registerUserAction } from '../actions/AuthenticationActions'
+import { getInvitationByTokenAction, inviteUserAction, loginAction, registerUserAction } from '../actions/AuthenticationActions'
 import { LoginInput, UserInput } from 'src/types/classes/inputs/UserInput'
 import { Invitation } from 'src/types/entities/Invitation'
+import { User } from 'src/types/entities/User'
 
 @Resolver()
 export class AuhenticationResolver {
@@ -12,6 +13,15 @@ export class AuhenticationResolver {
     @Arg('token') token: string
   ): Promise<Invitation> {
     return await getInvitationByTokenAction(token, em)
+  }
+
+  @Mutation(() => Boolean)
+  async inviteUser (
+    @Ctx('em') em: EntityManager,
+    @Ctx('user') user: User,
+    @Arg('email') email: string
+  ): Promise<boolean> {
+    return await inviteUserAction(email, user, em)
   }
 
   @Mutation(() => String)

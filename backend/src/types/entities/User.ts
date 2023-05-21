@@ -3,6 +3,7 @@ import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mi
 import { v4 } from 'uuid'
 
 import { Roles } from './Roles'
+import { Invitation } from './Invitation'
 
 @Entity()
 @ObjectType()
@@ -31,4 +32,8 @@ export class User {
   @OneToMany(() => Roles, role => role.user)
   @Field(() => [Roles])
   roles = new Collection<Roles>(this)
+
+  @OneToMany(() => Invitation, invitation => invitation.invited_by)
+  @Field(() => [Invitation])
+  invitations = new Collection<Invitation>(this)
 }

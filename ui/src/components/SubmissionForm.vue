@@ -75,7 +75,6 @@
                 class="q-pb-lg"
                 :rules="[isRequired]"
               />
-
             </div>
           </div>
 

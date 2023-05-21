@@ -18,8 +18,6 @@ export const getAllCoursesQuery = gql`
         user {
           id
           name
-          confirm_email
-          confirmed_by_admin
           email
         }
       }
