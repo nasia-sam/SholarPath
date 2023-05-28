@@ -2,8 +2,10 @@ import { EntityManager } from '@mikro-orm/core'
 
 import { User } from 'src/types/entities/User'
 
-export async function getInvitedUsersAction (inviter: User): Promise<User> {
-  
+export async function getInvitedUsersAction (inviter: User, em: EntityManager): Promise<User[]> {
+  const users = await em.find(User, { invitations: { invited_by: inviter.id } }, { populate: ['roles', 'roles.course'] })
+
+  return users
 }
 
 // export async function updateUserAction (id: string, data: UserInput, em: EntityManager): Promise<User> {

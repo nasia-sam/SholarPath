@@ -4,8 +4,8 @@ import { api } from 'src/boot/axios'
 // gql
 import { print } from 'graphql'
 import { getInvitationByToken } from 'src/graphql/Authentication/queries'
-import { registerUserMutation, inviteUserMutation } from 'src/graphql/Authentication/mutations'
-import { errorMessage, successMessage } from '../globalNotifications'
+import { registerUserMutation } from 'src/graphql/Authentication/mutations'
+import { errorMessage } from '../globalNotifications'
 
 export default function useRegistrationActions () {
   const invitation = ref([])
@@ -34,32 +34,6 @@ export default function useRegistrationActions () {
       }
     } catch (err) {
       errorMessage('Error while Fetching Invitation')
-    } finally {
-      loading.value = false
-    }
-  }
-
-  const inviteUser = async (email) => {
-    try {
-      loading.value = true
-
-      const response = await api({
-        url: '',
-        method: 'POST',
-        data: {
-          query: print(inviteUserMutation),
-          variables: {
-            email
-          }
-        }
-      })
-      if (response.data.data.registerUser) {
-        successMessage('User Invited')
-      } else {
-        errorMessage('Error while User Invitation')
-      }
-    } catch (err) {
-      errorMessage('Error while User Invitation')
     } finally {
       loading.value = false
     }
@@ -98,7 +72,6 @@ export default function useRegistrationActions () {
     loading,
     invitation,
     registerUser,
-    registrationResult,
-    inviteUser
+    registrationResult
   }
 }

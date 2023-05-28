@@ -22,6 +22,7 @@ import { CallForSubmissionsResolver } from './lib/resolvers/CallForSubmissionsRe
 import { CandidateResolver } from './lib/resolvers/CandidateResolver'
 import { RolesResolver } from './lib/resolvers/RolesResolver'
 import { ReferenceResolver } from './lib/resolvers/ReferenceResolver'
+import { UserResolver } from './lib/resolvers/UserResolver'
 
 import uploadsRouter from 'src/routes/uploads'
 
@@ -37,7 +38,8 @@ async function main (): Promise<void> {
       CallForSubmissionsResolver,
       CandidateResolver,
       RolesResolver,
-      ReferenceResolver
+      ReferenceResolver,
+      UserResolver
     ],
     globalMiddlewares: [Errornterceptor]
   })

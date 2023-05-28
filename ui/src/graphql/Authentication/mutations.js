@@ -11,3 +11,8 @@ export const inviteUserMutation = gql`
     inviteUser (email: $email)
   }
 `
+export const loginUserMutation = gql`
+  mutation loginUser ($data: LoginInput!) {
+    loginUser (data: $data)
+  }
+`
