@@ -6,9 +6,13 @@ import { print } from 'graphql'
 import { loginUserMutation } from 'src/graphql/Authentication/mutations'
 import { errorMessage } from '../globalNotifications'
 
+import useloggedUser from 'src/store/auth'
+
 export default function useAuthorizationAction () {
   const loading = ref(false)
   const accessToken = ref('')
+
+  const userStore = useloggedUser()
 
   const loginUser = async (data) => {
     try {
@@ -26,7 +30,7 @@ export default function useAuthorizationAction () {
       })
 
       if (response.data.data) {
-        console.log('!!', response.data.data)
+        userStore.setLogin(response.data.data.loginUser)
       }
     } catch (err) {
       errorMessage('Error while Login User')

@@ -7,7 +7,32 @@
           MSC Applications
         </q-toolbar-title>
 
-        <!-- <div>Quasar v{{ $q.version }}</div> -->
+        <div class="text-primary">
+          <q-btn v-if="!isAuthenticated" flat icon="login">
+            <q-tooltip>
+              Σύνδεση για εκπαιδευτικό προσωπικό {{ isAuthenticated }}
+            </q-tooltip>
+            <q-menu>
+              <div class="row q-pa-md" style="min-width: 100px">
+                <div class="column">
+                  <div class="text-h6 q-mb-md q-gutter-y-md">Login</div>
+                  <q-input dense v-model="credentials.email" label="Email" />
+                  <q-input dense :type="hidePwd ? 'password' : 'text'" v-model="credentials.password" label="Password" >
+                    <template v-slot:append>
+                      <q-icon
+                        :name="hidePwd ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="hidePwd = !hidePwd"
+                      />
+                    </template>
+                  </q-input>
+
+                  <q-btn class="q-mt-md" color="secondary" @click="login">Login</q-btn>
+                </div>
+              </div>
+            </q-menu>
+          </q-btn>
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -94,6 +119,11 @@ const linksList = [
 
 import { defineComponent, ref } from 'vue'
 
+import { storeToRefs } from 'pinia'
+
+import useAuthorizationAction from 'src/hooks/Authentication/login'
+import useloggedUser from 'src/store/auth'
+
 export default defineComponent({
   name: 'MainLayout',
 
@@ -106,10 +136,29 @@ export default defineComponent({
 
     const mini = ref(false)
 
+    const credentials = ref({
+      email: '',
+      password: ''
+    })
+    const hidePwd = ref(true)
+
+    const userStore = useloggedUser()
+    const { isAuthenticated } = storeToRefs(userStore)
+
+    const { loginUser } = useAuthorizationAction()
+
+    const login = () => {
+      loginUser(credentials.value)
+    }
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      mini
+      mini,
+      credentials,
+      hidePwd,
+      isAuthenticated,
+      login
     }
   }
 })

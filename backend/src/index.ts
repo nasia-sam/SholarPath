@@ -11,6 +11,7 @@ import { MikroORM } from '@mikro-orm/core'
 import { graphqlUploadKoa } from 'graphql-upload'
 
 import { PORT, HOST, ENVIRONMENT } from 'src/dependencies/Config'
+import { setAuthUser } from 'src/dependencies/middlewares/SetAuthUser'
 
 import { Errornterceptor } from './dependencies/middlewares/Errornterceptor'
 import { CustomContext } from './types/interfaces/CustomContext'
@@ -66,6 +67,7 @@ async function main (): Promise<void> {
   app.use(cors())
   app.use(graphqlUploadKoa())
   app.use(bodyParser({ jsonLimit: '150mb' }))
+  app.use(setAuthUser)
 
   app.use(apolloServer.getMiddleware({ cors: false }))
   const httpServer = createServer(app.callback())

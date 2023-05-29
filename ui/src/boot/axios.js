@@ -9,6 +9,16 @@ import axios from 'axios'
 // for each client)
 const api = axios.create({ baseURL: process.env.baseUrl })
 
+api.interceptors.request.use(
+  async (config) => {
+    const token = localStorage.getItem('msc_app_token')
+    if (token) {
+      config.headers = { Authorization: `Bearer ${token}` }
+    }
+    return config
+  }
+)
+
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
