@@ -10,9 +10,12 @@ export async function setAuthUser (ctx: CustomContext, next: Next): Promise<void
   const bearer = token?.split(' ')[1].trim()
 
   if (token && bearer) {
-    const decoded = jwt.verify(bearer, TOKEN_SECRET) as JwtPayload
-
-    ctx.user = decoded.data
+    try {
+      const decoded = jwt.verify(bearer, TOKEN_SECRET) as JwtPayload
+      ctx.user = decoded.data
+    } catch (err) {
+      ctx.user = undefined
+    }
   }
 
   console.log('CTX USER', ctx.user)

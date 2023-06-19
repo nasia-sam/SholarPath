@@ -8,7 +8,7 @@ export const useloggedUser = defineStore('loggedUser', {
     authToken: ''
   }),
   getters: {
-    isAuthenticated: () => localStorage.getItem('msc_app_token')
+    isAuthenticated: (state) => !!localStorage.getItem('msc_app_token') || state.user
   },
   actions: {
     setLogin (token) {

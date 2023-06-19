@@ -5,6 +5,7 @@ export const getInvitedUsers = gql`
     users: getInvitedUsers {
       id
       email
+      name
       roles {
         role
         course {
