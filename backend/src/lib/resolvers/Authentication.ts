@@ -3,7 +3,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { getInvitationByTokenAction, inviteUserAction, loginAction, registerUserAction } from '../actions/AuthenticationActions'
 import { LoginInput, UserInput } from 'src/types/classes/inputs/UserInput'
 import { Invitation } from 'src/types/entities/Invitation'
-import { User } from 'src/types/entities/User'
+import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
 
 @Resolver()
 export class AuhenticationResolver {
@@ -18,10 +18,10 @@ export class AuhenticationResolver {
   @Mutation(() => Boolean)
   async inviteUser (
     @Ctx('em') em: EntityManager,
-    @Ctx('user') user: User,
+    @Ctx('ctx') ctx: AuthCustomContext,
     @Arg('email') email: string
   ): Promise<boolean> {
-    return await inviteUserAction(email, user, em)
+    return await inviteUserAction(email, ctx.user, em)
   }
 
   @Mutation(() => String)

@@ -2,6 +2,8 @@ import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
 
+import useloggedUser from 'src/store/auth'
+
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -24,6 +26,11 @@ export default route(function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+  })
+
+  Router.beforeEach(() => {
+    console.log('hi')
+    useloggedUser().setUser()
   })
 
   return Router
