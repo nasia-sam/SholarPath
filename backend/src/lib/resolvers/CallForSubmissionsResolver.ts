@@ -45,9 +45,9 @@ export class CallForSubmissionsResolver {
   async extendCFS (
     @Ctx('em') em: EntityManager,
     @Arg('id') id: string,
-    @Arg('closeAt') closeAt: Date
+    @Arg('closeAt') closeAt: string
   ): Promise<CallForSubmissions> {
-    return await extendCFSAction(id, closeAt, em)
+    return await extendCFSAction(id, new Date(closeAt), em)
   }
 
   @Mutation(() => Boolean)

@@ -15,3 +15,11 @@ export const updateCfs = gql`
     }
   }
 `
+
+export const extendCFS = gql`
+  mutation extendCFS ($id: String!, $closeAt: String!) {
+    extendCFS (id: $id, closeAt: $closeAt) {
+     id
+    }
+  }
+`

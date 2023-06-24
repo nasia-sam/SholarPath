@@ -29,7 +29,6 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach(() => {
-    console.log('hi')
     useloggedUser().setUser()
   })
 

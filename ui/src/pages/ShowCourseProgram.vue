@@ -19,6 +19,15 @@
               @click="CreateCFSDialogRef.open(course.currentCFS ?? undefined)"
             />
             <q-fab-action
+              v-if="course.open"
+              color="indigo-10"
+              text-color="white"
+              icon="campaign"
+              label-position="top"
+              label="Extend Deadline"
+              @click="ExtendCFSDialogRef.open(course.currentCFS)"
+            />
+            <q-fab-action
               color="indigo-10"
               text-color="white"
               icon="people"
@@ -54,6 +63,7 @@
     </q-card>
 
     <CreateCFSDialog ref="CreateCFSDialogRef" :courseProgramId="course.id" />
+    <ExtendCFSDialog ref="ExtendCFSDialogRef" />
     <SubmissionForm :course="course" ref="CreateCandidateRef" />
   </q-page>
 </template>
@@ -68,6 +78,7 @@ import fetchAllProgramCourses from 'src/hooks/CoursePrograms/fetchCoursePrograms
 
 // Components
 import CreateCFSDialog from 'src/components/CreateCFS.vue'
+import ExtendCFSDialog from 'src/components/ExtendCfsDialog.vue'
 import SubmissionForm from 'src/components/SubmissionForm.vue'
 
 // hooks
@@ -77,6 +88,7 @@ export default defineComponent({
   name: 'ShowCourseProgram',
   components: {
     CreateCFSDialog,
+    ExtendCFSDialog,
     SubmissionForm
   },
   setup () {
@@ -106,6 +118,7 @@ export default defineComponent({
 
     // refs
     const CreateCFSDialogRef = ref(null)
+    const ExtendCFSDialogRef = ref(null)
     const CreateCandidateRef = ref(null)
 
     return {
@@ -115,6 +128,7 @@ export default defineComponent({
       redirectCandidatesPage,
 
       CreateCFSDialogRef,
+      ExtendCFSDialogRef,
       CreateCandidateRef
     }
   }

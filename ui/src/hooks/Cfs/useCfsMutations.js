@@ -3,7 +3,7 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { createCfs, updateCfs } from 'src/graphql/Cfs/mutations'
+import { createCfs, updateCfs, extendCFS } from 'src/graphql/Cfs/mutations'
 
 import { successMessage, errorMessage } from 'src/hooks/globalNotifications'
 
@@ -65,9 +65,33 @@ export default function usesCfsAction () {
     }
   }
 
+  const useExtendCfs = async (id, closeAt) => {
+    try {
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(extendCFS),
+          variables: {
+            id,
+            closeAt
+          }
+        }
+      })
+      if (response.data.data) {
+        successMessage('Η αλλαγή ημερομηνίας ανανεώθηκε επιτυχώς')
+      } else {
+        errorMessage('Ανεπιτυχής ανανέωση προθεσμίας')
+      }
+    } catch (e) {
+      console.log('Ανεπιτυχής ανανέωση προθεσμίας')
+    }
+  }
+
   return {
     loading,
     createCfsMutation,
-    updateCfsMutation
+    updateCfsMutation,
+    useExtendCfs
   }
 }
