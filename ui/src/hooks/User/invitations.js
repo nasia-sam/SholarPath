@@ -3,13 +3,14 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { getInvitedUsers } from 'src/graphql/Users/queries'
+import { getInvitedUsers, getPendingInvitations } from 'src/graphql/Users/queries'
 import { inviteUserMutation } from 'src/graphql/Authentication/mutations'
 import { errorMessage, successMessage } from '../globalNotifications'
 
 export default function useUserInvitations () {
   const result = ref([])
   const loading = ref(false)
+  const pendingInvitations = ref([])
 
   const fetchInvitedUsers = async () => {
     try {
@@ -47,7 +48,8 @@ export default function useUserInvitations () {
           }
         }
       })
-      if (response.data.data.registerUser) {
+      console.log('!! INV DATA', response.data.data)
+      if (response.data.data.inviteUser) {
         successMessage('User Invited')
       } else {
         errorMessage('Error while User Invitation')
@@ -59,9 +61,30 @@ export default function useUserInvitations () {
     }
   }
 
+  const fetchPendingInvitations = async () => {
+    try {
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(getPendingInvitations)
+        }
+      })
+      if (response.data.data.invitations) {
+        pendingInvitations.value = response.data.data.invitations
+      } else {
+        errorMessage('Error while fetching Pending Invitation')
+      }
+    } catch (err) {
+      errorMessage('Error while fetching Pending Invitation')
+    }
+  }
+
   return {
     result,
+    pendingInvitations,
     fetchInvitedUsers,
-    inviteUser
+    inviteUser,
+    fetchPendingInvitations
   }
 }

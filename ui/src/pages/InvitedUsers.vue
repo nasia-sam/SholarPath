@@ -5,17 +5,27 @@
           square
           type="email"
           label="Προσκαλέστε Χρήστη (email)"
-          :rules="[isRequired, isValidEmail]"
+          v-model="email"
+          :rules="[isValidEmail]"
           style="width: 420px"
         />
 
-      <q-btn flat dense color="purple" @click="simulateProgress(2)">
-        Button
-        <!-- <template v-slot:loading>
-          <q-spinner-radio />
-        </template> -->
-      </q-btn>
+        <q-btn flat dense color="purple" @click="submit">
+          Πρόσκληση
+          <template v-slot:loading>
+            <q-spinner-radio />
+          </template>
+        </q-btn>
     </div>
+    <div class="q-pb-lg">
+      <span class="text-grey-9 text-subtitle1">Προσκλήσεις</span>
+      <q-list bordered separator class="bg-white">
+        <q-item v-for="item in pendingInvitations" :key="item.email">
+          <q-item-section>{{ item.email }}</q-item-section>
+        </q-item>
+      </q-list>
+    </div>
+    <span class="text-grey-9 text-subtitle1">Προσκεκλημένοι Χρήστες</span>
     <q-table
       :rows="users"
       :columns="columns"
@@ -24,7 +34,7 @@
   </q-page>
 </template>
 <script>
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 
 import useUserInvitations from 'src/hooks/User/invitations'
 import { isRequired, isValidEmail } from 'src/hooks/rules'
@@ -38,17 +48,30 @@ export default defineComponent({
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
       { name: 'roles', align: 'center', label: 'roles', field: 'roles', sortable: true }
     ]
-    const { fetchInvitedUsers, result: users } = useUserInvitations()
+    const { fetchInvitedUsers, result: users, inviteUser, fetchPendingInvitations, loading, pendingInvitations } = useUserInvitations()
 
     onMounted(async () => {
       await fetchInvitedUsers()
+      await fetchPendingInvitations()
     })
+
+    const email = ref('')
+
+    const submit = () => {
+      if (email.value.length === 0) return
+
+      inviteUser(email.value).then(() => fetchPendingInvitations())
+    }
 
     return {
       columns,
       users,
+      email,
+      loading,
+      pendingInvitations,
       isRequired,
-      isValidEmail
+      isValidEmail,
+      submit
     }
   }
 })

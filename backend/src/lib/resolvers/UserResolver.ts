@@ -1,8 +1,11 @@
 import { EntityManager } from '@mikro-orm/core'
 import { User } from 'src/types/entities/User'
 import { Ctx, Query, Resolver } from 'type-graphql'
-import { getInvitedUsersAction } from '../actions/UserActions'
+
 import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
+import { Invitation } from 'src/types/entities/Invitation'
+
+import { getInvitedUsersAction, getPendingInvitationsAction } from '../actions/UserActions'
 
 @Resolver()
 export class UserResolver {
@@ -12,5 +15,13 @@ export class UserResolver {
     @Ctx('ctx') ctx: AuthCustomContext
   ): Promise<User[]> {
     return await getInvitedUsersAction(ctx.user, em)
+  }
+
+  @Query(() => [Invitation])
+  async getPendingInvitations (
+    @Ctx('em') em: EntityManager,
+    @Ctx('ctx') ctx: AuthCustomContext
+  ): Promise<Invitation[]> {
+    return await getPendingInvitationsAction(ctx.user.id, em)
   }
 }

@@ -11,7 +11,7 @@ export const useloggedUser = defineStore('loggedUser', {
   getters: {
     isAuthenticated: (state) => !!localStorage.getItem('msc_app_token') || !!state.user,
     loggedUser: (state) => state.user ?? undefined,
-    isAdmin: (state) => state.user.is_admin ?? false,
+    isAdmin: (state) => state.user?.is_admin ?? false,
     createdByLogged: (state) => {
       return (userId) => state.user?.id === userId ?? false
     }
@@ -33,7 +33,6 @@ export const useloggedUser = defineStore('loggedUser', {
       localStorage.removeItem('msc_app_token')
       this.user = undefined
       this.authToken = ''
-      this.loggedUser()
       this.isAuthenticated()
 
       successMessage('Επιτυχής Έξοδος')

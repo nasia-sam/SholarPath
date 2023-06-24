@@ -15,3 +15,12 @@ export const getInvitedUsers = gql`
     }
   }
 `
+
+export const getPendingInvitations = gql`
+  query getPendingInvitations {
+    invitations: getPendingInvitations {
+      id
+      email
+    }
+  }
+`
