@@ -3,7 +3,7 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { createCourseProgram, updateCourseProgram } from 'src/graphql/CoursePrograms/mutations'
+import { createCourseProgram, updateCourseProgram, deleteCourseProgram } from 'src/graphql/CoursePrograms/mutations'
 
 import { successMessage, errorMessage } from 'src/hooks/globalNotifications'
 
@@ -20,10 +20,7 @@ export default function useProgramMutations () {
         data: {
           query: print(createCourseProgram),
           variables: {
-            data: {
-              ...data,
-              adminId: '1234'
-            },
+            data,
             gradeFields
           }
         }
@@ -52,10 +49,7 @@ export default function useProgramMutations () {
           query: print(updateCourseProgram),
           variables: {
             id,
-            data: {
-              ...data,
-              adminId: '1234'
-            },
+            data: data,
             gradeFields
           }
         }
@@ -73,8 +67,30 @@ export default function useProgramMutations () {
     }
   }
 
+  const useDeleteCourseProgram = async (id) => {
+    try {
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(deleteCourseProgram),
+          variables: {
+            id
+          }
+        }
+      })
+
+      if (response.data.data) {
+        successMessage('Course deleted')
+      }
+    } catch (e) {
+      errorMessage('An error occurred while deleting Course Program')
+    }
+  }
+
   return {
     useCreateProgram,
-    useUpdateProgram
+    useUpdateProgram,
+    useDeleteCourseProgram
   }
 }

@@ -10,7 +10,7 @@
         <div class="text-primary">
           <q-btn v-if="!isAuthenticated" flat icon="login">
             <q-tooltip>
-              Σύνδεση για εκπαιδευτικό προσωπικό {{ isAuthenticated }}
+              Σύνδεση για εκπαιδευτικό προσωπικό
             </q-tooltip>
             <q-menu>
               <div class="row q-pa-md" style="min-width: 100px">
@@ -31,6 +31,9 @@
                 </div>
               </div>
             </q-menu>
+          </q-btn>
+          <q-btn v-else icon="logout" color="secondary" @click="logoutUser">
+            <q-tooltip>Έξοδος</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -151,6 +154,10 @@ export default defineComponent({
       loginUser(credentials.value)
     }
 
+    const logoutUser = () => {
+      userStore.logout()
+    }
+
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
@@ -158,7 +165,8 @@ export default defineComponent({
       credentials,
       hidePwd,
       isAuthenticated,
-      login
+      login,
+      logoutUser
     }
   }
 })
