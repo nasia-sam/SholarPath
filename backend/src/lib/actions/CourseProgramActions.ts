@@ -1,5 +1,5 @@
 import { EntityManager } from '@mikro-orm/core'
-import { UserInputError } from 'apollo-server-errors'
+import { UserInputError, AuthenticationError } from 'apollo-server-errors'
 
 import { CourseProgramInput, GradeFieldsInput } from 'src/types/classes/inputs/CourseProgramInput'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
@@ -20,12 +20,9 @@ async function validateSlugs (slug: string, em: EntityManager, id: string | null
   return true
 }
 
-export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], em: EntityManager): Promise<CourseProgram> {
-  const admin = await em.findOneOrFail(User, data.adminId)
-
-  if (!admin.is_admin) {
-    throw new UserInputError('NOT_ENOUGH_PERMISSIONS')
-  }
+export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], user: string, em: EntityManager): Promise<CourseProgram> {
+  console.log('user', user)
+  // if (!user.is_admin) throw new AuthenticationError('NOT_ENOUGH_PERMISSIONS')
 
   const validSlugFlag = await validateSlugs(data.slug, em)
   if (!validSlugFlag) {
@@ -46,7 +43,7 @@ export async function createCourseProgramAction (data: CourseProgramInput, grade
 
   const role = em.create(Roles, {
     role: UserRole.admin,
-    user: admin,
+    user: user,
     course: course
   })
   em.persist(role)
@@ -55,10 +52,10 @@ export async function createCourseProgramAction (data: CourseProgramInput, grade
   return course
 }
 
-export async function updateCourseProgramAction (id: string, data: CourseProgramInput, gradeFields: GradeFieldsInput[], em: EntityManager): Promise<CourseProgram> {
-  const course = await em.findOneOrFail(CourseProgram, id, { populate: ['roles'] })
+export async function updateCourseProgramAction (id: string, data: CourseProgramInput, gradeFields: GradeFieldsInput[], user: User, em: EntityManager): Promise<CourseProgram> {
+  if (!user.is_admin) throw new AuthenticationError('NOT_ENOUGH_PERMISSIONS')
 
-  // TODO logged user === admin
+  const course = await em.findOneOrFail(CourseProgram, id, { populate: ['roles'] })
 
   const validSlugFlag = await validateSlugs(data.slug, em, id)
   if (!validSlugFlag) {
@@ -71,7 +68,7 @@ export async function updateCourseProgramAction (id: string, data: CourseProgram
   course.description = data.description
   course.department = data.department
   course.sitelink = data.sitelink
-  course.gradeFields = gradeFields // todo check with open courses
+  if (!course.open) course.gradeFields = gradeFields
 
   await em.flush()
   return course

@@ -1,4 +1,4 @@
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { Submission } from 'src/types/entities/Submission'
@@ -15,9 +15,11 @@ export class SubmissionResolver {
     return await createSubmissionAction(data, em)
   }
 
+  @Authorized()
   @Mutation(() => Submission)
   async gradeSubmission (
     @Ctx('em') em: EntityManager,
+    @Ctx('ctx') ctx: AuthCustomContext,
     @Arg('data') data: GradeSubmissionInput,
     @Arg('id') id: string
   ): Promise<Submission> {

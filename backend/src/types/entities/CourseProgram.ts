@@ -1,11 +1,11 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, Root } from 'type-graphql'
 import { Collection, Embedded, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { GraphQLJSONObject } from 'graphql-type-json'
 
 import { CallForSubmissions } from './CallForSubmissions'
-import { Roles } from './Roles'
+import { Roles, UserRole } from './Roles'
 import { GradeFields } from '../classes/GradeFields'
 
 @Entity()
@@ -55,4 +55,10 @@ export class CourseProgram {
   @Field(() => [CallForSubmissions])
   @OneToMany(() => CallForSubmissions, cfs => cfs.courseProgram)
   cfs = new Collection<CallForSubmissions>(this)
+
+  @Field(() => String)
+  admin (@Root() course: CourseProgram): string | undefined {
+    const admin = course.roles.getItems().find(r => r.role === UserRole.admin)
+    return admin?.id
+  }
 }

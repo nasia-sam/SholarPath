@@ -3,6 +3,8 @@ import { EntityManager } from '@mikro-orm/core'
 import { GradeSubmissionInput } from 'src/types/classes/inputs/GadeSubmissionInput'
 import { Submission } from 'src/types/entities/Submission'
 import { SubmissionState } from 'src/types/enums/SubmissionState'
+import { hasRole } from '../tasks/AuthenticationGuards'
+import { User } from 'src/types/entities/User'
 
 export async function createSubmissionAction (data: GradeSubmissionInput, em: EntityManager): Promise<string> {
   const dataValues = Object.values(data)
@@ -18,8 +20,9 @@ export async function createSubmissionAction (data: GradeSubmissionInput, em: En
   return submission.id
 }
 
-export async function gradeSubmissionAction (id: string, data: GradeSubmissionInput, em: EntityManager): Promise<Submission> {
-  const submission = await em.findOneOrFail(Submission, id)
+export async function gradeSubmissionAction (id: string, data: GradeSubmissionInput, user: User, em: EntityManager): Promise<Submission> {
+  const submission = await em.findOneOrFail(Submission, id, { populate: ['candidate', 'candidate.cfs'] })
+  await hasRole(user, submission.candidate.cfs.courseProgram.id, em)
 
   submission.bachelor_grade = data.bachelor_grade
   submission.thesis_grade = data.thesis_grade

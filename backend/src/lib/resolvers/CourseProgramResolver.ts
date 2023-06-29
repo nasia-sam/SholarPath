@@ -11,6 +11,8 @@ import { CourseProgramInput, GradeFieldsInput } from 'src/types/classes/inputs/C
 import { CFS_State } from 'src/types/enums/CFSState'
 
 import { checkClosedCFS, checkOpenCFS } from '../tasks/CheckOpenCFS'
+import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
+import { isCreatedByAdmin } from '../tasks/AuthenticationGuards'
 // import { User } from 'src/types/entities/User'
 
 @Resolver(() => CourseProgram)
@@ -35,27 +37,34 @@ export class CourseProgramResolver {
   @Mutation(() => CourseProgram)
   async createCourseProgram (
     @Ctx('em') em: EntityManager,
+    // @Ctx('ctx') ctx: AuthCustomContext,
     @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
     @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
   ): Promise<CourseProgram> {
-    return await createCourseProgramAction(data, gradeFields, em)
+    console.log('in here!!!!  data:', data, '//', gradeFields)
+    return await createCourseProgramAction(data, gradeFields, 'b4f0c92d-9715-40df-8f11-de34fc44b00d', em)
   }
 
   @Mutation(() => CourseProgram)
   async updateCourseProgram (
     @Ctx('em') em: EntityManager,
+    @Ctx('ctx') ctx: AuthCustomContext,
     @Arg('id') id: string,
     @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
     @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
   ): Promise<CourseProgram> {
-    return await updateCourseProgramAction(id, data, gradeFields, em)
+    // await isCreatedByAdmin(ctx.user, id, em)
+    console.log('===== UPDATE COURSE RESOLVER =======')
+    return await updateCourseProgramAction(id, data, gradeFields, ctx.user, em)
   }
 
   @Mutation(() => Boolean)
   async deleteCourseProgram (
     @Ctx('em') em: EntityManager,
+    @Ctx('ctx') ctx: AuthCustomContext,
     @Arg('id') id: string
   ): Promise<boolean> {
+    await isCreatedByAdmin(ctx.user, id, em)
     return await deleteCourseProgramAction(id, em)
   }
 
