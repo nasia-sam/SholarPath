@@ -199,6 +199,7 @@
 <script>
 // vue
 import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // common
 import { isRequired, isValidEmail, isMoreOrEqualThan } from 'src/hooks/rules'
@@ -217,6 +218,7 @@ export default defineComponent({
   },
   setup (props) {
     const visible = ref(false)
+    const router = useRouter()
 
     const candidate = ref({
       name: '',
@@ -271,7 +273,7 @@ export default defineComponent({
           candidate.value.proofDegree = await convertFileToBase64(degreeFile.value)
         }
 
-        if (masterFiles.value.length > 0) {
+        if (masterFiles.value && masterFiles.value.length > 0) {
           for await (const master of masterFiles.value) {
             const enc = await convertFileToBase64(master)
             candidate.value.otherMasters.push(enc)
@@ -309,7 +311,12 @@ export default defineComponent({
 
     const finalSubmit = () => {
       useCreateCandidate({ ...candidate.value, cfs: props.course.currentCFS.id, course_id: props.course.id })
-        .then(onCancel())
+        .then(res => {
+          if (res) {
+            onCancel()
+            router.push('/submission/success')
+          }
+        })
     }
 
     const onCancel = () => {

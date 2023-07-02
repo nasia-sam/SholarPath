@@ -10,6 +10,7 @@ const routes = [
       { path: '/courses/:slug/candidates', component: () => import('pages/Candidates.vue') },
       { path: '/reference/:token', component: () => import('pages/Reference.vue') },
       { path: '/register/:token', component: () => import('pages/Registration.vue') },
+      { path: '/submission/success', component: () => import('pages/static-content/SuccessfullSubmission.vue') },
       { path: '/users', component: () => import('pages/InvitedUsers.vue') }
     ]
   },

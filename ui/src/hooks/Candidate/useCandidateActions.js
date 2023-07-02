@@ -26,8 +26,10 @@ export default function useCandidateMutations () {
 
       if (response.data.errors) {
         errorMessage('Error while creating Candidate Submission.')
+        return false
       } else {
-        successMessage('Candidate Submission sucessfully Created')
+        console.log('in here')
+        return true
       }
     } catch (e) {
       errorMessage('Error while creating Candidate Submission.')
