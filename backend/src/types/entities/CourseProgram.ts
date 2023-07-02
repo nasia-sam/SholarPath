@@ -59,6 +59,6 @@ export class CourseProgram {
   @Field(() => String)
   admin (@Root() course: CourseProgram): string | undefined {
     const admin = course.roles.getItems().find(r => r.role === UserRole.admin)
-    return admin?.id
+    return admin?.user.id
   }
 }
