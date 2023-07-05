@@ -41,7 +41,7 @@
             <q-menu>
               <q-list style="min-width: 100px">
                 <q-item clickable v-close-popup v-for="item in props.row.attachedDocuments" :key="item.name">
-                  <q-item-section @click="ShowPdfFilesRef.open(item)">{{ item.type }}</q-item-section>
+                  <q-item-section @click="ShowPdfFilesRef.open(item, props.row.id)">{{ item.type }}</q-item-section>
                 </q-item>
                 <q-separator spaced />
                 <q-item clickable v-close-popup v-for="(item, index) in props.row.references" :key="item">

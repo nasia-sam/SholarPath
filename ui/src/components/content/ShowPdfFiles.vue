@@ -8,7 +8,7 @@
           type="application/pdf"
           width="520px"
           height="830px"
-          :src="'http://127.0.0.1:9999/uploads/' + file.path + '.pdf'"
+          :src="'http://127.0.0.1:9999/uploads/' + file + '.pdf'"
         />
 
       </q-card-section>
@@ -27,8 +27,8 @@ export default defineComponent({
     const visible = ref(false)
     const file = ref()
 
-    const open = (payload) => {
-      file.value = payload
+    const open = (payload, id) => {
+      file.value = id + '/' + payload.path
       visible.value = true
     }
 
