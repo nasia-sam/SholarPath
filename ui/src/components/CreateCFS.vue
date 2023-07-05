@@ -38,8 +38,7 @@
               style="max-width: 220px"
               label="Number of References"
             />
-
-        </div>
+          </div>
         </div>
       </q-page-container>
     </q-layout>
@@ -134,7 +133,7 @@ export default defineComponent({
         createCfsMutation({ ...cfs.value, courseProgram: props.courseProgramId })
           .then(() => { visible.value = false })
       } else {
-        updateCfsMutation(cfsId, { ...cfs.value, courseProgram: props.courseProgramId })
+        updateCfsMutation(cfsId.value, { ...cfs.value, courseProgram: props.courseProgramId })
           .then(() => { visible.value = false })
       }
     }
