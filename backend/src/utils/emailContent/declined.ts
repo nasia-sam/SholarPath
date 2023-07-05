@@ -1,12 +1,9 @@
-import { EntityManager } from '@mikro-orm/core'
-import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
-import { Gender } from 'src/types/entities/Candidate'
-import { Submission } from 'src/types/entities/Submission'
+import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
+import { Candidate } from 'src/types/entities/Candidate'
+import { Gender } from 'src/types/enums/Gender'
+import { sendEmail } from '../sendEmail'
 
-export async function acceptedEmailContent (submission: Submission, em: EntityManager): Promise<string> {
-  const candidate = submission.candidate
-  const cfs = await em.findOneOrFail(CallForSubmissions, submission.cfs, ['courseProgram'])
-
+export async function declinedEmailContent (total: number, data: AcceptCandidatesInput, candidate: Candidate, position: number, courseTitle: string): Promise<void> {
   let content = ''
 
   if (candidate.gender === Gender.female) {
@@ -17,13 +14,18 @@ export async function acceptedEmailContent (submission: Submission, em: EntityMa
     content = content.concat(`Αγαπητοί ${candidate.surname},<br/>`)
   }
 
-  content = content.concat(`<br /><p> Σας ενημέρωνουμε ότι δυστυχώς δεν έχετε επιλεγεί στο Μεταπτυχιακό Πρόγραμμα Σπουδών <br />
-    <b> ${cfs.courseProgram.title}</b> για το εξάμηνο ${cfs.year.getMonth() + 1}/${cfs.year.getFullYear()} και βρίσκεστε σε λίστα αναμονής.
-    <br />Σε περίπτωση ακυρώσεων, θα ενημερωθείτε με νέο mail.
+  content = content.concat(`<br /><p> Η αξιολόγηση των υποψηφίων για το πρόγραμμα Μεταπτυχιακών Σπουδών <br />
+    <b> ${courseTitle}</b> έχει ολοκληρωθεί. Φέτος υπήρξαν ${total} υποψήφιοι που υπέβαλαν εμπρόθεσμα αίτηση για ${data.capacity} θέσεις.
+    <br />Η βαθμολογία που λάβατε με βάση τον φάκελό σας και την προφορική συνέντευξη ήταν ${candidate.totalGrade} σύμφωνα με τον κανονισμό σπουδών
+    http://msc.it.teithe.gr/wp-content/uploads/2018/06/kanonismos_spoudwn.pdf .
+    <br />Με βάση την παραπάνω βαθμολογία η σειρά κατάταξής σας είναι ${position}.
+    <br /><br />
+    Σε περίπτωση που κάποιοι από τους επιλεγέντες υποψηφίους δεν αποδεχτούν τη θέση τους θα γίνει κλήση των υποψηφίων
+    με σειρά κατάταξης μεγαλύτερη του 30 κατά σειρά προτεραιότητας, το αργότερο μέχρι την 7/10/2020.
     <br /><br />
     Με εκτίμηση,<br />
 
     </p>`)
 
-  return content
+  await sendEmail(candidate.email, `Αίτητηση Πρόγραμμα Σπουδών ${courseTitle}`, content) // todo check if await is needed
 }

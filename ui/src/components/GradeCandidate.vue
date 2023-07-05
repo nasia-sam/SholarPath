@@ -28,7 +28,7 @@
                 dense
                 square
                 v-model.number="review[field.key]"
-                :suffix="field.weigth.toString()"
+
                 :min="field.min_val"
                 :max="field.max_val"
                 type="number"
@@ -75,7 +75,7 @@ export default defineComponent({
     const review = ref([])
 
     const open = async (candidateRow) => {
-      const gradeKeys = props.gradeFields.map(gf => gf.key)
+      // const gradeKeys = props.gradeFields.map(gf => gf.key)
       await fetchById(candidateRow.id)
 
       review.value = props.gradeFields.reduce((acc, cur) => {
@@ -88,9 +88,10 @@ export default defineComponent({
         fieldKeys.forEach(key => {
           review.value[key] = candidate.value.review.find(review => review.key === key).grade
         })
-      } else {
-        review.value = gradeKeys.map(gf => { return { [gf]: null } })
       }
+      // else {
+      //   review.value = gradeKeys.map(gf => { return { [gf]: null } })
+      // }
 
       visible.value = true
     }

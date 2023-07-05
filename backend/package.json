@@ -20,6 +20,7 @@
     "@types/koa-mount": "^4.0.1",
     "@types/nodemailer": "^6.4.5",
     "apollo-server-koa": "^2.26.0",
+    "apollo-server-plugin-base": "^3.7.2",
     "bcrypt": "^5.1.0",
     "class-validator": "^0.14.0",
     "date-fns": "^2.29.3",

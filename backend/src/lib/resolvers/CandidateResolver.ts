@@ -5,7 +5,8 @@ import { Candidate } from 'src/types/entities/Candidate'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
-import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction, getCandidateByIdAction } from '../actions/CandidateActions'
+import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction, getCandidateByIdAction, acceptCandidatesAction } from '../actions/CandidateActions'
+import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {
@@ -39,6 +40,14 @@ export class CandidateResolver {
     @Arg('data') data: ReviewInput
   ): Promise<boolean> {
     return await gradeCandidateAction(data, em)
+  }
+
+  @Mutation(() => Boolean)
+  async acceptCandidates (
+    @Ctx('em') em: EntityManager,
+    @Arg('data') data: AcceptCandidatesInput
+  ): Promise<boolean> {
+    return await acceptCandidatesAction(data, em)
   }
 
   @Mutation(() => Boolean)

@@ -352,6 +352,15 @@
           "nullable": true,
           "mappedType": "json"
         },
+        "total_grade": {
+          "name": "total_grade",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "integer"
+        },
         "cfs_id": {
           "name": "cfs_id",
           "type": "varchar(255)",
