@@ -13,6 +13,8 @@ import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { createReferenceAction } from 'src/lib/actions/ReferenceActions'
 import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
 import { acceptedEmailContent } from 'src/utils/emailContent/accepted'
+import { declinedEmailContent } from 'src/utils/emailContent/declined'
+import { CourseProgram } from 'src/types/entities/CourseProgram'
 
 export async function getCandidatesByCfsAction (cfsId: string, em: EntityManager): Promise<Candidate[]> {
   return await em.find(Candidate, { cfs: { id: cfsId } }, { populate: ['cfs', 'references'] })
@@ -87,6 +89,21 @@ export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: E
 
   for (let i = 0; i < totalCount; i++) {
     await acceptedEmailContent(data, accepted[i], cfs, totalCount)
+  }
+  await declineCandidateAction(data, cfs.courseProgram, em)
+  return true
+}
+
+export async function declineCandidateAction (data: AcceptCandidatesInput, course: CourseProgram, em: EntityManager): Promise<boolean> {
+  const [declined, totalCount] = await em.findAndCount(Candidate, {
+    cfs: { id: data.cfsId }
+  }, {
+    orderBy: { totalGrade: QueryOrder.DESC },
+    offset: data.capacity
+  })
+
+  for (let i = 0; i < totalCount; i++) {
+    await declinedEmailContent(totalCount, data, declined[i], data.capacity + i + 1, course.title)
   }
   return true
 }
