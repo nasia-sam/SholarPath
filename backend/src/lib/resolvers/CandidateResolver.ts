@@ -2,11 +2,11 @@ import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
 import { Candidate } from 'src/types/entities/Candidate'
+import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
 import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
 import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
 import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction, getCandidateByIdAction, acceptCandidatesAction } from '../actions/CandidateActions'
-import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
 
 @Resolver(() => Candidate)
 export class CandidateResolver {

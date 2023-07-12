@@ -5,7 +5,7 @@ export async function sendEmail (email: string, subject: string, content: string
   const account = await nodemailer.createTestAccount()
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.etheral.email',
+    host: account.smtp.host,
     port: 587,
     secure: false,
     auth: {

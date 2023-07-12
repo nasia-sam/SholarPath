@@ -75,22 +75,29 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
 }
 
 export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: EntityManager): Promise<boolean> {
-  const [accepted, totalCount] = await em.findAndCount(Candidate, {
+  const [candidates, totalCount] = await em.findAndCount(Candidate, {
     cfs: { id: data.cfsId }
   }, {
-    orderBy: { totalGrade: QueryOrder.DESC },
-    limit: data.capacity
+    orderBy: { totalGrade: QueryOrder.DESC }
   }
   )
 
+  const accepted = candidates.slice(0, data.capacity)
+  const declined = candidates.slice(data.capacity)
+
   const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfsId }, { populate: ['courseProgram'] })
 
-  console.log(accepted[0], totalCount)
-
-  for (let i = 0; i < totalCount; i++) {
-    await acceptedEmailContent(data, accepted[i], cfs, totalCount)
+  const promises = []
+  for (let i = 0; i < accepted.length; i++) {
+    promises.push(acceptedEmailContent(data, accepted[i], cfs, totalCount))
   }
-  await declineCandidateAction(data, cfs.courseProgram, em)
+  for (let i = 0; i < declined.length; i++) {
+    await declinedEmailContent(totalCount, data, declined[i], data.capacity + i + 1, cfs.courseProgram.title)
+  }
+
+  Promise.all(promises)
+    .catch(err => console.log(err))
+
   return true
 }
 

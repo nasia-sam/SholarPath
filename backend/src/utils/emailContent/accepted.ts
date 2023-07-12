@@ -35,7 +35,7 @@ export async function acceptedEmailContent (data: AcceptCandidatesInput, candida
     Συγχαρητήρια και Καλή Ακαδημαϊκή Χρονιά.
     <br /><br />
     Με εκτίμηση,<br />
-
+      ${cfs.courseProgram.admin?.name ?? 'η Επιτροπή Αξιολόγησης'}
     </p>`)
 
   await sendEmail(candidate.email, `Αίτητηση Πρόγραμμα Σπουδών ${cfs.courseProgram.title}`, content)
