@@ -10,6 +10,15 @@ export const createCandidate = gql`
 
 export const gradeCandidate = gql`
   mutation gradeCandidate ($data: ReviewInput!) {
-    gradeCandidate (data: $data)
+    gradeCandidate (data: $data) {
+      id
+      totalGrade
+    }
+  }
+`
+
+export const acceptCandidates = gql`
+  mutation acceptCandidates ($data: AcceptCandidatesInput!) {
+    acceptCandidates (data: $data)
   }
 `

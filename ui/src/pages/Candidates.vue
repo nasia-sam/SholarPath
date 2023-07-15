@@ -74,8 +74,11 @@ import { useRoute } from 'vue-router'
 
 // hooks
 import useFetchCFS from 'src/hooks/Cfs/useFetchCFS'
-import fetchAllCandidates from 'src/hooks/Candidate/fetchCandidates'
 import { formatDate } from 'src/hooks/commonFunctions'
+
+// stores
+import { storeToRefs } from 'pinia'
+import candidatesStore from 'src/store/candidates/candidateStore'
 
 // components
 import GradeCandidateForm from 'src/components/GradeCandidate.vue'
@@ -92,8 +95,10 @@ export default defineComponent({
   setup () {
     const route = useRoute()
 
+    const store = candidatesStore()
+    const { getCandidates } = storeToRefs(store)
+
     const { fetchCFSbyCourse, result } = useFetchCFS()
-    const { fetch: fetchCandidates, result: candidates } = fetchAllCandidates()
 
     onMounted(() => {
       fetchCFSbyCourse(route.params.slug)
@@ -126,7 +131,7 @@ export default defineComponent({
     })
 
     watch(selectedCfs, () => {
-      if (selectedCfs.value !== '') fetchCandidates(selectedCfs.value)
+      if (selectedCfs.value !== '') store.fetchCandidates(selectedCfs.value)
     })
 
     const GradeCandidateFormRef = ref()
@@ -139,9 +144,8 @@ export default defineComponent({
       columns,
       filter,
       selectedCfs,
-      candidates,
+      candidates: getCandidates,
       gradeFields,
-      fetchCandidates,
       GradeCandidateFormRef,
       ShowPdfFilesRef,
       ShowReferenceRef

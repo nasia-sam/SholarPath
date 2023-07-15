@@ -54,7 +54,7 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
   return candidate
 }
 
-export async function gradeCandidateAction (data: ReviewInput, em: EntityManager): Promise<boolean> {
+export async function gradeCandidateAction (data: ReviewInput, em: EntityManager): Promise<Candidate> {
   const candidate = await em.findOneOrFail(Candidate, { id: data.candidate })
 
   if (!candidate) throw new UserInputError('INVALID_CANDIDATE')
@@ -63,7 +63,6 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
   candidate.totalGrade = data.review
     .reduce((acc, cur) => {
       acc += cur.grade
-      console.log('ACC ', cur, cur.grade)
       return acc
     }, 0)
 
@@ -71,7 +70,7 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
 
   await em.flush()
 
-  return true
+  return candidate
 }
 
 export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: EntityManager): Promise<boolean> {

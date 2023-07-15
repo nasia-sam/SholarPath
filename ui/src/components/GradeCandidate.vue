@@ -54,9 +54,11 @@ import { defineComponent, ref } from 'vue'
 import { isLessOrEqualThan, isPositiveNumber } from 'src/hooks/rules'
 import { errorMessage } from 'src/hooks/globalNotifications'
 
+// store
+import candidatesStore from 'src/store/candidates/candidateStore'
+
 // hooks
 import fetchAllCandidates from 'src/hooks/Candidate/fetchCandidates'
-import useCandidateMutations from 'src/hooks/Candidate/useCandidateActions'
 
 export default defineComponent({
   name: 'GradeCandidateForm',
@@ -68,14 +70,14 @@ export default defineComponent({
   },
   setup (props) {
     const { fetchById, candidate } = fetchAllCandidates()
-    const { gradeCandidateMutation } = useCandidateMutations()
 
     const visible = ref(false)
 
     const review = ref([])
 
+    const store = candidatesStore()
+
     const open = async (candidateRow) => {
-      // const gradeKeys = props.gradeFields.map(gf => gf.key)
       await fetchById(candidateRow.id)
 
       review.value = props.gradeFields.reduce((acc, cur) => {
@@ -89,9 +91,6 @@ export default defineComponent({
           review.value[key] = candidate.value.review.find(review => review.key === key).grade
         })
       }
-      // else {
-      //   review.value = gradeKeys.map(gf => { return { [gf]: null } })
-      // }
 
       visible.value = true
     }
@@ -115,7 +114,7 @@ export default defineComponent({
       Object.keys(review.value).forEach(k => {
         finalReview.push({ key: k, grade: review.value[k] })
       })
-      await gradeCandidateMutation(candidate.value.id, finalReview)
+      await store.gradeCandidate(candidate.value.id, finalReview)
 
       visible.value = false
     }

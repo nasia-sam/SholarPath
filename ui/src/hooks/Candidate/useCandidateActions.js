@@ -26,10 +26,9 @@ export default function useCandidateMutations () {
 
       if (response.data.errors) {
         errorMessage('Error while creating Candidate Submission.')
-        return false
+        return undefined
       } else {
-        console.log('in here')
-        return true
+        return response.data.data.createCandidate
       }
     } catch (e) {
       errorMessage('Error while creating Candidate Submission.')
@@ -58,8 +57,10 @@ export default function useCandidateMutations () {
 
       if (response.data.errors) {
         errorMessage('Error while grading Candidate Submission.')
+        return undefined
       } else {
         successMessage('Candidate Review sucessfully Created')
+        return response.data.data.gradeCandidate
       }
     } catch (e) {
       errorMessage('Error while grading Candidate Submission.')

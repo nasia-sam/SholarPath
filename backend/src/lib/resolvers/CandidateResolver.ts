@@ -34,11 +34,11 @@ export class CandidateResolver {
     return await createCandidateAction(data, em)
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Candidate)
   async gradeCandidate (
     @Ctx('em') em: EntityManager,
     @Arg('data') data: ReviewInput
-  ): Promise<boolean> {
+  ): Promise<Candidate> {
     return await gradeCandidateAction(data, em)
   }
 

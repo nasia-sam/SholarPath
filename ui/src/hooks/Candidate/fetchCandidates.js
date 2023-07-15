@@ -26,7 +26,7 @@ export default function fetchAllCandidates () {
       })
 
       if (response.data.data.candidates) {
-        result.value = response.data.data.candidates
+        return response.data.data.candidates
       }
     } catch (err) {
       console.log('error while fetching course candidates')

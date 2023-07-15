@@ -5,12 +5,6 @@ export const createCourseProgram = gql`
     course: createCourseProgram (data: $data, gradeFields: $gradeFields) {
       id
       slug
-      university
-      department
-      title
-      description
-      open
-      sitelink
     }
   }
 `
