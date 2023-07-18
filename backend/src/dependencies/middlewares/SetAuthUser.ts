@@ -7,6 +7,8 @@ import { TOKEN_SECRET } from 'src/dependencies/Config'
 export async function setAuthUser (ctx: CustomContext, next: Next): Promise<void> {
   const token = ctx.request?.header?.authorization
 
+  console.log(ctx.request?.body)
+
   const bearer = token?.split(' ')[1].trim()
 
   if (token && bearer) {

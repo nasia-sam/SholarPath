@@ -9,9 +9,6 @@ export class GradeFields {
   title: string
 
   @Property()
-  weigth: number
-
-  @Property()
   min_val: number
 
   @Property()

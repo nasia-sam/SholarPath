@@ -5,18 +5,10 @@
         square
         dense
         v-model="newField.title"
-        style="width:60%"
-        label="Title"
+        style="width:100%"
+        label="Τίτλος"
         filled
-        hint="Must be unique for every course (case insesitive)."
-      />
-      <q-input
-        square
-        dense
-        v-model.number="newField.weigth"
-        label="Weigth"
-        type="number"
-        filled
+        hint="Πρέπει να είναι ξεχωριστός σε κάθε Πρόγραμμα Σπουδών (case insesitive)."
       />
 
   </q-card-section>
@@ -26,7 +18,7 @@
       square
       dense
       v-model.number="newField.min_val"
-      label="Min Value"
+      label="Min Τιμή"
       type="number"
       filled
     />
@@ -34,7 +26,7 @@
       square
       dense
       v-model.number="newField.max_val"
-      label="Max Value"
+      label="Max Τιμή"
       type="number"
       filled
 
@@ -58,8 +50,7 @@ export default defineComponent({
       key: '',
       title: '',
       min_val: 0,
-      max_val: 0,
-      weigth: 0.0
+      max_val: 0
     })
 
     const addField = () => {
@@ -73,8 +64,7 @@ export default defineComponent({
         key: '',
         title: '',
         min_val: 0,
-        max_val: 0,
-        weigth: 0.0
+        max_val: 0
       }
     }
 

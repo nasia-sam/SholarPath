@@ -33,7 +33,6 @@ export const useloggedUser = defineStore('loggedUser', {
       localStorage.removeItem('msc_app_token')
       this.user = undefined
       this.authToken = ''
-      this.isAuthenticated()
 
       successMessage('Επιτυχής Έξοδος')
     }

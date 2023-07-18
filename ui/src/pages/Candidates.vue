@@ -2,7 +2,17 @@
   <q-page padding>
     <div class="row justify-between q-mb-lg">
       <span class="text-h4"> Υποψήφιοι </span>
-      <div>
+
+      <div class="row flex flex-center">
+        <div class="q-px-md">
+          <q-btn
+            :loading="acceptLoading"
+            color="secondary"
+            @click="AcceptCandidatesRef.open()">
+            Αποδοχη αιτησεων
+          </q-btn>
+        </div>
+
         <q-select
           square
           outlined
@@ -63,6 +73,7 @@
     </q-table>
   </q-page>
 
+  <AcceptCandidates ref="AcceptCandidatesRef" :cfsId="selectedCfs" @acceptAction="acceptAction" />
   <GradeCandidateForm ref="GradeCandidateFormRef" :gradeFields="gradeFields" />
   <ShowPdfFiles ref="ShowPdfFilesRef" />
   <ShowReference ref="ShowReferenceRef" />
@@ -74,6 +85,7 @@ import { useRoute } from 'vue-router'
 
 // hooks
 import useFetchCFS from 'src/hooks/Cfs/useFetchCFS'
+import useCandidateMutations from 'src/hooks/Candidate/useCandidateActions'
 import { formatDate } from 'src/hooks/commonFunctions'
 
 // stores
@@ -81,6 +93,7 @@ import { storeToRefs } from 'pinia'
 import candidatesStore from 'src/store/candidates/candidateStore'
 
 // components
+import AcceptCandidates from 'src/components/AcceptCandidates.vue'
 import GradeCandidateForm from 'src/components/GradeCandidate.vue'
 import ShowPdfFiles from 'src/components/content/ShowPdfFiles.vue'
 import ShowReference from 'src/components/ShowReference.vue'
@@ -88,6 +101,7 @@ import ShowReference from 'src/components/ShowReference.vue'
 export default defineComponent({
   name: 'Candidates',
   components: {
+    AcceptCandidates,
     GradeCandidateForm,
     ShowPdfFiles,
     ShowReference
@@ -124,6 +138,7 @@ export default defineComponent({
       }
     }))
 
+    // handle cfs change
     const selectedCfs = ref('')
     const gradeFields = computed(() => {
       const cfs = result.value.find(c => c.id === selectedCfs.value)
@@ -134,6 +149,16 @@ export default defineComponent({
       if (selectedCfs.value !== '') store.fetchCandidates(selectedCfs.value)
     })
 
+    // send acceptance emails
+    const { useAcceptCandidates, acceptLoading } = useCandidateMutations()
+
+    const acceptAction = (data) => {
+      console.log('@@')
+      useAcceptCandidates(data)
+    }
+
+    // refs
+    const AcceptCandidatesRef = ref()
     const GradeCandidateFormRef = ref()
     const ShowPdfFilesRef = ref()
     const ShowReferenceRef = ref()
@@ -143,9 +168,14 @@ export default defineComponent({
       result,
       columns,
       filter,
+
       selectedCfs,
       candidates: getCandidates,
       gradeFields,
+      acceptLoading,
+      acceptAction,
+
+      AcceptCandidatesRef,
       GradeCandidateFormRef,
       ShowPdfFilesRef,
       ShowReferenceRef

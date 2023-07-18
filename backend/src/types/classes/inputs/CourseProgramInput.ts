@@ -1,3 +1,4 @@
+import { IsInt, IsString } from 'class-validator'
 import { Field, InputType } from 'type-graphql'
 
 @InputType()
@@ -9,9 +10,7 @@ export class GradeFieldsInput {
   title: string
 
   @Field()
-  weigth: number
-
-  @Field()
+  @IsInt()
   min_val: number
 
   @Field()
@@ -24,6 +23,7 @@ export class CourseProgramInput {
   slug: string
 
   @Field()
+  @IsString()
   university: string
 
   @Field()
@@ -37,7 +37,4 @@ export class CourseProgramInput {
 
   @Field()
   sitelink: string
-
-  @Field()
-  adminId: string
 }

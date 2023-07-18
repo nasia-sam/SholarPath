@@ -3,11 +3,12 @@ import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { createCandidate, gradeCandidate } from 'src/graphql/Candidate/mutations'
+import { createCandidate, gradeCandidate, acceptCandidates } from 'src/graphql/Candidate/mutations'
 import { errorMessage, successMessage } from '../globalNotifications'
 
 export default function useCandidateMutations () {
   const loading = ref(false)
+  const acceptLoading = ref(false)
 
   const useCreateCandidate = async (data) => {
     try {
@@ -69,10 +70,47 @@ export default function useCandidateMutations () {
     }
   }
 
+  const useAcceptCandidates = async (data) => {
+    acceptLoading.value = true
+
+    try {
+      loading.value = true
+
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(acceptCandidates),
+          variables: {
+            data: {
+              ...data,
+              deadline: new Date(data.deadline),
+              waitlistDeadline: new Date(data.waitlistDeadline)
+            }
+          }
+        }
+      })
+
+      if (response.data.errors) {
+        errorMessage('Σφάλμα κατά την αποστολή email')
+        return false
+      } else {
+        successMessage('Τα mail στάλθηκαν επιτυχημένα.')
+        return true
+      }
+    } catch (e) {
+      errorMessage('Error while grading Candidate Submission.')
+    } finally {
+      acceptLoading.value = false
+    }
+  }
+
   return {
     useCreateCandidate,
     gradeCandidateMutation,
+    useAcceptCandidates,
 
-    loading
+    loading,
+    acceptLoading
   }
 }

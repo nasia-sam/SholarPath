@@ -16,8 +16,9 @@ export const isAdmin = (user: User | undefined): void => {
 export const isCreatedByAdmin = async (user: User | undefined, courseId: string, em: EntityManager): Promise<void> => {
   if (!user) throw new AuthenticationError('UNAUTHORIZED')
 
-  const course = await em.findOneOrFail(CourseProgram, courseId, { populate: ['roles'] })
-  const courseAdmin = course.roles.getItems().find(r => r.role === UserRole.admin)
+  const course = await em.findOneOrFail(CourseProgram, courseId, { populate: ['roles', 'roles.user'] })
+  const courseAdmin = course.roles.getItems().find(r => r.role === UserRole.admin)?.user
+  console.log(courseAdmin, user)
   if (!courseAdmin || courseAdmin?.id !== user.id) throw new AuthenticationError('INVALID_COURSE_ADMIN_PERMISSIONS')
 }
 

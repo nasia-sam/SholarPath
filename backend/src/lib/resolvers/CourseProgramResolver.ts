@@ -38,8 +38,8 @@ export class CourseProgramResolver {
   async createCourseProgram (
     @Ctx('em') em: EntityManager,
     // @Ctx('ctx') ctx: AuthCustomContext,
-    @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
-    @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
+    @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[],
+    @Arg('data') data: CourseProgramInput
   ): Promise<CourseProgram> {
     console.log('in here!!!!  data:', data, '//', gradeFields)
     return await createCourseProgramAction(data, gradeFields, 'b4f0c92d-9715-40df-8f11-de34fc44b00d', em)

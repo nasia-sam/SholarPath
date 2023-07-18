@@ -3,6 +3,8 @@ import { EntityManager } from '@mikro-orm/core'
 
 import { Submission } from 'src/types/entities/Submission'
 import { GradeSubmissionInput } from 'src/types/classes/inputs/GadeSubmissionInput'
+import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
+
 import { createSubmissionAction, gradeSubmissionAction } from '../actions/SubmissionActions'
 
 @Resolver(() => Submission)
@@ -23,6 +25,6 @@ export class SubmissionResolver {
     @Arg('data') data: GradeSubmissionInput,
     @Arg('id') id: string
   ): Promise<Submission> {
-    return await gradeSubmissionAction(id, data, em)
+    return await gradeSubmissionAction(id, data, ctx.user, em)
   }
 }
