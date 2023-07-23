@@ -1,9 +1,9 @@
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { api } from 'src/boot/axios'
 
 // GQL
 import { print } from 'graphql'
-import { getAllCoursesQuery, getCourseProgramBySlug } from 'src/graphql/CoursePrograms/queries'
+import { getAllCoursesQuery, getCourseProgramBySlug, getCourseByAdmin } from 'src/graphql/CoursePrograms/queries'
 
 export default function fetchAllProgramCourses () {
   const result = ref([])
@@ -31,7 +31,6 @@ export default function fetchAllProgramCourses () {
     }
   }
 
-  // todo move it to other file lol
   const fetchBySlug = async (slug) => {
     try {
       loading.value = true
@@ -39,7 +38,7 @@ export default function fetchAllProgramCourses () {
         url: '',
         method: 'POST',
         data: {
-          query: print(getCourseProgramBySlug),
+          query: print(getCourseByAdmin),
           variables: {
             slug: slug
           }
@@ -56,14 +55,29 @@ export default function fetchAllProgramCourses () {
     }
   }
 
-  onMounted(() => {
-    fetch()
-  })
+  const fetchAdminCourses = async () => {
+    try {
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(getCourseByAdmin)
+        }
+      })
+
+      if (response.data.data) {
+        return response.data.data.getCourseByAdmin
+      }
+    } catch (err) {
+      console.log('Error while fetching Admin course program.')
+    }
+  }
 
   return {
     result,
     fetch,
     fetchBySlug,
+    fetchAdminCourses,
     loading
   }
 }

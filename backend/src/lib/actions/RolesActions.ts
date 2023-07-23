@@ -4,8 +4,14 @@ import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { Roles, UserRole } from 'src/types/entities/Roles'
 import { User } from 'src/types/entities/User'
 
-export async function createRoleAction (email: string, courseId: string, em: EntityManager): Promise<Roles> {
-  const user = await em.findOneOrFail(User, { email: email })
+export async function getRolesByUserAction (userId: string, em: EntityManager): Promise<Roles[]> {
+  const userRoles = await em.find(Roles, { user: { id: userId } })
+
+  return userRoles
+}
+
+export async function createRoleAction (id: string, courseId: string, em: EntityManager): Promise<Roles> {
+  const user = await em.findOneOrFail(User, { id: id })
   const course = await em.findOneOrFail(CourseProgram, courseId)
 
   // TODO check logged user is admin

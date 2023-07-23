@@ -9,10 +9,10 @@ export class RolesResolver {
   @Mutation(() => Roles)
   async createRole (
     @Ctx('em') em: EntityManager,
-    @Arg('email') email: string,
+    @Arg('userId') userId: string,
     @Arg('courseId') courseId: string
   ): Promise<Roles> {
-    return await createRoleAction(email, courseId, em)
+    return await createRoleAction(userId, courseId, em)
   }
 
   @Mutation(() => String)

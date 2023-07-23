@@ -59,3 +59,18 @@ export const getCourseProgramBySlug = gql`
     }
   }
 `
+
+export const getCourseByAdmin = gql`
+  query getCourseByAdmin {
+    getCourseByAdmin {
+      id
+      title
+      roles {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+`

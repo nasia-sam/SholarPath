@@ -20,7 +20,20 @@ async function validateSlugs (slug: string, em: EntityManager, id: string | null
   return true
 }
 
-export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], user: string, em: EntityManager): Promise<CourseProgram> {
+export async function getCourseByAdminAction (userId: string, em: EntityManager): Promise<CourseProgram[]> {
+  const courses = await em.find(CourseProgram, {
+    roles: {
+      role: UserRole.admin,
+      user: {
+        id: userId
+      }
+    }
+  })
+
+  return courses
+}
+
+export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], user: User, em: EntityManager): Promise<CourseProgram> {
   console.log('user', user)
   // if (!user.is_admin) throw new AuthenticationError('NOT_ENOUGH_PERMISSIONS')
 

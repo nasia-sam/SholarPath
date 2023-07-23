@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { storeToRefs } from 'pinia'
@@ -84,6 +84,8 @@ export default defineComponent({
 
     // get data from server
     const { result, loading, fetch: fetchPrograms } = fetchAllProgramCourses()
+
+    onMounted(async () => await fetchPrograms())
 
     // redirect to course page
     const redirectToPage = (slug) => {
