@@ -38,7 +38,7 @@ export default function fetchAllProgramCourses () {
         url: '',
         method: 'POST',
         data: {
-          query: print(getCourseByAdmin),
+          query: print(getCourseProgramBySlug),
           variables: {
             slug: slug
           }
