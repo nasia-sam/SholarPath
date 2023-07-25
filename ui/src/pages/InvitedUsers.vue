@@ -30,31 +30,61 @@
       :rows="users"
       :columns="columns"
       row-key="id"
-    />
+    >
+      <template #body-cell-roles="props">
+        <q-td :props="props">
+          <div>
+            <q-btn
+              round
+              color="primary"
+              size="sm"
+              :loading="loading"
+              @click="AddRolesToUsersRef.open(props.row)"
+            >
+              {{ props.row.roles.length }}
+            </q-btn>
+          </div>
+        </q-td>
+      </template>
+    </q-table>
   </q-page>
+
+  <AddRolesToUsers ref="AddRolesToUsersRef" :coursePrograms="courses" />
 </template>
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
 
+// hooks
 import useUserInvitations from 'src/hooks/User/invitations'
+import fetchAllProgramCourses from 'src/hooks/CoursePrograms/fetchCoursePrograms'
 import { isRequired, isValidEmail } from 'src/hooks/rules'
+
+// components
+import AddRolesToUsers from 'src/components/AddRolesToUsers.vue'
 
 export default defineComponent({
   name: 'InvitedUsers',
+  components: {
+    AddRolesToUsers
+  },
   setup () {
     const columns = [
-      { name: 'name', align: 'center', label: 'Name', field: 'name', sortable: true },
+      { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
-      { name: 'roles', align: 'center', label: 'roles', field: 'roles', sortable: true }
+      { name: 'roles', align: 'right', label: 'roles', field: 'roles', sortable: true }
     ]
     const { fetchInvitedUsers, result: users, inviteUser, fetchPendingInvitations, loading, pendingInvitations } = useUserInvitations()
+    const { fetchAdminCourses } = fetchAllProgramCourses()
 
     onMounted(async () => {
       await fetchInvitedUsers()
       await fetchPendingInvitations()
+
+      courses.value = await fetchAdminCourses()
     })
 
+    const courses = ref([])
     const email = ref('')
 
     const submit = () => {
@@ -63,12 +93,18 @@ export default defineComponent({
       inviteUser(email.value).then(() => fetchPendingInvitations())
     }
 
+    // refs
+    const AddRolesToUsersRef = ref()
+
     return {
       columns,
       users,
       email,
       loading,
       pendingInvitations,
+      courses,
+      AddRolesToUsersRef,
+
       isRequired,
       isValidEmail,
       submit

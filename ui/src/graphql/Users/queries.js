@@ -9,6 +9,7 @@ export const getInvitedUsers = gql`
       roles {
         role
         course {
+          id
           title
         }
       }
