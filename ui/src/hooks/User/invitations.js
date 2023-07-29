@@ -48,7 +48,7 @@ export default function useUserInvitations () {
           }
         }
       })
-      console.log('!! INV DATA', response.data.data)
+
       if (response.data.data.inviteUser) {
         successMessage('User Invited')
       } else {

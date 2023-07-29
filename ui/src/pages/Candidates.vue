@@ -153,7 +153,6 @@ export default defineComponent({
     const { useAcceptCandidates, acceptLoading } = useCandidateMutations()
 
     const acceptAction = (data) => {
-      console.log('@@')
       useAcceptCandidates(data)
     }
 

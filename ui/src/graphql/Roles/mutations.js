@@ -7,3 +7,8 @@ export const createRole = gql`
     }
   }
 `
+export const removeRole = gql`
+mutation deleteRole ($id: String!) {
+  deleteRole (id: $id)
+}
+`

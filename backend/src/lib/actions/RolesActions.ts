@@ -14,8 +14,6 @@ export async function createRoleAction (id: string, courseId: string, em: Entity
   const user = await em.findOneOrFail(User, { id: id })
   const course = await em.findOneOrFail(CourseProgram, courseId)
 
-  // TODO check logged user is admin
-
   const role = em.create(Roles, {
     role: UserRole.moderator,
     course: course,

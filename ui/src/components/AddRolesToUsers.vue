@@ -25,6 +25,17 @@
                   >
                     <q-tooltip>Προσθήκη Ρόλου Moderator</q-tooltip>
                 </q-btn>
+                <q-btn
+                  v-else
+                  round
+                  color="red"
+                  size="sm"
+                  icon="remove"
+                  :loading="loading"
+                  @click="confirmRemoveRole(course.id)"
+                  >
+                    <q-tooltip>Αφαίρεση Ρόλου Moderator</q-tooltip>
+                </q-btn>
               </q-item-section>
             </q-item>
           </q-list>
@@ -53,22 +64,21 @@ export default defineComponent({
 
     const visible = ref(false)
 
-    const userId = ref('')
+    const user = ref()
     const hasRoleMap = ref()
 
-    const open = (user) => {
-      userId.value = user.id
+    const open = (payload) => {
+      user.value = payload
+
       hasRoleMap.value = props.coursePrograms.reduce((acc, cur) => {
-        acc[cur.id] = (user.roles.findIndex(r => r.course.id === cur.id) !== -1)
+        acc[cur.id] = (payload.roles.findIndex(r => r.course.id === cur.id) !== -1)
         return acc
       }, {})
-
-      console.log('AAAA', hasRoleMap.value)
 
       visible.value = true
     }
 
-    const { useAddRole, loading } = useRoleMutations()
+    const { useAddRole, useRemoveRole, loading } = useRoleMutations()
 
     const confirmAddRole = (id) => {
       $q.dialog({
@@ -77,8 +87,22 @@ export default defineComponent({
         cancel: true,
         persistent: true
       }).onOk(() => {
-        useAddRole(userId.value, id)
+        useAddRole(user.value.id, id)
           .then(() => { hasRoleMap.value[id] = true })
+      })
+    }
+
+    const confirmRemoveRole = (id) => {
+      const roleId = user.value.roles.find(r => r.course.id === id).id
+
+      $q.dialog({
+        title: 'Αφαίρεση Ρόλου Moderator',
+        message: 'Είστε σίγουροι;\n Ο χρήστης θα χάσει το δικαίωμα να αξιολογεί αιτήσεις στο συγκεκριμένο ΠΜΣ.',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        useRemoveRole(roleId)
+          .then(() => { hasRoleMap.value[id] = false })
       })
     }
 
@@ -86,8 +110,10 @@ export default defineComponent({
       visible,
       loading,
       hasRoleMap,
+      user,
       open,
-      confirmAddRole
+      confirmAddRole,
+      confirmRemoveRole
     }
   }
 })
