@@ -4,7 +4,7 @@
 
        <q-header>
         <q-toolbar>
-          <q-toolbar-title>Create Course Program</q-toolbar-title>
+          <q-toolbar-title>Πρόγραμμα Σπουδών</q-toolbar-title>
         </q-toolbar>
       </q-header>
 

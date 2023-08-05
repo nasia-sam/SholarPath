@@ -17,26 +17,26 @@
 
       <q-page-container>
         <div class="q-pa-md text-grey-8 q-gutter-lg">
-          <p class="text-subtitle1">Pick Date Range</p>
+          <p class="text-subtitle1">Επιλέξτε Εύρος ημερομηνιών</p>
           <q-date v-model="openRange" range />
 
-          <p class="text-subtitle1">Additional Files</p>
+          <p class="text-subtitle1">Επιπλέον Αρχεία</p>
           <div class="q-gutter-y-md">
             <div>
-              <q-checkbox v-model="cfs.documents.proofDegree" label="Proof of Degree" />
+              <q-checkbox v-model="cfs.documents.proofDegree" label="Απόδειξη Πτυχίου" />
             </div>
             <div>
-              <q-checkbox v-model="cfs.documents.otherMasters" label="Proof of Other Masters" />
+              <q-checkbox v-model="cfs.documents.otherMasters" label="Απόδειξη άλλων Masters" />
             </div>
 
-            <q-checkbox v-model="cfs.documents.references" label="Referencies" />
+            <q-checkbox v-model="cfs.documents.references" label="Συστατικές Επιστολές" />
             <q-input
               type="number"
               v-model.number="cfs.documents.numberOfReferencies"
               class="q-pb-lg q-pl-md"
               :disable="!cfs.documents.references"
               style="max-width: 220px"
-              label="Number of References"
+              label="Αριθμός Ζητούμενων Συστατικών"
             />
           </div>
         </div>
