@@ -22,6 +22,9 @@ export const candidatesStore = defineStore('candidates', {
       const index = this.candidates.findIndex(candidate => candidate.id === id)
 
       this.candidates[index] = { ...this.candidates[index], totalGrade: res.totalGrade }
+    },
+    clearState () {
+      this.candidates = []
     }
   }
 })

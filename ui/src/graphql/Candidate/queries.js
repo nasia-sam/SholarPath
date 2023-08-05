@@ -27,6 +27,7 @@ export const getCandidatesByCfs = gql`
         id
       }
       totalGrade
+      state
     }
   }
 `

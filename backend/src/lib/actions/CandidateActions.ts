@@ -15,6 +15,7 @@ import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates
 import { acceptedEmailContent } from 'src/utils/emailContent/accepted'
 import { declinedEmailContent } from 'src/utils/emailContent/declined'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
+import { Candidate_State } from 'src/types/enums/CandidateState'
 
 export async function getCandidatesByCfsAction (cfsId: string, em: EntityManager): Promise<Candidate[]> {
   return await em.find(Candidate, { cfs: { id: cfsId } }, { populate: ['cfs', 'references'] })
@@ -31,7 +32,12 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
     throw new UserInputError('CFS NOT OPEN')
   }
 
-  const candidate = em.create(Candidate, { ...data, attachedDocuments: [], totalGrade: 0 })
+  const candidate = em.create(Candidate, {
+    ...data,
+    attachedDocuments: [],
+    totalGrade: 0,
+    state: Candidate_State.submitted
+  })
   await em.persistAndFlush(candidate)
 
   // handle references
@@ -77,7 +83,8 @@ export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: E
   const [candidates, totalCount] = await em.findAndCount(Candidate, {
     cfs: { id: data.cfsId }
   }, {
-    orderBy: { totalGrade: QueryOrder.DESC }
+    orderBy: { totalGrade: QueryOrder.DESC },
+    populate: ['cfs']
   }
   )
 
@@ -88,14 +95,19 @@ export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: E
 
   const promises = []
   for (let i = 0; i < accepted.length; i++) {
+    accepted[i].state = Candidate_State.approved
     promises.push(acceptedEmailContent(data, accepted[i], cfs, totalCount))
   }
   for (let i = 0; i < declined.length; i++) {
-    await declinedEmailContent(totalCount, data, declined[i], data.capacity + i + 1, cfs.courseProgram.title)
+    declined[i].state = Candidate_State.waitList
+    promises.push(declinedEmailContent(totalCount, data, declined[i], data.capacity + i + 1, cfs.courseProgram.title))
   }
 
   Promise.all(promises)
     .catch(err => console.log(err))
+
+  cfs.state = CFS_State.done
+  await em.flush()
 
   return true
 }

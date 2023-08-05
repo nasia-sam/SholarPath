@@ -6,6 +6,7 @@
       <div class="row flex flex-center">
         <div class="q-px-md">
           <q-btn
+            v-if="selectedIsClosed"
             :loading="acceptLoading"
             color="secondary"
             @click="AcceptCandidatesRef.open()">
@@ -63,6 +64,23 @@
         </q-td>
       </template>
 
+      <!-- State Icon -->
+      <template #body-cell-state="props">
+        <q-td :props="props">
+          <q-icon v-if="props.row.state === 'submitted'" name="done">
+            <q-tooltip>Υποβλήθηκε</q-tooltip>
+          </q-icon>
+
+          <q-icon v-if="props.row.state === 'approved'" name="task_alt" color="green">
+            <q-tooltip>Αποδεκτή</q-tooltip>
+          </q-icon>
+
+          <q-icon v-if="props.row.state === 'waitList'" name="block" color="red">
+            <q-tooltip>Λίστα Αναμονής</q-tooltip>
+          </q-icon>
+        </q-td>
+      </template>
+
       <!-- Grade Candidate Button -->
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
@@ -115,20 +133,22 @@ export default defineComponent({
     const { fetchCFSbyCourse, result } = useFetchCFS()
 
     onMounted(() => {
+      store.clearState()
       fetchCFSbyCourse(route.params.slug)
     })
 
     const filter = ref('')
 
     const columns = [
-      { name: 'surname', align: 'left', label: 'Surname', field: 'surname', sortable: true },
-      { name: 'name', align: 'center', label: 'name', field: 'name', sortable: true },
-      { name: 'age', align: 'center', label: 'age', field: 'age', sortable: true },
+      { name: 'surname', align: 'left', label: 'Επιθετο', field: 'surname', sortable: true },
+      { name: 'name', align: 'center', label: 'Όνομα', field: 'name', sortable: true },
+      { name: 'age', align: 'center', label: 'Ηλικία', field: 'age', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
-      { name: 'bachelor_degree', align: 'center', label: 'bachelor_degree', field: 'bachelor_degree', sortable: true },
+      { name: 'bachelor_degree', align: 'center', label: 'Προπτυχιακός Τίτλος', field: 'bachelor_degree', sortable: true },
       { name: 'attachments', align: 'center', label: 'Documents', sortable: false },
-      { name: 'totalGrade', align: 'center', label: 'Total Grade', field: 'totalGrade', sortable: true },
-      { name: 'actions', align: 'center', label: 'Grade', sortable: true }
+      { name: 'totalGrade', align: 'center', label: 'Συνολική Βαθμολογία', field: 'totalGrade', sortable: true },
+      { name: 'state', align: 'center', field: 'state', sortable: true },
+      { name: 'actions', align: 'center', label: 'Αξιολόγηση', sortable: true }
     ]
 
     const cfs = computed(() => result.value.map(cfs => {
@@ -149,11 +169,18 @@ export default defineComponent({
       if (selectedCfs.value !== '') store.fetchCandidates(selectedCfs.value)
     })
 
+    const selectedIsClosed = computed(() => {
+      const cfs = result.value.find(cfs => cfs.id === selectedCfs.value)
+
+      return cfs && cfs.state === 'closed'
+    })
+
     // send acceptance emails
     const { useAcceptCandidates, acceptLoading } = useCandidateMutations()
 
     const acceptAction = (data) => {
       useAcceptCandidates(data)
+        .then(() => store.fetchCandidates(selectedCfs.value))
     }
 
     // refs
@@ -171,6 +198,7 @@ export default defineComponent({
       selectedCfs,
       candidates: getCandidates,
       gradeFields,
+      selectedIsClosed,
       acceptLoading,
       acceptAction,
 

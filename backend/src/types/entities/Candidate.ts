@@ -10,6 +10,7 @@ import { Gender } from '../enums/Gender'
 import { CallForSubmissions } from './CallForSubmissions'
 import { Reference } from './Reference'
 import { ReviewGrade } from '../classes/inputs/ReviewCandidate'
+import { Candidate_State } from '../enums/CandidateState'
 
 @Entity()
 @ObjectType()
@@ -86,6 +87,9 @@ export class Candidate {
   @OneToMany(() => Reference, references => references.candidate)
   references = new Collection<Reference>(this)
 
+  @Enum(() => Candidate_State)
+  @Field(() => Candidate_State, { nullable: true })
+  state: Candidate_State = Candidate_State.submitted
 
   // @Field(() => Float, { nullable: true })
   // totalGrade (): number | null {
