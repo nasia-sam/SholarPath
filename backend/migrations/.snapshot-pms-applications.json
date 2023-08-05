@@ -151,7 +151,7 @@
         },
         "state": {
           "name": "state",
-          "type": "enum('published', 'open', 'closed')",
+          "type": "enum('published', 'open', 'closed', 'done')",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
@@ -159,7 +159,8 @@
           "enumItems": [
             "published",
             "open",
-            "closed"
+            "closed",
+            "done"
           ],
           "mappedType": "enum"
         },
@@ -369,6 +370,20 @@
           "primary": false,
           "nullable": false,
           "mappedType": "string"
+        },
+        "state": {
+          "name": "state",
+          "type": "enum('submitted', 'approved', 'waitList')",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "submitted",
+            "approved",
+            "waitList"
+          ],
+          "mappedType": "enum"
         }
       },
       "name": "candidate",
@@ -514,154 +529,6 @@
             "candidate_id"
           ],
           "localTableName": "reference",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "candidate",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "state": {
-          "name": "state",
-          "type": "json",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "json"
-        },
-        "bachelor_relevance": {
-          "name": "bachelor_relevance",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "research_field_relevance": {
-          "name": "research_field_relevance",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "bachelor_grade": {
-          "name": "bachelor_grade",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "thesis_grade": {
-          "name": "thesis_grade",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "prerequisites_courses_grade": {
-          "name": "prerequisites_courses_grade",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "existance_of_other_diplomas": {
-          "name": "existance_of_other_diplomas",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "working_experience_relevance": {
-          "name": "working_experience_relevance",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "interview": {
-          "name": "interview",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "total_grade": {
-          "name": "total_grade",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "integer"
-        },
-        "candidate_id": {
-          "name": "candidate_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        }
-      },
-      "name": "submission",
-      "indexes": [
-        {
-          "columnNames": [
-            "candidate_id"
-          ],
-          "composite": false,
-          "keyName": "submission_candidate_id_unique",
-          "primary": false,
-          "unique": true
-        },
-        {
-          "keyName": "PRIMARY",
-          "columnNames": [
-            "id"
-          ],
-          "composite": false,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "submission_candidate_id_foreign": {
-          "constraintName": "submission_candidate_id_foreign",
-          "columnNames": [
-            "candidate_id"
-          ],
-          "localTableName": "submission",
           "referencedColumnNames": [
             "id"
           ],

@@ -6,6 +6,7 @@ import { print } from 'graphql'
 import { getInvitedUsers, getPendingInvitations } from 'src/graphql/Users/queries'
 import { inviteUserMutation } from 'src/graphql/Authentication/mutations'
 import { errorMessage, successMessage } from '../globalNotifications'
+import { addAdmin } from 'src/graphql/Users/mutations'
 
 export default function useUserInvitations () {
   const result = ref([])
@@ -80,11 +81,34 @@ export default function useUserInvitations () {
     }
   }
 
+  const useAddAdminRole = async (id) => {
+    try {
+      const response = await api({
+        url: '',
+        method: 'POST',
+        data: {
+          query: print(addAdmin),
+          variables: {
+            id
+          }
+        }
+      })
+
+      if (response.data.data.giveAdminRights) {
+        successMessage('Επιτυχής ανάθεση Administrator δικαιωμάτων')
+        return response.data.data.giveAdminRights
+      }
+    } catch (err) {
+      errorMessage('Σφάλμα στην ανάθεση ρόλου')
+    }
+  }
+
   return {
     result,
     pendingInvitations,
     fetchInvitedUsers,
     inviteUser,
-    fetchPendingInvitations
+    fetchPendingInvitations,
+    useAddAdminRole
   }
 }

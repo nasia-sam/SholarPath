@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
+import { Cascade, Collection, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { Roles } from './Roles'
@@ -29,7 +29,7 @@ export class User {
   @Property()
   is_admin: boolean
 
-  @OneToMany(() => Roles, role => role.user)
+  @OneToMany(() => Roles, role => role.user, { cascade: [Cascade.REMOVE] })
   @Field(() => [Roles])
   roles = new Collection<Roles>(this)
 

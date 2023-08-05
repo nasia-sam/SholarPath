@@ -1,11 +1,11 @@
 import { EntityManager } from '@mikro-orm/core'
 import { User } from 'src/types/entities/User'
-import { Ctx, Query, Resolver } from 'type-graphql'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 
 import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
 import { Invitation } from 'src/types/entities/Invitation'
 
-import { getInvitedUsersAction, getPendingInvitationsAction } from '../actions/UserActions'
+import { getInvitedUsersAction, getPendingInvitationsAction, giveAdminRightsAction } from '../actions/UserActions'
 
 @Resolver()
 export class UserResolver {
@@ -23,5 +23,13 @@ export class UserResolver {
     @Ctx('ctx') ctx: AuthCustomContext
   ): Promise<Invitation[]> {
     return await getPendingInvitationsAction(ctx.user.id, em)
+  }
+
+  @Mutation(() => Boolean)
+  async giveAdminRights (
+    @Ctx('em') em: EntityManager,
+    @Arg('id') id: string
+  ): Promise<boolean> {
+    return await giveAdminRightsAction(id, em)
   }
 }

@@ -30,8 +30,18 @@ export async function getPendingInvitationsAction (userId: string, em: EntityMan
 //   return user
 // }
 
+export async function giveAdminRightsAction (id: string, em: EntityManager): Promise<boolean> {
+  const user = await em.findOneOrFail(User, id)
+
+  user.is_admin = true
+
+  await em.flush()
+
+  return true
+}
+
 export async function deleteUserAction (id: string, em: EntityManager): Promise<boolean> {
-  const user = await em.findOneOrFail(User, id, { populate: ['roles'] })
+  const user = await em.findOneOrFail(User, id)
   await em.removeAndFlush(user)
   return true
 }

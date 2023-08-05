@@ -31,6 +31,33 @@
       :columns="columns"
       row-key="id"
     >
+      <!-- is admin -->
+      <template #body-cell-isAdmin="props">
+        <q-td :props="props">
+          <q-icon
+            v-if="props.row.is_admin"
+            name="verified_user"
+            size="2em"
+            color="blue"
+          >
+            <q-tooltip>Administrator</q-tooltip>
+          </q-icon>
+
+          <q-btn
+            v-else
+            round
+            icon="person_add"
+            color="primary"
+            size="sm"
+            @click="confirmAddAdmin(props.row.id)"
+          >
+            <q-tooltip>Δώστε δικαιώματα Administrator</q-tooltip>
+          </q-btn>
+
+        </q-td>
+      </template>
+
+      <!-- Add Roles To Users -->
       <template #body-cell-roles="props">
         <q-td :props="props">
           <div>
@@ -53,6 +80,7 @@
 </template>
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
+import { useQuasar } from 'quasar'
 
 // hooks
 import useUserInvitations from 'src/hooks/User/invitations'
@@ -68,13 +96,22 @@ export default defineComponent({
     AddRolesToUsers
   },
   setup () {
+    const $q = useQuasar()
+
     const columns = [
       { name: 'name', align: 'left', label: 'Name', field: 'name', sortable: true },
       { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
-      { name: 'email', align: 'center', label: 'email', field: 'email', sortable: true },
+      { name: 'isAdmin', align: 'center', label: 'Ρόλος', field: 'is_admin', sortable: true },
       { name: 'roles', align: 'right', label: 'roles', field: 'roles', sortable: true }
     ]
-    const { fetchInvitedUsers, result: users, inviteUser, fetchPendingInvitations, loading, pendingInvitations } = useUserInvitations()
+    const {
+      fetchInvitedUsers,
+      result: users, inviteUser,
+      fetchPendingInvitations,
+      loading,
+      pendingInvitations,
+      useAddAdminRole
+    } = useUserInvitations()
     const { fetchAdminCourses } = fetchAllProgramCourses()
 
     onMounted(async () => {
@@ -93,6 +130,19 @@ export default defineComponent({
       inviteUser(email.value).then(() => fetchPendingInvitations())
     }
 
+    const confirmAddAdmin = (id) => {
+      $q.dialog({
+        title: 'Προσθήκη Ρόλου Administrator',
+        message: 'Είστε σίγουροι;<br /><br /> Ο χρήστης θα έχει δικαίωμα να διαχειρίζεται Προγράμματα Σπουδών και νέους Χρήστες.<br /><br /> Δεν θα μπορέσετε να πάρετε πίσω το δικαίωμα.',
+        cancel: true,
+        persistent: true,
+        html: true
+      }).onOk(() => {
+        useAddAdminRole(id)
+          .then(() => fetchInvitedUsers())
+      })
+    }
+
     // refs
     const AddRolesToUsersRef = ref()
 
@@ -107,7 +157,8 @@ export default defineComponent({
 
       isRequired,
       isValidEmail,
-      submit
+      submit,
+      confirmAddAdmin
     }
   }
 })

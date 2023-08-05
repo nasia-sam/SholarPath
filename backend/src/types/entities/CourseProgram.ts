@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, Root } from 'type-graphql'
-import { Collection, Embedded, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
+import { Cascade, Collection, Embedded, Entity, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core'
 import { v4 } from 'uuid'
 
 import { GraphQLJSONObject } from 'graphql-type-json'
@@ -49,7 +49,7 @@ export class CourseProgram {
   gradeFields: GradeFields[]
 
   @Field(() => [Roles])
-  @OneToMany(() => Roles, role => role.course)
+  @OneToMany(() => Roles, role => role.course, { cascade: [Cascade.REMOVE] })
   roles = new Collection<Roles>(this)
 
   @Field(() => [CallForSubmissions])

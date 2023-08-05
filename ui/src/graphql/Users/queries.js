@@ -6,6 +6,7 @@ export const getInvitedUsers = gql`
       id
       email
       name
+      is_admin
       roles {
         id
         role
