@@ -17,79 +17,79 @@ import { Candidate_State } from '../enums/CandidateState'
 export class Candidate {
   @PrimaryKey()
   @Field(() => ID)
-  id: string = v4()
+    id: string = v4()
 
   @Property()
   @Field()
-  name: string
+    name: string
 
   @Property()
   @Field()
-  surname: string
+    surname: string
 
   @Property()
   @Field()
-  father_name: string
+    father_name: string
 
   @Property()
   @Field()
-  age: number
+    age: number
 
   @Property()
   @Field()
-  address: string
+    address: string
 
   @Property()
   @Field()
-  zip_code: string
+    zip_code: string
 
   @Property()
   @Field()
-  phone_number: string
+    phone_number: string
 
   @Property()
   @Field()
-  email: string
+    email: string
 
   @Property()
   @Field()
-  bachelor_degree: string
+    bachelor_degree: string
 
   @Property()
   @Field()
-  part_time: boolean
+    part_time: boolean
 
   @Enum(() => Gender)
   @Field(() => Gender)
-  gender: Gender
+    gender: Gender
 
   @Embedded(() => PdfFile, { array: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  attachedDocuments: PdfFile[]
+    attachedDocuments: PdfFile[]
 
   @Property()
   @Field()
-  course_id: string // todo ayto mporei na fygei
+    course_id: string // todo ayto mporei na fygei
 
   @Embedded(() => ReviewGrade, { array: true, nullable: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  review?: ReviewGrade[]
+    review?: ReviewGrade[]
 
   @Field({ nullable: true })
   @Property()
-  totalGrade: number
+    totalGrade: number
 
   @ManyToOne(() => CallForSubmissions)
   @Field(() => CallForSubmissions)
-  cfs: CallForSubmissions
+    cfs: CallForSubmissions
 
   @Field(() => [Reference])
   @OneToMany(() => Reference, references => references.candidate)
-  references = new Collection<Reference>(this)
+    references = new Collection<Reference>(this)
 
   @Enum(() => Candidate_State)
   @Field(() => Candidate_State, { nullable: true })
-  state: Candidate_State = Candidate_State.submitted
+    state: Candidate_State = Candidate_State.submitted
 
   // @Field(() => Float, { nullable: true })
   // totalGrade (): number | null {

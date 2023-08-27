@@ -4,23 +4,23 @@ import { Field, InputType } from 'type-graphql'
 @InputType()
 export class UserInput {
   @Field()
-  name: string
+    name: string
 
   @Field()
   @IsUUID()
-  invitation: string
+    invitation: string
 
   @Field()
   @Length(6)
-  password: string
+    password: string
 }
 
 @InputType()
 export class LoginInput {
   @Field()
   @IsEmail()
-  email: string
+    email: string
 
   @Field()
-  password: string
+    password: string
 }

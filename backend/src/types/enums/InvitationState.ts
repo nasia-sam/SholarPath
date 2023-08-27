@@ -1,7 +1,7 @@
 import { registerEnumType } from 'type-graphql'
 
 export enum InvitationState {
-  SEND ='SEND',
+  SEND = 'SEND',
   ACCEPTED = 'ACCEPTED'
 
 }

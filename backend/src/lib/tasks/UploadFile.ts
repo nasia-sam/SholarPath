@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-koa'
 
 import path from 'path'
@@ -6,7 +6,7 @@ import fsPromise from 'fs/promises'
 import fs from 'fs'
 
 import { Candidate } from 'src/types/entities/Candidate'
-import { PdfFile } from 'src/types/classes/PdfFile'
+import { type PdfFile } from 'src/types/classes/PdfFile'
 
 export async function upploadFile (encoded: string, fileType: string, candidateId: string, em: EntityManager, index?: number): Promise<void> {
   const candidate = await em.findOneOrFail(Candidate, candidateId)

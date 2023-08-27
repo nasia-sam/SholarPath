@@ -8,33 +8,33 @@ import { Candidate } from './Candidate'
 export class Reference {
   @PrimaryKey()
   @Field(() => ID)
-  token: string = v4()
+    token: string = v4()
 
   @Property({ nullable: true })
   @Field({ nullable: true })
-  title?: string // Dr Professor mr
+    title?: string // Dr Professor mr
 
   @Property()
   @Field()
-  name?: string
+    name?: string
 
   @Property()
   @Field()
-  email: string
+    email: string
 
   @Property({ columnType: 'text', nullable: true })
   @Field({ nullable: true })
-  letter?: string
+    letter?: string
 
   @Property()
   @Field()
-  expiresAt: Date
+    expiresAt: Date
 
   @Property({ nullable: true })
   @Field(() => Date, { nullable: true })
-  submittedAt?: Date
+    submittedAt?: Date
 
   @ManyToOne(() => Candidate)
   @Field(() => Candidate)
-  candidate: Candidate
+    candidate: Candidate
 }

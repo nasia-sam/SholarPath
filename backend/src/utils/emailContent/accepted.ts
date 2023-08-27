@@ -1,6 +1,6 @@
-import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
-import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
-import { Candidate } from 'src/types/entities/Candidate'
+import { type AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
+import { type CallForSubmissions } from 'src/types/entities/CallForSubmissions'
+import { type Candidate } from 'src/types/entities/Candidate'
 
 import { format } from 'date-fns'
 import { sendEmail } from '../sendEmail'

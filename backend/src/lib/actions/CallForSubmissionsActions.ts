@@ -1,7 +1,7 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-errors'
 
-import { CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
+import { type CallForSubmissionsInput } from 'src/types/classes/inputs/CallForSubmissionsInput'
 import { CFS_State } from 'src/types/enums/CFSState'
 
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
@@ -11,7 +11,7 @@ import { checkOpenCFS } from '../tasks/CheckOpenCFS'
 
 export async function getCFSByCourseAction (slug: string, em: EntityManager): Promise<CallForSubmissions[]> {
   return await em.find(CallForSubmissions, {
-    courseProgram: { slug: slug }
+    courseProgram: { slug }
   }, {
     orderBy: { openFrom: 'DESC' },
     populate: ['courseProgram']
@@ -84,8 +84,8 @@ export async function cloneCFSAction (oldId: string, openFrom: Date, closeAt: Da
   const course = await em.findOneOrFail(CourseProgram, oldCfs.courseProgram)
 
   const clone = em.create(CallForSubmissions, {
-    openFrom: openFrom,
-    closeAt: closeAt,
+    openFrom,
+    closeAt,
     documents: oldCfs.documents,
     courseProgram: course,
     state: CFS_State.published

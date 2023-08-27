@@ -3,14 +3,14 @@ import { Embeddable, Property } from '@mikro-orm/core'
 @Embeddable()
 export class AdditionalFiles {
   @Property()
-  proofDegree: boolean
+    proofDegree: boolean
 
   @Property()
-  otherMasters: boolean
+    otherMasters: boolean
 
   @Property()
-  references: boolean
+    references: boolean
 
   @Property()
-  numberOfReferencies: number
+    numberOfReferencies: number
 }

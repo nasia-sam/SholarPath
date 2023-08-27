@@ -15,17 +15,17 @@ export enum UserRole {
 export class Roles {
   @PrimaryKey()
   @Field(() => ID)
-  id: string = v4()
+    id: string = v4()
 
   @Property()
   @Field()
-  role: UserRole
+    role: UserRole
 
   @ManyToOne(() => CourseProgram)
   @Field(() => CourseProgram)
-  course: CourseProgram
+    course: CourseProgram
 
   @ManyToOne(() => User)
   @Field(() => User)
-  user: User
+    user: User
 }

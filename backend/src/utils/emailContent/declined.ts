@@ -1,5 +1,5 @@
-import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
-import { Candidate } from 'src/types/entities/Candidate'
+import { type AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
+import { type Candidate } from 'src/types/entities/Candidate'
 import { Gender } from 'src/types/enums/Gender'
 import { sendEmail } from '../sendEmail'
 

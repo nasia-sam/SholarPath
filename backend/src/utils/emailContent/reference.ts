@@ -1,8 +1,8 @@
 import { CLIENT_URL } from 'src/dependencies/Config'
 
-import { personalInfo } from 'src/types/classes/inputs/CandidateInput'
-import { References } from 'src/types/classes/Referencies'
-import { Candidate } from 'src/types/entities/Candidate'
+import { type personalInfo } from 'src/types/classes/inputs/CandidateInput'
+import { type References } from 'src/types/classes/Referencies'
+import { type Candidate } from 'src/types/entities/Candidate'
 import { Gender } from 'src/types/enums/Gender'
 
 export async function sentReferenceContent (candidate: Candidate, info: personalInfo, referenceInfo: References, courseName: string, em: EntityManager): Promise<string> {

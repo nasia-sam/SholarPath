@@ -3,26 +3,26 @@ import { Embeddable, Property } from '@mikro-orm/core'
 @Embeddable()
 export class References {
   @Property({ nullable: true })
-  name: string
+    name: string
 
   @Property({ nullable: true })
-  email: string
+    email: string
 
   @Property({ nullable: true })
-  title: string // Dr Professor mr
+    title: string // Dr Professor mr
 
   @Property({ columnType: 'text', nullable: true })
-  letter: string
+    letter: string
 
   @Property({ nullable: true })
-  token: string
+    token: string
 
   @Property({ nullable: true })
-  expiresAt: Date
+    expiresAt: Date
 
   @Property({ nullable: true })
-  candidateId: string
+    candidateId: string
 
   @Property({ nullable: true })
-  submittedAt?: Date
+    submittedAt?: Date
 }

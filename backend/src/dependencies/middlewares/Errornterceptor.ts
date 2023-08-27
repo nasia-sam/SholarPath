@@ -1,5 +1,5 @@
-import { MiddlewareFn } from 'type-graphql'
-import { CustomContext } from 'src/types/interfaces/CustomContext'
+import { type MiddlewareFn } from 'type-graphql'
+import { type CustomContext } from 'src/types/interfaces/CustomContext'
 
 export const Errornterceptor: MiddlewareFn<CustomContext> = async ({ context }, next): Promise<void> => {
   try {

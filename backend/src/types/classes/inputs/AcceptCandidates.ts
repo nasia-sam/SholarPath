@@ -5,15 +5,15 @@ import { IsInt, IsUUID } from 'class-validator'
 export class AcceptCandidatesInput {
   @Field()
   @IsInt()
-  capacity: number
+    capacity: number
 
   @Field()
-  deadline: Date
+    deadline: Date
 
   @Field()
-  waitlistDeadline: Date
+    waitlistDeadline: Date
 
   @Field()
   @IsUUID()
-  cfsId: string
+    cfsId: string
 }

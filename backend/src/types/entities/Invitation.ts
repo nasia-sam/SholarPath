@@ -9,17 +9,17 @@ import { InvitationState } from '../enums/InvitationState'
 export class Invitation {
   @PrimaryKey()
   @Field(() => ID)
-  id: string = v4()
+    id: string = v4()
 
   @Property()
   @Field()
-  email: string
+    email: string
 
   @ManyToOne(() => User)
   @Field(() => User)
-  invited_by: User
+    invited_by: User
 
   @Enum(() => InvitationState)
   @Field(() => InvitationState)
-  state: InvitationState
+    state: InvitationState
 }

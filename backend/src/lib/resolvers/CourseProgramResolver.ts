@@ -29,15 +29,15 @@ export class CourseProgramResolver {
   @Query(() => CourseProgram)
   async getCourcebySlug (
     @Ctx('em') em: EntityManager,
-    @Arg('slug') slug: string
+      @Arg('slug') slug: string
   ): Promise<CourseProgram> {
-    return await em.findOneOrFail(CourseProgram, { slug: slug }, { populate: ['roles', 'roles.user', 'cfs', 'cfs.courseProgram'] })
+    return await em.findOneOrFail(CourseProgram, { slug }, { populate: ['roles', 'roles.user', 'cfs', 'cfs.courseProgram'] })
   }
 
   @Query(() => [CourseProgram])
   async getCourseByAdmin (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext
+      @Ctx('ctx') ctx: AuthCustomContext
   ): Promise<CourseProgram[]> {
     isAdmin(ctx.user)
     return await getCourseByAdminAction(ctx.user.id, em)
@@ -46,9 +46,9 @@ export class CourseProgramResolver {
   @Mutation(() => CourseProgram)
   async createCourseProgram (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext,
-    @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[],
-    @Arg('data') data: CourseProgramInput
+      @Ctx('ctx') ctx: AuthCustomContext,
+      @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[],
+      @Arg('data') data: CourseProgramInput
   ): Promise<CourseProgram> {
     return await createCourseProgramAction(data, gradeFields, ctx.user, em)
   }
@@ -56,10 +56,10 @@ export class CourseProgramResolver {
   @Mutation(() => CourseProgram)
   async updateCourseProgram (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext,
-    @Arg('id') id: string,
-    @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
-    @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
+      @Ctx('ctx') ctx: AuthCustomContext,
+      @Arg('id') id: string,
+      @Arg('data', () => CourseProgramInput) data: CourseProgramInput,
+      @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[]
   ): Promise<CourseProgram> {
     await isCreatedByAdmin(ctx.user, id, em)
     return await updateCourseProgramAction(id, data, gradeFields, ctx.user, em)
@@ -68,8 +68,8 @@ export class CourseProgramResolver {
   @Mutation(() => Boolean)
   async deleteCourseProgram (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext,
-    @Arg('id') id: string
+      @Ctx('ctx') ctx: AuthCustomContext,
+      @Arg('id') id: string
   ): Promise<boolean> {
     await isCreatedByAdmin(ctx.user, id, em)
     return await deleteCourseProgramAction(id, em)

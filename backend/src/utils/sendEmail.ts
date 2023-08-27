@@ -16,7 +16,7 @@ export async function sendEmail (email: string, subject: string, content: string
   const info = await transporter.sendMail({
     from: `"${EMAIL_NAME}" <${EMAIL_ADDRESS}>`,
     to: email,
-    subject: subject,
+    subject,
     html: content
   })
 

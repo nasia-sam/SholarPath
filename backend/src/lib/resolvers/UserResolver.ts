@@ -12,7 +12,7 @@ export class UserResolver {
   @Query(() => [User])
   async getInvitedUsers (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext
+      @Ctx('ctx') ctx: AuthCustomContext
   ): Promise<User[]> {
     return await getInvitedUsersAction(ctx.user, em)
   }
@@ -20,7 +20,7 @@ export class UserResolver {
   @Query(() => [Invitation])
   async getPendingInvitations (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext
+      @Ctx('ctx') ctx: AuthCustomContext
   ): Promise<Invitation[]> {
     return await getPendingInvitationsAction(ctx.user.id, em)
   }
@@ -28,7 +28,7 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async giveAdminRights (
     @Ctx('em') em: EntityManager,
-    @Arg('id') id: string
+      @Arg('id') id: string
   ): Promise<boolean> {
     return await giveAdminRightsAction(id, em)
   }

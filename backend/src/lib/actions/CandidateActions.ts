@@ -1,20 +1,20 @@
-import { EntityManager, QueryOrder } from '@mikro-orm/core'
+import { type EntityManager, QueryOrder } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-koa'
 
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { Candidate } from 'src/types/entities/Candidate'
-import { CandidateInput } from 'src/types/classes/inputs/CandidateInput'
-import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
+import { type CandidateInput } from 'src/types/classes/inputs/CandidateInput'
+import { type ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
 import { CFS_State } from 'src/types/enums/CFSState'
 import { FileType } from 'src/types/enums/FileType'
 
 import { upploadFile } from 'src/lib/tasks/UploadFile'
 import { createReferenceAction } from 'src/lib/actions/ReferenceActions'
-import { AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
+import { type AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
 import { acceptedEmailContent } from 'src/utils/emailContent/accepted'
 import { declinedEmailContent } from 'src/utils/emailContent/declined'
-import { CourseProgram } from 'src/types/entities/CourseProgram'
+import { type CourseProgram } from 'src/types/entities/CourseProgram'
 import { Candidate_State } from 'src/types/enums/CandidateState'
 
 export async function getCandidatesByCfsAction (cfsId: string, em: EntityManager): Promise<Candidate[]> {
@@ -104,7 +104,7 @@ export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: E
   }
 
   Promise.all(promises)
-    .catch(err => console.log(err))
+    .catch(err => { console.log(err) })
 
   cfs.state = CFS_State.done
   await em.flush()

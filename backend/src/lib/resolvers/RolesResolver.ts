@@ -11,9 +11,9 @@ export class RolesResolver {
   @Mutation(() => Roles)
   async createRole (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext,
-    @Arg('userId') userId: string,
-    @Arg('courseId') courseId: string
+      @Ctx('ctx') ctx: AuthCustomContext,
+      @Arg('userId') userId: string,
+      @Arg('courseId') courseId: string
   ): Promise<Roles> {
     await isCreatedByAdmin(ctx.user, courseId, em)
     return await createRoleAction(userId, courseId, em)
@@ -22,7 +22,7 @@ export class RolesResolver {
   @Mutation(() => String)
   async deleteRole (
     @Ctx('em') em: EntityManager,
-    @Arg('id') id: string
+      @Arg('id') id: string
   ): Promise<string> {
     return await deleteRoleAction(id, em)
   }

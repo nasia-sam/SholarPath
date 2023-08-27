@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql'
+import { Field } from 'type-graphql'
 import { Embeddable, Embedded, Property } from '@mikro-orm/core'
 
 import { ReviewGrade } from './inputs/ReviewCandidate'
@@ -7,11 +7,9 @@ import { ReviewGrade } from './inputs/ReviewCandidate'
 export class Review {
   @Embedded(() => [ReviewGrade], { object: true, nullable: true })
   @Property()
-  review: ReviewGrade[]
+    review: ReviewGrade[]
 
   @Field()
   @Property()
-  total: number
-
-  // todo status ?
+    total: number
 }

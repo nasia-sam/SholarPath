@@ -5,15 +5,15 @@ import { AdditionalFilesInput } from './AdditionalFiles'
 @InputType()
 export class CallForSubmissionsInput {
   @Field()
-  openFrom: Date
+    openFrom: Date
 
   @Field()
-  closeAt: Date
+    closeAt: Date
 
   @Field(() => AdditionalFilesInput)
-  documents: AdditionalFilesInput
+    documents: AdditionalFilesInput
 
   @Field()
   @IsUUID()
-  courseProgram: string
+    courseProgram: string
 }

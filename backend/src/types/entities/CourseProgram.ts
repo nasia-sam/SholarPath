@@ -13,48 +13,48 @@ import { GradeFields } from '../classes/GradeFields'
 export class CourseProgram {
   @PrimaryKey()
   @Field(() => ID)
-  id: string = v4()
+    id: string = v4()
 
   @Property()
   @Field()
   @Unique()
-  slug: string
+    slug: string
 
   @Property()
   @Field()
-  university: string
+    university: string
 
   @Property()
   @Field()
-  department: string
+    department: string
 
   @Property()
   @Field()
-  title: string
+    title: string
 
   @Property({ columnType: 'text' })
   @Field()
-  description: string
+    description: string
 
   @Property()
   @Field()
-  open: boolean
+    open: boolean
 
   @Property()
   @Field()
-  sitelink: string
+    sitelink: string
 
   @Embedded(() => GradeFields, { array: true })
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  gradeFields: GradeFields[]
+    gradeFields: GradeFields[]
 
   @Field(() => [Roles])
   @OneToMany(() => Roles, role => role.course, { cascade: [Cascade.REMOVE] })
-  roles = new Collection<Roles>(this)
+    roles = new Collection<Roles>(this)
 
   @Field(() => [CallForSubmissions])
   @OneToMany(() => CallForSubmissions, cfs => cfs.courseProgram)
-  cfs = new Collection<CallForSubmissions>(this)
+    cfs = new Collection<CallForSubmissions>(this)
 
   @Field(() => String)
   admin (@Root() course: CourseProgram): string | undefined {

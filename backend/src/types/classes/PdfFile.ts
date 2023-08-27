@@ -5,17 +5,17 @@ import { Field } from 'type-graphql'
 export class PdfFile {
   @Field()
   @Property()
-  path: string
+    path: string
 
   @Field()
   @Property()
-  type: string
+    type: string
 
   @Field()
   @Property()
-  name: string
+    name: string
 
   @Field()
   @Property()
-  extension: string
+    extension: string
 }

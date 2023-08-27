@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { Invitation } from 'src/types/entities/Invitation'
 
 import { User } from 'src/types/entities/User'

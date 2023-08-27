@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { CallForSubmissions } from 'src/types/entities/CallForSubmissions'
 import { CFS_State } from 'src/types/enums/CFSState'
 

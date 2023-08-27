@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from 'src/dependencies/Config'
-import { User } from 'src/types/entities/User'
+import { type User } from 'src/types/entities/User'
 
 export const generateToken = (payload: User): string => {
   const token = jwt.sign(

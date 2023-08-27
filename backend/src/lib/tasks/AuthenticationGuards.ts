@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { AuthenticationError } from 'apollo-server-koa'
 
 import { CourseProgram } from 'src/types/entities/CourseProgram'

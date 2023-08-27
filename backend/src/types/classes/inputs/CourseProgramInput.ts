@@ -4,37 +4,37 @@ import { Field, InputType } from 'type-graphql'
 @InputType()
 export class GradeFieldsInput {
   @Field()
-  key: string
+    key: string
 
   @Field()
-  title: string
+    title: string
 
   @Field()
   @IsInt()
-  min_val: number
+    min_val: number
 
   @Field()
-  max_val: number
+    max_val: number
 }
 
 @InputType()
 export class CourseProgramInput {
   @Field()
-  slug: string
+    slug: string
 
   @Field()
   @IsString()
-  university: string
+    university: string
 
   @Field()
-  department: string
+    department: string
 
   @Field()
-  title: string
+    title: string
 
   @Field()
-  description: string
+    description: string
 
   @Field()
-  sitelink: string
+    sitelink: string
 }

@@ -5,12 +5,11 @@ import { getReferenceByTokenAction, writeReferenceAction } from '../actions/Refe
 import { ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
 
 @Resolver(() => Reference)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class ReferenceResolver {
   @Query(() => Reference)
   async getReferenceByToken (
     @Ctx('em') em: EntityManager,
-    @Arg('token') token: string
+      @Arg('token') token: string
   ): Promise<Reference> {
     return await getReferenceByTokenAction(token, em)
   }
@@ -18,8 +17,8 @@ export class ReferenceResolver {
   @Mutation(() => Boolean)
   async writeReference (
     @Ctx('em') em: EntityManager,
-    @Arg('data', () => ReferenceInput) data: ReferenceInput,
-    @Arg('token') token: string
+      @Arg('data', () => ReferenceInput) data: ReferenceInput,
+      @Arg('token') token: string
   ): Promise<boolean> {
     return await writeReferenceAction(token, data, em)
   }

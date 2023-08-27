@@ -7,20 +7,20 @@ import { Embeddable, Property } from '@mikro-orm/core'
 export class ReviewGrade {
   @Field()
   @Property()
-  key: string
+    key: string
 
   @Field()
   @IsInt()
   @Property()
-  grade: number
+    grade: number
 }
 
 @InputType()
 export class ReviewInput {
   @Field()
   @IsUUID()
-  candidate: string
+    candidate: string
 
   @Field(() => [GraphQLJSONObject])
-  review: ReviewGrade[]
+    review: ReviewGrade[]
 }

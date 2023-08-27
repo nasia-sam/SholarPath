@@ -14,7 +14,7 @@ export class CallForSubmissionsResolver {
   @Query(() => CallForSubmissions)
   async getPublishedCFSbyCourse (
     @Ctx('em') em: EntityManager,
-    @Arg('courseId') courseId: string
+      @Arg('courseId') courseId: string
   ): Promise<CallForSubmissions> {
     return await em.findOneOrFail(CallForSubmissions, { $and: [{ courseProgram: courseId }, { state: { $in: [CFS_State.published, CFS_State.open] } }] })
   }
@@ -22,7 +22,7 @@ export class CallForSubmissionsResolver {
   @Query(() => [CallForSubmissions])
   async getCFSByCourse (
     @Ctx('em') em: EntityManager,
-    @Arg('slug') slug: string
+      @Arg('slug') slug: string
   ): Promise<CallForSubmissions[]> {
     return await getCFSByCourseAction(slug, em)
   }
@@ -30,8 +30,8 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async createCFS (
     @Ctx('em') em: EntityManager,
-    @Ctx('ctx') ctx: AuthCustomContext,
-    @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
+      @Ctx('ctx') ctx: AuthCustomContext,
+      @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
   ): Promise<CallForSubmissions> {
     await isCreatedByAdmin(ctx.user, data.courseProgram, em)
     return await createCFSAction(data, em)
@@ -40,9 +40,9 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async updateCFS (
     @Ctx('ctx') ctx: AuthCustomContext,
-    @Ctx('em') em: EntityManager,
-    @Arg('id') id: string,
-    @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
+      @Ctx('em') em: EntityManager,
+      @Arg('id') id: string,
+      @Arg('data', () => CallForSubmissionsInput) data: CallForSubmissionsInput
   ): Promise<CallForSubmissions> {
     await isCreatedByAdmin(ctx.user, data.courseProgram, em)
     return await updateCFSAction(id, data, em)
@@ -51,9 +51,9 @@ export class CallForSubmissionsResolver {
   @Mutation(() => CallForSubmissions)
   async extendCFS (
     @Ctx('ctx') ctx: AuthCustomContext,
-    @Ctx('em') em: EntityManager,
-    @Arg('id') id: string,
-    @Arg('closeAt') closeAt: string
+      @Ctx('em') em: EntityManager,
+      @Arg('id') id: string,
+      @Arg('closeAt') closeAt: string
   ): Promise<CallForSubmissions> {
     isAdmin(ctx.user)
     return await extendCFSAction(id, new Date(closeAt), em)
@@ -62,7 +62,7 @@ export class CallForSubmissionsResolver {
   @Mutation(() => Boolean)
   async deleteCFS (
     @Ctx('em') em: EntityManager,
-    @Arg('id') id: string
+      @Arg('id') id: string
   ): Promise<boolean> {
     return await deleteCFSAction(id, em)
   }

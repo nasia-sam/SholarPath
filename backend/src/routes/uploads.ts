@@ -1,4 +1,4 @@
-import { Context } from 'koa'
+import { type Context } from 'koa'
 import Router from 'koa-router'
 import send from 'koa-send'
 import path from 'path'

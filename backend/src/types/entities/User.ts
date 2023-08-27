@@ -10,30 +10,30 @@ import { Invitation } from './Invitation'
 export class User {
   @PrimaryKey()
   @Field(() => ID)
-  id: string = v4()
+    id: string = v4()
 
   @Field()
   @Property()
   @Unique()
-  email: string
+    email: string
 
   @Property({ hidden: true })
   @Field()
-  password: string
+    password: string
 
   @Field()
   @Property()
-  name: string
+    name: string
 
   @Field()
   @Property()
-  is_admin: boolean
+    is_admin: boolean
 
   @OneToMany(() => Roles, role => role.user, { cascade: [Cascade.REMOVE] })
   @Field(() => [Roles])
-  roles = new Collection<Roles>(this)
+    roles = new Collection<Roles>(this)
 
   @OneToMany(() => Invitation, invitation => invitation.invited_by)
   @Field(() => [Invitation])
-  invitations = new Collection<Invitation>(this)
+    invitations = new Collection<Invitation>(this)
 }

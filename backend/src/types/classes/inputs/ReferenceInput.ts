@@ -6,17 +6,17 @@ import { IsString, IsUUID } from 'class-validator'
 export class ReferenceInput {
   @Field()
   @IsString()
-  name: string
+    name: string
 
   @Field()
   @IsString()
-  title: string // Dr Professor mr
+    title: string // Dr Professor mr
 
   @Field()
   @IsString()
-  letter: string
+    letter: string
 
   @Field()
   @IsUUID()
-  candidateId: string
+    candidateId: string
 }

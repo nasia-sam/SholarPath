@@ -1,4 +1,4 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 
 import { Roles, UserRole } from 'src/types/entities/Roles'
@@ -11,13 +11,13 @@ export async function getRolesByUserAction (userId: string, em: EntityManager): 
 }
 
 export async function createRoleAction (id: string, courseId: string, em: EntityManager): Promise<Roles> {
-  const user = await em.findOneOrFail(User, { id: id })
+  const user = await em.findOneOrFail(User, { id })
   const course = await em.findOneOrFail(CourseProgram, courseId)
 
   const role = em.create(Roles, {
     role: UserRole.moderator,
-    course: course,
-    user: user
+    course,
+    user
   })
 
   await em.persistAndFlush(role)

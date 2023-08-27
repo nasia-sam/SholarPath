@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import { createServer } from 'http'
-import Koa, { Context } from 'koa'
+import Koa, { type Context } from 'koa'
 import cors from '@koa/cors'
 import bodyParser from 'koa-bodyparser'
 
@@ -14,7 +14,7 @@ import { PORT, HOST, ENVIRONMENT } from 'src/dependencies/Config'
 import { setAuthUser } from 'src/dependencies/middlewares/SetAuthUser'
 
 import { Errornterceptor } from './dependencies/middlewares/Errornterceptor'
-import { CustomContext } from './types/interfaces/CustomContext'
+import { type CustomContext } from './types/interfaces/CustomContext'
 
 import { CoreResolver } from './lib/resolvers/CoreResolver'
 import { AuhenticationResolver } from './lib/resolvers/Authentication'

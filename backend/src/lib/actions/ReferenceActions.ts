@@ -1,15 +1,15 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { UserInputError } from 'apollo-server-koa'
 import { addWeeks } from 'date-fns'
 
 import { Reference } from 'src/types/entities/Reference'
-import { Candidate } from 'src/types/entities/Candidate'
+import { type Candidate } from 'src/types/entities/Candidate'
 
-import { ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
-import { personalInfo } from 'src/types/classes/inputs/CandidateInput'
+import { type ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
+import { type personalInfo } from 'src/types/classes/inputs/CandidateInput'
 
 export async function getReferenceByTokenAction (token: string, em: EntityManager): Promise<Reference> {
-  const reference = await em.findOneOrFail(Reference, { token: token }, { populate: ['candidate'] })
+  const reference = await em.findOneOrFail(Reference, { token }, { populate: ['candidate'] })
 
   const now = new Date()
   if (now > reference.expiresAt) throw new UserInputError('REFERENCE_EXPIRED')
@@ -42,7 +42,7 @@ export async function createReferenceAction (referenceInfo: personalInfo[], cand
 }
 
 export async function writeReferenceAction (token: string, data: ReferenceInput, em: EntityManager): Promise<boolean> {
-  const reference = await em.findOneOrFail(Reference, { token: token }, { populate: ['candidate'] })
+  const reference = await em.findOneOrFail(Reference, { token }, { populate: ['candidate'] })
 
   const now = new Date()
   if (now > reference.expiresAt) throw new UserInputError('REFERENCE_EXPIRED')

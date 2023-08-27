@@ -3,14 +3,14 @@ import { InputType, Field } from 'type-graphql'
 @InputType()
 export class AdditionalFilesInput {
   @Field()
-  proofDegree: boolean
+    proofDegree: boolean
 
   @Field()
-  otherMasters: boolean
+    otherMasters: boolean
 
   @Field()
-  references: boolean
+    references: boolean
 
   @Field()
-  numberOfReferencies: number
+    numberOfReferencies: number
 }

@@ -1,7 +1,7 @@
-import { Next } from 'koa'
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import { type Next } from 'koa'
+import jwt, { type JwtPayload } from 'jsonwebtoken'
 
-import { CustomContext } from 'src/types/interfaces/CustomContext'
+import { type CustomContext } from 'src/types/interfaces/CustomContext'
 import { TOKEN_SECRET } from 'src/dependencies/Config'
 
 export async function setAuthUser (ctx: CustomContext, next: Next): Promise<void> {

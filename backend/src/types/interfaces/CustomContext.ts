@@ -1,6 +1,6 @@
-import { EntityManager } from '@mikro-orm/core'
-import { Context, Request } from 'koa'
-import { User } from '../entities/User'
+import { type EntityManager } from '@mikro-orm/core'
+import { type Context, type Request } from 'koa'
+import { type User } from '../entities/User'
 
 export interface CustomContext {
   ctx: Context

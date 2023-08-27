@@ -3,14 +3,14 @@ import { Embeddable, Property } from '@mikro-orm/core'
 @Embeddable()
 export class GradeFields {
   @Property()
-  key: string
+    key: string
 
   @Property()
-  title: string
+    title: string
 
   @Property()
-  min_val: number
+    min_val: number
 
   @Property()
-  max_val: number
+    max_val: number
 }

@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt'
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { ValidationError, AuthenticationError } from 'apollo-server-koa'
 
 import { User } from 'src/types/entities/User'
 import { Invitation } from 'src/types/entities/Invitation'
-import { LoginInput, UserInput } from 'src/types/classes/inputs/UserInput'
+import { type LoginInput, type UserInput } from 'src/types/classes/inputs/UserInput'
 import { InvitationState } from 'src/types/enums/InvitationState'
 import { generateToken, verifyToken } from 'src/utils/token'
 
@@ -16,7 +16,7 @@ export async function getInvitationByTokenAction (token: string, em: EntityManag
 
 export async function inviteUserAction (email: string, user: User, em: EntityManager): Promise<boolean> {
   const invitation = em.create(Invitation, {
-    email: email,
+    email,
     invited_by: user.id,
     state: InvitationState.SEND
   })

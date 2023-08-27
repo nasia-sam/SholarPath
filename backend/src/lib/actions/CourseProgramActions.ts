@@ -1,13 +1,13 @@
-import { EntityManager } from '@mikro-orm/core'
+import { type EntityManager } from '@mikro-orm/core'
 import { UserInputError, AuthenticationError } from 'apollo-server-errors'
 
-import { CourseProgramInput, GradeFieldsInput } from 'src/types/classes/inputs/CourseProgramInput'
+import { type CourseProgramInput, type GradeFieldsInput } from 'src/types/classes/inputs/CourseProgramInput'
 import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { Roles, UserRole } from 'src/types/entities/Roles'
-import { User } from 'src/types/entities/User'
+import { type User } from 'src/types/entities/User'
 
 async function validateSlugs (slug: string, em: EntityManager, id: string | null = null): Promise<boolean> {
-  const double = await em.findOne(CourseProgram, { slug: slug })
+  const double = await em.findOne(CourseProgram, { slug })
 
   if (double && double.slug === slug && id !== double.id) {
     return false
@@ -50,14 +50,14 @@ export async function createCourseProgramAction (data: CourseProgramInput, grade
     description: data.description,
     sitelink: data.sitelink,
     open: false,
-    gradeFields: gradeFields
+    gradeFields
   })
   em.persist(course)
 
   const role = em.create(Roles, {
     role: UserRole.admin,
-    user: user,
-    course: course
+    user,
+    course
   })
   em.persist(role)
 

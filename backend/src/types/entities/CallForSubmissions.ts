@@ -15,29 +15,29 @@ import { AdditionalFiles } from '../classes/AdditionalFiles'
 export class CallForSubmissions {
   @PrimaryKey()
   @Field(() => ID)
-  id: string = v4()
+    id: string = v4()
 
   @Property({ nullable: true })
   @Field(() => Date, { nullable: true })
-  openFrom?: Date
+    openFrom?: Date
 
   @Property({ nullable: true })
   @Field(() => Date, { nullable: true })
-  closeAt?: Date
+    closeAt?: Date
 
   @Embedded(() => AdditionalFiles, { object: true })
   @Field(() => GraphQLJSONObject, { nullable: true })
-  documents?: AdditionalFiles
+    documents?: AdditionalFiles
 
   @Enum(() => CFS_State)
   @Field(() => CFS_State)
-  state: CFS_State
+    state: CFS_State
 
   @ManyToOne(() => CourseProgram)
   @Field(() => CourseProgram)
-  courseProgram: CourseProgram
+    courseProgram: CourseProgram
 
   @Field(() => [Candidate])
   @OneToMany(() => Candidate, candidates => candidates.cfs)
-  candidates = new Collection<Candidate>(this)
+    candidates = new Collection<Candidate>(this)
 }

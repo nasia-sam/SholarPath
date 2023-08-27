@@ -8,78 +8,78 @@ import { GraphQLJSONObject } from 'graphql-type-json'
 @ObjectType()
 export class personalInfo {
   @Field()
-  name: string
+    name: string
 
   @Field()
-  email: string
+    email: string
 }
 
 @InputType()
 export class CandidateInput {
   @Field()
   @Length(1)
-  name: string
+    name: string
 
   @Field()
   @IsUUID()
-  cfs: string
+    cfs: string
 
   @Field()
   @Length(1)
-  surname: string
+    surname: string
 
   @Field()
   @Length(1)
-  father_name: string
+    father_name: string
 
   @Field()
   @IsEmail()
-  email: string
+    email: string
 
   @Field()
   @IsInt()
   @Min(18)
-  age: number
+    age: number
 
   @Field()
   @Length(1)
-  address: string
+    address: string
 
   @Field()
   @Length(1)
-  zip_code: string
+    zip_code: string
 
   @Field()
   @Length(1)
-  phone_number: string
+    phone_number: string
 
   @Field()
   @IsBoolean()
-  part_time: boolean
+    part_time: boolean
 
   @Field()
   @Length(1)
-  bachelor_degree: string
+    bachelor_degree: string
 
   @Field(() => Gender)
-  gender: Gender
+    gender: Gender
 
   @Field()
   @IsUUID()
-  course_id: string
+    course_id: string
 
   @Field(() => String, { nullable: true })
-  cv?: string
+    cv?: string
 
   @Field(() => String, { nullable: true })
-  proofDegree?: string
+    proofDegree?: string
 
   @Field(() => [String], { nullable: true })
-  otherMasters?: string[]
+    otherMasters?: string[]
 
   // @Field(() => [String], { nullable: true })
   // referenceInfo?: string[]
 
   @Field(() => [GraphQLJSONObject], { nullable: true })
-  referenceInfo?: personalInfo[]
+    referenceInfo?: personalInfo[]
 }
