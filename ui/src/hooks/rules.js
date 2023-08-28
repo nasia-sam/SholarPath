@@ -6,3 +6,5 @@ export const isLessOrEqualThan = (val, max) => (val && val <= max) || 'Το πε
 export const isMoreOrEqualThan = (val, min) => (val && val >= min) || 'Το πεδίο πρέπει να είναι μεγαλύτερο ή ίσο από ' + min
 
 export const isPositiveNumber = (val) => (val && val >= 0) || 'Το πεδίο πρέπει να είναι θετικός αριθμός'
+
+export const hasMinLength = (val, min) => (val && val.length >= min) || 'Tο πεδίο πρέπει να έχει τουλάχιστον ' + min + ' χαρακτήρες'

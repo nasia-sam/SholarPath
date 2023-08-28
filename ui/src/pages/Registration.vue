@@ -43,7 +43,7 @@
             :type="hidePwd ? 'password' : 'text'"
             v-model="user.password"
             class="q-pb-lg"
-            :rules="[isRequired, isMoreOrEqualThan(6)]"
+            :rules="[isRequired, hasMinLength(6)]"
           >
             <template v-slot:append>
               <q-icon
@@ -65,7 +65,7 @@ import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import useRegistrationActions from 'src/hooks/Authentication/registration'
-import { isRequired, isMoreOrEqualThan } from 'src/hooks/rules'
+import { isRequired, hasMinLength } from 'src/hooks/rules'
 
 export default defineComponent({
   name: 'RegistrationPage',
@@ -106,7 +106,7 @@ export default defineComponent({
       hidePwd,
       onSubmit,
       isRequired,
-      isMoreOrEqualThan
+      hasMinLength
     }
   }
 })

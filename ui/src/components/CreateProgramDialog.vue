@@ -69,13 +69,9 @@
                 <q-item-label class="q-mt-sm text-weight-bold">{{ field.title }}</q-item-label>
               </q-item-section>
 
-              <q-item-section>
-                <q-item-label>{{ field.weigth }} <span class="text-grey-8 text-caption">weigth</span> </q-item-label>
-              </q-item-section>
-
-              <!-- <q-item-section >
+              <q-item-section >
                 <q-item-label class="q-mt-sm"><span class="text-grey-8 text-caption">Values: </span>{{ field.min_val }} - {{ field.max_val }}</q-item-label>
-              </q-item-section> -->
+              </q-item-section>
 
               <q-item-section side>
                 <div class="text-grey-8 q-gutter-xs">

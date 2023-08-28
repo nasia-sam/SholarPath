@@ -50,7 +50,7 @@ export default defineComponent({
       key: '',
       title: '',
       min_val: 0,
-      max_val: 0
+      max_val: 5
     })
 
     const addField = () => {
@@ -64,7 +64,7 @@ export default defineComponent({
         key: '',
         title: '',
         min_val: 0,
-        max_val: 0
+        max_val: 5
       }
     }
 
