@@ -2,14 +2,15 @@ import nodemailer from 'nodemailer'
 import { EMAIL_ADDRESS, EMAIL_NAME } from '../dependencies/Config'
 
 export async function sendEmail (email: string, subject: string, content: string): Promise<void> {
-  // const account = await nodemailer.createTestAccount()
+  const account = await nodemailer.createTestAccount()
 
   const transporter = nodemailer.createTransport({
-    host: 'smtp.teithe.gr',
-    port: 25,
+    host: account.smtp.host,
+    port: 587,
     secure: false,
     auth: {
-      user: 'stoug@it.teithe.gr' // USER_EMAIL !== '' ? USER_EMAIL : account.user,
+      user: account.user,
+      pass: account.pass
     }
   })
 

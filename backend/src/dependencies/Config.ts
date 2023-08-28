@@ -8,6 +8,8 @@ export const HOST = process.env.HOST as string || '127.0.0.1'
 
 export const PORT = parseInt(process.env.PORT as string) || 9999
 
+export const APP_NAME = process.env.APP_NAME as string || 'MSC Applications'
+
 export const DEBUG = process.env.DEBUG as string || ''
 
 export const DB_HOST = process.env.DB_HOST as string || 'localhosst'

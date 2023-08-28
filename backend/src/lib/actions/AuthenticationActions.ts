@@ -7,6 +7,8 @@ import { Invitation } from 'src/types/entities/Invitation'
 import { type LoginInput, type UserInput } from 'src/types/classes/inputs/UserInput'
 import { InvitationState } from 'src/types/enums/InvitationState'
 import { generateToken, verifyToken } from 'src/utils/token'
+import { sendInvitationContent } from 'src/utils/emailContent/invitation'
+import { v4 } from 'uuid'
 
 export async function getInvitationByTokenAction (token: string, em: EntityManager): Promise<Invitation> {
   const invitation = await em.findOneOrFail(Invitation, { id: token }, { populate: ['invited_by'] })
@@ -16,13 +18,16 @@ export async function getInvitationByTokenAction (token: string, em: EntityManag
 
 export async function inviteUserAction (email: string, user: User, em: EntityManager): Promise<boolean> {
   const invitation = em.create(Invitation, {
+    id: v4(),
     email,
     invited_by: user.id,
     state: InvitationState.SEND
   })
 
   await em.persistAndFlush(invitation)
-  // todo send mail
+
+  await sendInvitationContent(email, invitation.id, user)
+
   return true
 }
 

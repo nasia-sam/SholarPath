@@ -34,9 +34,6 @@ export async function getCourseByAdminAction (userId: string, em: EntityManager)
 }
 
 export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], user: User, em: EntityManager): Promise<CourseProgram> {
-  console.log('user', user)
-  // if (!user.is_admin) throw new AuthenticationError('NOT_ENOUGH_PERMISSIONS')
-
   const validSlugFlag = await validateSlugs(data.slug, em)
   if (!validSlugFlag) {
     throw new UserInputError('INVALID_SLUG')
@@ -56,7 +53,7 @@ export async function createCourseProgramAction (data: CourseProgramInput, grade
 
   const role = em.create(Roles, {
     role: UserRole.admin,
-    user,
+    user: user.id,
     course
   })
   em.persist(role)
@@ -89,8 +86,6 @@ export async function updateCourseProgramAction (id: string, data: CourseProgram
 
 export async function deleteCourseProgramAction (id: string, em: EntityManager): Promise<boolean> {
   const course = await em.findOneOrFail(CourseProgram, id, { populate: ['roles'] })
-
-  // TODO logged user === admin
 
   if (course.open) {
     throw new UserInputError('CANNOT_DELETE_OPEN_PROGRAMS')

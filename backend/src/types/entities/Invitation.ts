@@ -1,7 +1,6 @@
 import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core'
 import { Field, ID, ObjectType } from 'type-graphql'
 import { User } from './User'
-import { v4 } from 'uuid'
 import { InvitationState } from '../enums/InvitationState'
 
 @Entity()
@@ -9,7 +8,7 @@ import { InvitationState } from '../enums/InvitationState'
 export class Invitation {
   @PrimaryKey()
   @Field(() => ID)
-    id: string = v4()
+    id: string
 
   @Property()
   @Field()
