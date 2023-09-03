@@ -7,6 +7,7 @@ import { type Candidate } from 'src/types/entities/Candidate'
 
 import { type ReferenceInput } from 'src/types/classes/inputs/ReferenceInput'
 import { type personalInfo } from 'src/types/classes/inputs/CandidateInput'
+import { sentReferenceContent } from 'src/utils/emailContent/reference'
 
 export async function getReferenceByTokenAction (token: string, em: EntityManager): Promise<Reference> {
   const reference = await em.findOneOrFail(Reference, { token }, { populate: ['candidate'] })
@@ -22,6 +23,7 @@ export async function getReferenceByTokenAction (token: string, em: EntityManage
 export async function createReferenceAction (referenceInfo: personalInfo[], candidate: Candidate, em: EntityManager): Promise<boolean> {
   const references = []
 
+  const promises = []
   for (const ref of referenceInfo) {
     const reference = new Reference()
     reference.email = ref.email
@@ -33,7 +35,7 @@ export async function createReferenceAction (referenceInfo: personalInfo[], cand
     reference.candidate = candidate
 
     references.push(reference)
-    // todo send emails
+    promises.push(sentReferenceContent(candidate, reference, candidate.cfs.courseProgram.title))
   }
 
   await em.persistAndFlush(references)

@@ -1,10 +1,11 @@
 import { APP_NAME, CLIENT_URL } from 'src/dependencies/Config'
 
-import { type References } from 'src/types/classes/Referencies'
 import { type Candidate } from 'src/types/entities/Candidate'
+import { type Reference } from 'src/types/entities/Reference'
 import { Gender } from 'src/types/enums/Gender'
+import { sendEmail } from '../sendEmail'
 
-export async function sentReferenceContent (candidate: Candidate, referenceInfo: References, courseName: string): Promise<string> {
+export async function sentReferenceContent (candidate: Candidate, referenceInfo: Reference, courseName: string): Promise<void> {
   let content = ''
   let candidateName = ''
 
@@ -26,5 +27,5 @@ export async function sentReferenceContent (candidate: Candidate, referenceInfo:
     Με εκτίμηση,
     Η Ομάδα του ${APP_NAME}`)
 
-  return content
+  await sendEmail(referenceInfo.email, 'ScholarPath: Συστατική επιστολή για Υποψήφιο Σπουδαστή', content)
 }

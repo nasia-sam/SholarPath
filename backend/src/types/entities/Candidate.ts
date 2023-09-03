@@ -90,16 +90,4 @@ export class Candidate {
   @Enum(() => Candidate_State)
   @Field(() => Candidate_State, { nullable: true })
     state: Candidate_State = Candidate_State.submitted
-
-  // @Field(() => Float, { nullable: true })
-  // totalGrade (): number | null {
-  //   const total = this.review
-  //     ? this.review.reduce((acc, cur) => {
-  //       acc += cur.grade
-  //       return acc
-  //     }, 0)
-  //     : null
-
-  //   return total
-  // }
 }
