@@ -20,7 +20,7 @@ export async function sentReferenceContent (candidate: Candidate, referenceInfo:
   content = content.concat(`Σας ενημερώνουμε ότι έχετε επιλεγεί για να συντάξετε μια συστατική επιστολή για ${candidateName} προς το Μεταπτυχιακό Πρόγραμμα Σπουδών: ${courseName}.
     <br /><br />
     Για να υποβάλετε τη συστατική επιστολή, παρακαλούμε επισκεφθείτε την παρακάτω διεύθυνση:
-    ${CLIENT_URL}/${referenceInfo.token}
+    ${CLIENT_URL}/reference/${referenceInfo.token}
     <br /><br />
     Σας ευχαριστούμε για τη συνεργασία σας σε αυτήν τη διαδικασία.
     <br /><br />

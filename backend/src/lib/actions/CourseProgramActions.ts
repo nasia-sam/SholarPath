@@ -33,7 +33,12 @@ export async function getCourseByAdminAction (userId: string, em: EntityManager)
   return courses
 }
 
-export async function createCourseProgramAction (data: CourseProgramInput, gradeFields: GradeFieldsInput[], user: User, em: EntityManager): Promise<CourseProgram> {
+export async function createCourseProgramAction (
+  data: CourseProgramInput,
+  gradeFields: GradeFieldsInput[],
+  user: User,
+  em: EntityManager
+): Promise<CourseProgram> {
   const validSlugFlag = await validateSlugs(data.slug, em)
   if (!validSlugFlag) {
     throw new UserInputError('INVALID_SLUG')

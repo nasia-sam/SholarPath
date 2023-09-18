@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql'
 import { EntityManager } from '@mikro-orm/core'
 
@@ -13,7 +12,6 @@ import { CFS_State } from 'src/types/enums/CFSState'
 import { checkClosedCFS, checkOpenCFS } from '../tasks/CheckOpenCFS'
 import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
 import { isAdmin, isCreatedByAdmin } from '../tasks/AuthenticationGuards'
-// import { User } from 'src/types/entities/User'
 
 @Resolver(() => CourseProgram)
 export class CourseProgramResolver {
@@ -50,6 +48,7 @@ export class CourseProgramResolver {
       @Arg('gradeFields', () => [GradeFieldsInput]) gradeFields: GradeFieldsInput[],
       @Arg('data') data: CourseProgramInput
   ): Promise<CourseProgram> {
+    isAdmin(ctx.user)
     return await createCourseProgramAction(data, gradeFields, ctx.user, em)
   }
 

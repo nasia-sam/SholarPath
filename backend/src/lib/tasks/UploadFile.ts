@@ -12,9 +12,7 @@ export async function upploadFile (encoded: string, fileType: string, candidateI
   const candidate = await em.findOneOrFail(Candidate, candidateId)
 
   const splitBase64 = encoded.split(';base64,')
-
   const type = splitBase64[0].split('/').pop()
-
   const base64File = encoded.split(';base64,').pop()
 
   if (!base64File) return
@@ -50,11 +48,6 @@ export async function upploadFile (encoded: string, fileType: string, candidateI
 }
 
 export async function downloadPdfFileAction (file: PdfFile): Promise<string> {
-  // const candidate = await em.findOneOrFail(Candidate, candidateId)
-  // if (candidate.cv === undefined) return ''
-
-  // if (candidate.cv.path !== file.path) throw new UserInputError('INVALID_CANDIDATE_FILE_MATCH')
-
   const encodedFile = await fsPromise.readFile(
     file.path,
     { encoding: 'base64' }

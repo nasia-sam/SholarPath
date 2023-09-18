@@ -12,11 +12,6 @@ import { sentReferenceContent } from 'src/utils/emailContent/reference'
 export async function getReferenceByTokenAction (token: string, em: EntityManager): Promise<Reference> {
   const reference = await em.findOneOrFail(Reference, { token }, { populate: ['candidate'] })
 
-  const now = new Date()
-  if (now > reference.expiresAt) throw new UserInputError('REFERENCE_EXPIRED')
-
-  if (reference.submittedAt) throw new UserInputError('REFERENCE_ALREADY_SUBMITTED')
-
   return reference
 }
 
