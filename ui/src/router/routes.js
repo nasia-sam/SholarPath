@@ -3,12 +3,18 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    props: true,
     children: [
       { path: '', component: () => import('pages/Index.vue') },
       { path: '/courses', component: () => import('pages/ProgramCourses.vue') },
       { path: '/courses/:slug', component: () => import('pages/ShowCourseProgram.vue') },
       { path: '/courses/:slug/candidates', component: () => import('pages/Candidates.vue') },
       { path: '/reference/:token', component: () => import('pages/Reference.vue') },
+      {
+        path: '/reference/info',
+        name: 'referenceInfo',
+        component: () => import('pages/static-content/ReferenceInfo.vue')
+      },
       { path: '/register/:token', component: () => import('pages/Registration.vue') },
       { path: '/submission/success', component: () => import('pages/static-content/SuccessfullSubmission.vue') },
       { path: '/users', component: () => import('pages/InvitedUsers.vue') }

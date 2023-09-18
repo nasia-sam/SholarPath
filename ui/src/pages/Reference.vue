@@ -33,13 +33,11 @@
       />
 
     </div>
-
   </q-page>
-
 </template>
 <script>
 import { defineComponent, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 // common
 import { isRequired, isValidEmail } from 'src/hooks/rules'
@@ -51,6 +49,7 @@ export default defineComponent({
   name: 'ReferenceCreate',
   setup () {
     const route = useRoute()
+    const router = useRouter()
 
     const token = ref('')
 
@@ -67,7 +66,14 @@ export default defineComponent({
     onMounted(() => {
       token.value = route.params.token
 
-      getReference(route.params.token)
+      getReference(route.params.token).then(() => {
+        console.log('after get reference', reference.value)
+        if (reference.value.submittedAt !== null) {
+          router.push({ name: 'referenceInfo', query: { q: 'done ' } })
+        } else if (new Date() > reference.expiresAt) {
+          router.push({ name: 'referenceInfo', query: { q: 'exp ' } })
+        }
+      })
     })
 
     const submit = () => {
@@ -77,7 +83,11 @@ export default defineComponent({
         letter: reference.value.letter,
         candidateId: reference.value.candidate.id
       },
-      token.value)
+      token.value).then((res) => {
+        if (res) {
+          router.push({ name: 'referenceInfo', query: { q: 'success ' } })
+        }
+      })
     }
 
     return {
