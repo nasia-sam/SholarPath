@@ -47,7 +47,6 @@
       <!-- Show Attached Pdfs -->
       <template v-slot:body-cell-attachments="props">
         <q-td :props="props">
-          <!-- <q-btn flat color="secondary" icon="attach_file" @click="ShowPdfFilesRef.open(props.row.attachedDocuments[0])" /> -->
           <q-btn flat color="secondary" icon="attach_file">
             <q-menu>
               <q-list style="min-width: 100px">

@@ -4,7 +4,7 @@
 
        <q-header>
         <q-toolbar>
-          <q-toolbar-title>Application for </q-toolbar-title>
+          <q-toolbar-title>Αίτηση Υποψηφίου </q-toolbar-title>
         </q-toolbar>
       </q-header>
 

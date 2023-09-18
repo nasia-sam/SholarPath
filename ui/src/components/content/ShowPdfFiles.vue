@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="visible">
-    <q-card style="width: 50vw">
+    <q-card style="width: 80%">
 
       <q-card-section>
         <embed

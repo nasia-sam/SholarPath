@@ -58,8 +58,10 @@ export default function useReferences () {
 
       if (response.data.errors) {
         errorMessage('Error while submitting Reference.')
+        return false
       } else {
         successMessage('Candidate Reference Successfully Submitted.')
+        return true
       }
     } catch (e) {
       errorMessage('Error while submiting Reference.')

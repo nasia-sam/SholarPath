@@ -4,7 +4,7 @@
       <q-toolbar>
 
         <q-toolbar-title class="text-primary">
-          MSC Applications
+          ScholarPath
         </q-toolbar-title>
 
         <div class="text-primary">

@@ -7,7 +7,7 @@
           {{ course.department }}, {{ course.university }}
         </span>
 
-        <div>
+        <div v-if="isAuthenticated">
           <q-fab color="accent" padding="sm" glossy  icon="keyboard_arrow_left" direction="left">
             <q-fab-action
               v-if="!course.open"
@@ -72,9 +72,13 @@
 // vue
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
 // graphql
 import fetchAllProgramCourses from 'src/hooks/CoursePrograms/fetchCoursePrograms'
+
+// stores
+import useloggedUser from 'src/store/auth'
 
 // Components
 import CreateCFSDialog from 'src/components/CreateCFS.vue'
@@ -116,6 +120,9 @@ export default defineComponent({
       router.push(`/courses/${slug.value}/candidates`)
     }
 
+    const userStore = useloggedUser()
+    const { isAuthenticated } = storeToRefs(userStore)
+
     // refs
     const CreateCFSDialogRef = ref(null)
     const ExtendCFSDialogRef = ref(null)
@@ -126,6 +133,7 @@ export default defineComponent({
       formatDate,
 
       redirectCandidatesPage,
+      isAuthenticated,
 
       CreateCFSDialogRef,
       ExtendCFSDialogRef,
