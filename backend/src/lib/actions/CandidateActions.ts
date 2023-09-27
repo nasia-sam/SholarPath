@@ -14,10 +14,15 @@ import { createReferenceAction } from 'src/lib/actions/ReferenceActions'
 import { type AcceptCandidatesInput } from 'src/types/classes/inputs/AcceptCandidates'
 import { acceptedEmailContent } from 'src/utils/emailContent/accepted'
 import { declinedEmailContent } from 'src/utils/emailContent/declined'
-import { type CourseProgram } from 'src/types/entities/CourseProgram'
+import { CourseProgram } from 'src/types/entities/CourseProgram'
 import { Candidate_State } from 'src/types/enums/CandidateState'
+import { hasRole } from '../tasks/AuthenticationGuards'
+import { type User } from 'src/types/entities/User'
 
-export async function getCandidatesByCfsAction (cfsId: string, em: EntityManager): Promise<Candidate[]> {
+export async function getCandidatesByCfsAction (cfsId: string, user: User, em: EntityManager): Promise<Candidate[]> {
+  const course = await em.findOneOrFail(CourseProgram, { cfs: { id: cfsId } })
+
+  await hasRole(user, course.id, em)
   return await em.find(Candidate, { cfs: { id: cfsId } }, { populate: ['cfs', 'references'] })
 }
 
@@ -60,10 +65,11 @@ export async function createCandidateAction (data: CandidateInput, em: EntityMan
   return candidate
 }
 
-export async function gradeCandidateAction (data: ReviewInput, em: EntityManager): Promise<Candidate> {
-  const candidate = await em.findOneOrFail(Candidate, { id: data.candidate })
+export async function gradeCandidateAction (data: ReviewInput, user: User, em: EntityManager): Promise<Candidate> {
+  const candidate = await em.findOneOrFail(Candidate, { id: data.candidate }, { populate: ['cfs'] })
 
   if (!candidate) throw new UserInputError('INVALID_CANDIDATE')
+  await hasRole(user, candidate.cfs.courseProgram.id, em)
 
   candidate.review = data.review
   candidate.totalGrade = data.review
@@ -79,7 +85,10 @@ export async function gradeCandidateAction (data: ReviewInput, em: EntityManager
   return candidate
 }
 
-export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: EntityManager): Promise<boolean> {
+export async function acceptCandidatesAction (data: AcceptCandidatesInput, user: User, em: EntityManager): Promise<boolean> {
+  const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfsId }, { populate: ['courseProgram'] })
+  if (cfs.state === CFS_State.done) throw new UserInputError('CFS_DONE')
+
   const [candidates, totalCount] = await em.findAndCount(Candidate, {
     cfs: { id: data.cfsId }
   }, {
@@ -88,10 +97,10 @@ export async function acceptCandidatesAction (data: AcceptCandidatesInput, em: E
   }
   )
 
+  await hasRole(user, candidates[0].cfs.courseProgram.id, em)
+
   const accepted = candidates.slice(0, data.capacity)
   const declined = candidates.slice(data.capacity)
-
-  const cfs = await em.findOneOrFail(CallForSubmissions, { id: data.cfsId }, { populate: ['courseProgram'] })
 
   const promises = []
   for (let i = 0; i < accepted.length; i++) {

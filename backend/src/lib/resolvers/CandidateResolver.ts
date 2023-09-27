@@ -8,14 +8,17 @@ import { ReviewInput } from 'src/types/classes/inputs/ReviewCandidate'
 
 import { createCandidateAction, gradeCandidateAction, deleteCandidateAction, getCandidatesByCfsAction, getCandidateByIdAction, acceptCandidatesAction } from '../actions/CandidateActions'
 
+import { AuthCustomContext } from 'src/types/interfaces/CustomContext'
+
 @Resolver(() => Candidate)
 export class CandidateResolver {
   @Query(() => [Candidate])
   async getCandidatesByCfs (
     @Ctx('em') em: EntityManager,
+      @Ctx('ctx') ctx: AuthCustomContext,
       @Arg('id') id: string
   ): Promise<Candidate[]> {
-    return await getCandidatesByCfsAction(id, em)
+    return await getCandidatesByCfsAction(id, ctx.user, em)
   }
 
   @Query(() => Candidate)
@@ -37,17 +40,19 @@ export class CandidateResolver {
   @Mutation(() => Candidate)
   async gradeCandidate (
     @Ctx('em') em: EntityManager,
+      @Ctx('ctx') ctx: AuthCustomContext,
       @Arg('data') data: ReviewInput
   ): Promise<Candidate> {
-    return await gradeCandidateAction(data, em)
+    return await gradeCandidateAction(data, ctx.user, em)
   }
 
   @Mutation(() => Boolean)
   async acceptCandidates (
     @Ctx('em') em: EntityManager,
+      @Ctx('ctx') ctx: AuthCustomContext,
       @Arg('data') data: AcceptCandidatesInput
   ): Promise<boolean> {
-    return await acceptCandidatesAction(data, em)
+    return await acceptCandidatesAction(data, ctx.user, em)
   }
 
   @Mutation(() => Boolean)
