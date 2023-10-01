@@ -1,4 +1,4 @@
-import { isAdmin } from './middlewares/auth'
+import { isAdmin, isLogged } from './middlewares/auth'
 
 const routes = [
   {
@@ -15,8 +15,8 @@ const routes = [
       { path: '/courses/:slug', component: () => import('pages/ShowCourseProgram.vue') },
       {
         path: '/courses/:slug/candidates',
-        component: () => import('pages/Candidates.vue')
-        // beforeEnter: [isLogged]
+        component: () => import('pages/Candidates.vue'),
+        beforeEnter: [isLogged]
       },
       { path: '/reference/:token', component: () => import('pages/Reference.vue') },
       {

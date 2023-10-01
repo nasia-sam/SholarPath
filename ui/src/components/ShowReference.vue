@@ -12,9 +12,7 @@
         <q-page-container>
           <q-page padding>
             Όνομα: <span class="text-grey-9 text-bold text-subtitle1">{{ reference.name }}</span>
-            <div class="text-body-1 q-pa-md">
-              {{  reference.letter }}
-            </div>
+            <q-card-section v-html="reference.letter" />
           </q-page>
         </q-page-container>
       </q-layout>

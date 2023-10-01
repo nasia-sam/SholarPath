@@ -24,7 +24,7 @@ export async function createCFSAction (data: CallForSubmissionsInput, em: Entity
   const scheduled = await em.find(CallForSubmissions, {
     $and: [
       { courseProgram: course.id },
-      { state: { $ne: CFS_State.closed } }
+      { state: { $nin: [CFS_State.closed, CFS_State.done] } }
     ]
   })
   if (scheduled.length > 0) {

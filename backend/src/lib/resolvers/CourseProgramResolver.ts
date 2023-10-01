@@ -76,7 +76,7 @@ export class CourseProgramResolver {
 
   @FieldResolver(() => CallForSubmissions, { nullable: true })
   currentCFS (@Root() course: CourseProgram): CallForSubmissions | undefined {
-    const cfs = course.cfs.getItems().filter(c => c.state !== CFS_State.closed)
+    const cfs = course.cfs.getItems().filter(c => ![CFS_State.closed, CFS_State.done].includes(c.state))
     return cfs[0]
   }
 }
