@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-**Backend Development:**
+**Frontend Development:**
 ```
 cd ui
 npm install
